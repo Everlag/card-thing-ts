@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "es6",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "target": "ES6",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "strictNullChecks": true
+  },
+  "include": [
+    "src/**/*",
+    "node_modules/@types/**/*"
+  ]
+}

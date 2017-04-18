@@ -1,0 +1,25 @@
+{
+  "name": "budget-arpg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack src/entry.ts --progress --colors --display-modules || true",
+    "watch": "webpack-dev-server --progress --colors --inline --open",
+    "dependtree": "webpack --profile --json > stats.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "awesome-typescript-loader": "^3.0.0-beta.17",
+    "tslint": "^4.2.0",
+    "tslint-eslint-rules": "^3.2.1",
+    "tslint-loader": "^3.3.0",
+    "typescript": "^2.3",
+    "webpack": "^2.2.0-rc.2",
+    "webpack-dev-server": "^2.2.0-rc.0"
+  },
+  "dependencies": {
+    "typescript-collections": "^1.2.3"
+  }
+}
