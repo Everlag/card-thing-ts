@@ -1,0 +1,77 @@
+import { GameMachine } from './Game/Machine';
+import { IGameState, IGameStack } from './Game/Header';
+import { getPlayerIndex, GameStack } from './Game/Game';
+import { IPlayerResponse, PlayerAction } from './Player/Header';
+import {
+    IEvent,
+} from './Event/Header';
+import {
+    EntityCode,
+} from './Entity/Header';
+
+export type ResponseQueue = Map<EntityCode, IGameStack>;
+
+// TestMachine implements a GameMachine whose player responses are of
+// two types: pass or prepared action.
+//
+// A response queue map is provided. If a player does not have a key
+// in that map, they always pass. Otherwise, that player will pop an
+// action from the stack.
+//
+// Note: the effects will be taken off of the event and used to create
+// a new event.
+export class TestMachine extends GameMachine {
+    constructor(public state: IGameState,
+        public responseQueue: ResponseQueue) {
+        super(state);
+
+        responseQueue.forEach((_, player) => {
+            if (getPlayerIndex(state, player) === -1) {
+                throw Error('unknown player in responseQueue');
+            }
+        });
+    }
+
+    public getPlayerResponse(player: EntityCode): IPlayerResponse {
+        let stack = this.responseQueue.get(player);
+        if (stack === undefined) return {
+            Action: PlayerAction.Pass,
+            Effects: new Array(),
+        };
+
+        let e = stack.pop();
+        if (e === null) {
+            throw Error(`empty response when qeuried for player ${player}`);
+        }
+
+        return {
+            Action: PlayerAction.Use,
+            Effects: e.Effects,
+        };
+    }
+}
+
+// GetResponseQueue returns a response queue where each of the provided
+// players will have an initialized stack ready to be filled.
+export function GetResponseQueue(...players: Array<EntityCode>): ResponseQueue {
+    return players.reduce((q, p) => {
+        let stack = new GameStack();
+        q.set(p, stack);
+        return q;
+    }, new Map<EntityCode, IGameStack>());
+}
+
+// AddResponsesToQueue takes the provided responses for a player and
+// adds them to the queue to be executed.
+//
+// The player may not have any pre-exsiting responses, this will throw
+// if resposnes are overwritten.
+export function AddResponsesToQueue(player: EntityCode, queue: ResponseQueue,
+    responses: Array<IEvent>) {
+
+    let p = queue.get(player);
+    if (p === undefined) throw Error('player not already included in queue');
+
+    if (p.contents.length > 0) throw Error('player has pre-existing events');
+    p.push(...responses);
+}
