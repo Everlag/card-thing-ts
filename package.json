@@ -13,7 +13,7 @@
   "devDependencies": {
     "@types/deep-diff": "0.0.30",
     "awesome-typescript-loader": "^3.0.0-beta.17",
-    "deep-diff": "^0.3.4",
+    "deep-diff": "0.3.4",
     "tslint": "^4.2.0",
     "tslint-eslint-rules": "^3.2.1",
     "tslint-loader": "^3.3.0",
