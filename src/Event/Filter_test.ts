@@ -1,6 +1,6 @@
 import * as T from '../test';
 import {
-    CheckFilter
+    CheckFilter,
 } from './Filter';
 import {
     TargetType, IEffectPack, Effect, IEffectPackFilter,
@@ -9,6 +9,174 @@ import {
 type TestCase = [IEffectPack, IEffectPackFilter, String, boolean];
 
 let cases = new Array<TestCase>();
+
+cases.push([
+    {
+        Source: T.PlayerOneEntityCode,
+        Targets: [T.PlayerOneEntityCode],
+        TargetType: TargetType.Player,
+        Effect: Effect.EndTurn,
+    },
+    {},
+    'empty filter matches anything',
+    true,
+]);
+
+cases.push([
+    {
+        Source: T.PlayerOneEntityCode,
+        Targets: [T.PlayerOneEntityCode],
+        TargetType: TargetType.Player,
+        Effect: Effect.EndTurn,
+    },
+    {
+        Source: T.PlayerOneEntityCode,
+    },
+    'Source filter matches when correct',
+    true,
+]);
+
+cases.push([
+    {
+        Source: T.PlayerOneEntityCode,
+        Targets: [T.PlayerOneEntityCode],
+        TargetType: TargetType.Player,
+        Effect: Effect.EndTurn,
+    },
+    {
+        Source: T.PlayerTwoEntityCode,
+    },
+    'Source filter rejects when wrong',
+    false,
+]);
+
+cases.push([
+    {
+        Source: T.PlayerOneEntityCode,
+        Targets: [T.PlayerOneEntityCode],
+        TargetType: TargetType.Player,
+        Effect: Effect.EndTurn,
+    },
+    {
+        TargetType: TargetType.Player,
+    },
+    'TargetType filter matches when correct',
+    true,
+]);
+
+cases.push([
+    {
+        Source: T.PlayerOneEntityCode,
+        Targets: [T.PlayerOneEntityCode],
+        TargetType: TargetType.Player,
+        Effect: Effect.EndTurn,
+    },
+    {
+        TargetType: TargetType.Global,
+    },
+    'TargetType filter rejects when wrong',
+    false,
+]);
+
+cases.push([
+    {
+        Source: T.PlayerOneEntityCode,
+        Targets: [T.PlayerOneEntityCode],
+        TargetType: TargetType.Player,
+        Effect: Effect.EndTurn,
+    },
+    {
+        Effect: Effect.EndTurn,
+    },
+    'Effect filter matches when correct',
+    true,
+]);
+
+cases.push([
+    {
+        Source: T.PlayerOneEntityCode,
+        Targets: [T.PlayerOneEntityCode],
+        TargetType: TargetType.Player,
+        Effect: Effect.EndTurn,
+    },
+    {
+        Effect: Effect.Damage,
+    },
+    'Effect filter rejects when wrong',
+    false,
+]);
+
+cases.push([
+    {
+        Source: T.PlayerOneEntityCode,
+        Targets: [T.PlayerOneEntityCode, T.PlayerTwoEntityCode],
+        TargetType: TargetType.Player,
+        Effect: Effect.EndTurn,
+    },
+    {
+        Targets: [T.PlayerOneEntityCode],
+    },
+    'Targets filter matches when partially covered',
+    true,
+]);
+
+cases.push([
+    {
+        Source: T.PlayerOneEntityCode,
+        Targets: [T.PlayerOneEntityCode],
+        TargetType: TargetType.Player,
+        Effect: Effect.EndTurn,
+    },
+    {
+        Targets: [T.PlayerOneEntityCode],
+    },
+    'Targets filter matches when entirely covered',
+    true,
+]);
+
+cases.push([
+    {
+        Source: T.PlayerOneEntityCode,
+        Targets: [T.PlayerOneEntityCode],
+        TargetType: TargetType.Player,
+        Effect: Effect.EndTurn,
+    },
+    {
+        Targets: [T.PlayerTwoEntityCode],
+    },
+    'Effect filter rejects when no matching targets',
+    false,
+]);
+
+cases.push([
+    {
+        Source: T.PlayerOneEntityCode,
+        Targets: [T.PlayerOneEntityCode],
+        TargetType: TargetType.Player,
+        Effect: Effect.EndTurn,
+    },
+    {
+        Targets: [T.PlayerOneEntityCode],
+        Effect: Effect.EndTurn,
+    },
+    'Targets + Effect filter matches when both correct',
+    true,
+]);
+
+cases.push([
+    {
+        Source: T.PlayerOneEntityCode,
+        Targets: [T.PlayerOneEntityCode],
+        TargetType: TargetType.Player,
+        Effect: Effect.EndTurn,
+    },
+    {
+        Targets: [T.PlayerTwoEntityCode],
+        Effect: Effect.Damage,
+    },
+    'Targets + Effect filter rejects when Effect wrong',
+    false,
+]);
 
 class EffectPackFilterTest extends T.Test {
     constructor(private testCase: TestCase) {
@@ -27,7 +195,7 @@ class EffectPackFilterTest extends T.Test {
         }else {
             msg = `unexpected match`;
         }
-        msg = msg.concat(`IEffectPack - ${JSON.stringify(pack)}
+        msg = msg.concat('\n', `IEffectPack - ${JSON.stringify(pack)}
             Filter - ${JSON.stringify(filter)}`);
 
         throw Error(msg);
