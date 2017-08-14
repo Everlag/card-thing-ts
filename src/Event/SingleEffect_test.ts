@@ -149,7 +149,6 @@ let cases = new Array<TestCase>();
             TargetType: TargetType.Player,
             Effect: Effect.Damage,
 
-            // Ensure their health is reduced to exactly 1
             Damage: 0,
         },
         'Damage of zero does nothing',
