@@ -54,10 +54,10 @@ class EffectPackMutatorTest extends T.Test {
 
 // Sanity check our cases before we package them up
 (() => {
-    let caseNames = cases.map(c => c[2]); // TODO: correct index
+    let caseNames = cases.map(c => c[2]);
     let nameSet = new Set<String>(caseNames);
     if (nameSet.size !== caseNames.length) {
-        throw Error('duplicated case name in EffectPackFilterTest');
+        throw Error('duplicated case name in EffectPackMutatorTest');
     }
 })();
 
