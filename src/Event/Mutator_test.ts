@@ -2,6 +2,8 @@ import * as T from '../test';
 import {
     TargetType, IEffectPack, IEffectPackFilter, Effect, EffectMutator,
     IEffectPackMutator,
+
+    IRedirectMutator, RedirectMutatorDirection,
 } from './Header';
 import {
     CheckFilter,
@@ -27,6 +29,41 @@ cases.push([
     'Cancel results in Null value',
     {
         Null: true,
+    },
+]);
+
+cases.push([
+    {
+        Source: T.PlayerOneEntityCode,
+        Targets: [T.PlayerTwoEntityCode],
+        TargetType: TargetType.Player,
+        Effect: Effect.EndTurn,
+    },
+    {
+        Mutator: EffectMutator.Redirect,
+        Direction: RedirectMutatorDirection.ToSource,
+    } as IRedirectMutator,
+    'ToSource Redirect',
+    {
+        Targets: [T.PlayerOneEntityCode],
+    },
+]);
+
+cases.push([
+    {
+        Source: T.PlayerOneEntityCode,
+        Targets: [T.PlayerTwoEntityCode],
+        TargetType: TargetType.Player,
+        Effect: Effect.EndTurn,
+    },
+    {
+        Mutator: EffectMutator.Redirect,
+        Direction: RedirectMutatorDirection.ToOthers,
+        Others: [T.ExternalEntityCode],
+    } as IRedirectMutator,
+    'ToOthers Redirect',
+    {
+        Targets: [T.ExternalEntityCode],
     },
 ]);
 

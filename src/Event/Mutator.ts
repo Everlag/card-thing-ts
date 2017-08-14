@@ -1,5 +1,7 @@
 import {
     IEffectPack, IEffectPackMutator, EffectMutator,
+
+    AsRedirect, RedirectMutatorDirection,
 } from './Header';
 
 /**
@@ -22,6 +24,26 @@ let operatorRegister = new Map<EffectMutator, Mutator>();
 operatorRegister.set(EffectMutator.Cancel,
     () => {
         return null;
+    });
+
+operatorRegister.set(EffectMutator.Redirect,
+    (pack, mutator) => {
+        let redirect = AsRedirect(mutator);
+        let mutable = Object.assign({}, pack) as IEffectPack;
+        switch (redirect.Direction) {
+            case RedirectMutatorDirection.ToSource:
+                mutable.Targets = [pack.Source];
+                break;
+            case RedirectMutatorDirection.ToOthers:
+                if (!redirect.Others) {
+                    throw Error('Others not defined on ToOthers redirect');
+                }
+                mutable.Targets = redirect.Others;
+                break;
+            default:
+                throw Error('fell through redirect.Direction switch');
+            }
+        return mutable;
     });
 
 /**
