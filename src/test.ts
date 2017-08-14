@@ -39,6 +39,7 @@ export abstract class Test {
 
 export const PlayerOneEntityCode: EntityCode = 'f1r571';
 export const PlayerTwoEntityCode: EntityCode = '53c0nd';
+export const ExternalEntityCode: EntityCode =  '3Xrn4l';
 
 export const PlayerDefaultHealth = 30;
 
