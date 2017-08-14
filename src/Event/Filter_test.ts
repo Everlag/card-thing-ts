@@ -6,7 +6,7 @@ import {
     TargetType, IEffectPack, Effect, IEffectPackFilter,
 } from './Header';
 
-type TestCase = [IEffectPack, IEffectPackFilter, String, boolean];
+type TestCase = [IEffectPack | null, IEffectPackFilter, String, boolean];
 
 let cases = new Array<TestCase>();
 
@@ -175,6 +175,29 @@ cases.push([
         Effect: Effect.Damage,
     },
     'Targets + Effect filter rejects when Effect wrong',
+    false,
+]);
+
+cases.push([
+    null,
+    {
+        Null: true,
+    },
+    'Null filter matches when null',
+    true,
+]);
+
+cases.push([
+    {
+        Source: T.PlayerOneEntityCode,
+        Targets: [T.PlayerOneEntityCode],
+        TargetType: TargetType.Player,
+        Effect: Effect.EndTurn,
+    },
+    {
+        Null: true,
+    },
+    'Null filter rejects when non-null',
     false,
 ]);
 

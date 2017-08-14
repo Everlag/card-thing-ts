@@ -27,7 +27,7 @@ operatorRegister.set(EffectMutator.Cancel,
 /**
  * ApplyMutator applies the given IEffectPackMutator to an
  * IEffectPack.
- * 
+ *
  * Note: it is expected that any provided IEffectPack will have been
  * passed through an IEffectPackFilter to ensure compatibility as
  * the IEffectPackFilter may be asserted, ie with AsDamage().

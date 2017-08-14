@@ -82,6 +82,12 @@ export interface IEffectPackFilter {
     Targets?: Array<EntityCode>;
     TargetType?: TargetType;
     Effect?: Effect;
+
+    /**
+     * Null matches if and only if the provided IEffectPack
+     * is actually null. This is a special case.
+     */
+    Null?: boolean;
 }
 
 export enum EffectMutator {
