@@ -68,3 +68,55 @@ export function AsDamage(e: IEffectPack): IDamageEffectPack {
 export interface IEvent {
     Effects: Array<IEffectPack>;
 }
+
+/**
+ * IEffectFilter allows IEffectPacks to be conditionally matched on by
+ * describing their shape.
+ */
+export interface IEffectPackFilter {
+    Source?: EntityCode;
+    /**
+     * If any of the targets listed here are included
+     * in theIEffectPack, this is considered a match.
+     */
+    Targets?: Array<EntityCode>;
+    TargetType?: TargetType;
+    Effect?: Effect;
+}
+
+export enum EffectMutator {
+    Redirect = 'redirect',
+    Cancel = 'cancel',
+}
+
+/**
+ * IEffectPackMutator modifies an IEffectPack using some predefined method.
+ *
+ * Typical usage is to bundle this is an IEffectPackFilter to conditionally
+ * modify only matched IEffectPack.
+ *
+ * '$PLAYER cannot be damaged' can be simulated using a combination of
+ * IEffectPackFilter -> {Targets: [$PLAYER], Effect: Effect.Damage}
+ * IEffectPackMutator -> {Mutator: EffectMutator.Cancel}
+ * Of course, all IEffectPacks to be executed would need to be passed
+ * through all of the filters.
+ */
+export interface IEffectPackMutator {
+    Mutator: EffectMutator;
+
+    // Allow properties not specifically declared here to be included
+    // on literals which will allow them to satisfy interfaces
+    // inheriting this interface.
+    [others: string]: any;
+}
+
+export enum RedirectMutatorDirection {
+    ToSource = 'to-source',
+    ToOthers = 'to-others',
+}
+
+export interface IRedirectMutator extends IEffectPackMutator {
+    Direction: RedirectMutatorDirection;
+
+    Others?: Array<EntityCode>;
+}
