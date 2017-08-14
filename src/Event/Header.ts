@@ -110,13 +110,34 @@ export interface IEffectPackMutator {
     [others: string]: any;
 }
 
+export class EffectPackMutatorAssertError extends Error {
+    constructor(desired: String, got: EffectMutator) {
+        super(`cannot cast ${got} IEffectPackMutator to ${desired}`);
+
+        // Set the prototype explicitly.
+        Object.setPrototypeOf(this, EffectPackMutatorAssertError.prototype);
+    }
+}
+
+function EffectPackMutatorAssertFail(desired: String, got: EffectMutator): EffectPackAssertError {
+    return new EffectPackMutatorAssertError(desired, got);
+}
+
+export type IEffectPackMutatorAssert = (e: IEffectPackMutator) => IEffectPackMutator;
+
 export enum RedirectMutatorDirection {
     ToSource = 'to-source',
     ToOthers = 'to-others',
 }
-
 export interface IRedirectMutator extends IEffectPackMutator {
     Direction: RedirectMutatorDirection;
 
     Others?: Array<EntityCode>;
+}
+export function AsRedirect(e: IEffectPackMutator): IRedirectMutator {
+    if (e.Mutator !== EffectMutator.Redirect) {
+        throw EffectPackMutatorAssertFail(EffectMutator.Redirect,
+            e.Mutator);
+    }
+    return e as IRedirectMutator;
 }
