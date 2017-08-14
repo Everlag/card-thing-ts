@@ -1,11 +1,34 @@
 import * as T from '../test';
 import {
-    TargetType, IEffectPack, Effect, IEffectPackMutator,
+    TargetType, IEffectPack, IEffectPackFilter, Effect, EffectMutator,
+    IEffectPackMutator,
 } from './Header';
+import {
+    CheckFilter,
+} from './Filter';
+import {
+    ApplyMutator,
+} from './Mutator';
 
-type TestCase = [IEffectPack, IEffectPackMutator, String];
+type TestCase = [IEffectPack, IEffectPackMutator, String, IEffectPackFilter];
 
 let cases = new Array<TestCase>();
+
+cases.push([
+    {
+        Source: T.PlayerOneEntityCode,
+        Targets: [T.PlayerOneEntityCode],
+        TargetType: TargetType.Player,
+        Effect: Effect.EndTurn,
+    },
+    {
+        Mutator: EffectMutator.Cancel,
+    },
+    'Cancel results in Null value',
+    {
+        Null: true,
+    },
+]);
 
 class EffectPackMutatorTest extends T.Test {
     constructor(private testCase: TestCase) {
@@ -13,9 +36,19 @@ class EffectPackMutatorTest extends T.Test {
     }
 
     public Run() {
-        let [pack, mutator, name] = this.testCase;
+        let [pack, mutator, name, filter] = this.testCase;
 
-        throw new Error(`${name} test case unimplemented`);
+        let result = ApplyMutator(pack, mutator);
+        if (CheckFilter(result, filter)) return;
+
+        let msg = `filter did not match post-mutation
+        case - ${name}
+        mutator - ${JSON.stringify(mutator)}
+        pack    - ${JSON.stringify(pack)}
+        result  - ${JSON.stringify(result)}
+        filter  - ${JSON.stringify(filter)}`;
+
+        throw new Error(msg);
     }
 }
 
