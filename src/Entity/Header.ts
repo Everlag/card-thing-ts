@@ -1,3 +1,7 @@
+import {
+    IEffectPackFilter, IEffectPackMutator,
+} from '../Event/Header';
+
 export type EntityCode = String;
 
 // GlobalStateEntityCode is the reserved EntityCode assigned
@@ -19,6 +23,7 @@ export interface IEntity {
     // Flags are optional to be included, hence them being truthy
     // implies that their associated extension of IEntity is valid.
     HasHealth?: boolean;
+    IsInterceptor?: boolean;
 
     // Allow properties which weren't specifically defined here to
     // be declared on literals.
@@ -48,4 +53,15 @@ export interface IWithHealth extends IEntity {
 export function AsWithHealth(e: IEntity): IWithHealth {
     if (!e.HasHealth) throw EntityAssertFail('IWithHealth', 'HasHealth');
     return e as IWithHealth;
+}
+
+export interface IAsInterceptor extends IEntity {
+    IsInterceptor: true;
+
+    Filter: IEffectPackFilter;
+    Mutator: IEffectPackMutator;
+}
+export function AsInterceptor(e: IEntity): IAsInterceptor {
+    if (!e.IsInterceptor) throw EntityAssertFail('IAsInterceptor', 'IsInterceptor');
+    return e as IAsInterceptor;
 }

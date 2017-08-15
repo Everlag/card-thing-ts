@@ -1,11 +1,11 @@
 import {
-    IEvent, IEffectPackFilter, IEffectPackMutator,
+    IEvent,
 } from '../Event/Header';
 import {
     IPlayer, PlayerBehavior,
 } from '../Player/Header';
 import {
-    IEntity, EntityCode,
+    IEntity, IAsInterceptor, EntityCode,
 } from '../Entity/Header';
 
 export enum Phase {
@@ -25,7 +25,7 @@ export interface IGameStack {
 export interface IGameState {
     phase: Phase;
     stack: IGameStack;
-    interceptors: Array<IEffectInterceptor>;
+    interceptors: Array<IAsInterceptor>;
     players: Array<IPlayer>;
     currentTurn: EntityCode;
 }
@@ -35,13 +35,4 @@ export interface IGameState {
 export interface IPlayerInit {
     Self: IEntity;
     Behavior: PlayerBehavior;
-}
-
-/**
- * IEventInterceptor conditionally applies Mutator to all
- * IEffectPacks matched by Filter.
- */
-export interface IEffectInterceptor {
-    Filter: IEffectPackFilter;
-    Mutator: IEffectPackMutator;
 }

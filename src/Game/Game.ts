@@ -1,11 +1,11 @@
 import {
-    IGameStack, IGameState, IPlayerInit, IEffectInterceptor, Phase,
+    IGameStack, IGameState, IPlayerInit, Phase,
 } from './Header';
 import {
     IEvent,
 } from '../Event/Header';
 import {
-    EntityCode,
+    EntityCode, IAsInterceptor,
 } from '../Entity/Header';
 import {
     IPlayer,
@@ -45,7 +45,7 @@ export class GameState implements IGameState {
 
     public stack: IGameStack = new GameStack();
 
-    public interceptors: Array<IEffectInterceptor> = [];
+    public interceptors: Array<IAsInterceptor> = [];
 
     public currentTurn: EntityCode;
 

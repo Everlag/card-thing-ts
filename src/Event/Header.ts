@@ -20,6 +20,9 @@ export enum Effect {
 
     // Damage removes a magnitude
     Damage = 'entity-damage',
+
+    // SetIntercept establishes an Interceptor in the GameState.
+    SetIntercept = 'set-interceptor',
 }
 
 export enum TargetType {
@@ -63,6 +66,17 @@ export function AsDamage(e: IEffectPack): IDamageEffectPack {
         throw EffectPackAssertFail(Effect.Damage, e.Effect);
     }
     return e as IDamageEffectPack;
+}
+
+export interface ISetInterceptorEffectPack extends IEffectPack {
+    Filter: IEffectPackFilter;
+    Mutator: IEffectPackMutator;
+}
+export function AsInterceptor(e: IEffectPack): ISetInterceptorEffectPack {
+    if (e.Effect !== Effect.SetIntercept) {
+        throw EffectPackAssertFail(Effect.SetIntercept, e.Effect);
+    }
+    return e as ISetInterceptorEffectPack;
 }
 
 export interface IEvent {
