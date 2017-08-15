@@ -1,7 +1,7 @@
 import * as G from './Game/Header';
 import { IEvent } from './Event/Header';
 import { IPlayer } from './Player/Header';
-import { EntityCode } from './Entity/Header';
+import { EntityCode, IAsInterceptor } from './Entity/Header';
 
 import { diff as deepdiff } from 'deep-diff';
 
@@ -41,6 +41,10 @@ export interface IFilterState {
     // playerHas matches when all players in the map have
     // all specified properties with specified values.
     playerHas?: Map<EntityCode, Map<PathString, String | number>>;
+
+    // interceptHas matches when the provided set of intercepts
+    // exists in the provided order.
+    interceptsHas?: Array<IAsInterceptor>;
 }
 
 // FilterMatches returns null on a match or an error string declaring what
@@ -66,6 +70,10 @@ export function FilterMatches(s: G.IGameState,
     let filterMatchPlayers = FilterMatchPlayers(s.players,
         f.playerHas);
     if (filterMatchPlayers) return filterMatchPlayers;
+
+    let interceptHasMAtch = FilterMatchSubArray(s.interceptors,
+        f.interceptsHas, 'interceptHas');
+    if (interceptHasMAtch) return interceptHasMAtch;
 
     return null;
 }

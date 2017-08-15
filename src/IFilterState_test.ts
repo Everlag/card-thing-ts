@@ -8,8 +8,11 @@ import {
     GlobalStateEntityCode,
 } from './Entity/Header';
 import {
-    IEvent, TargetType, Effect,
+    IEvent, TargetType, Effect, EffectMutator,
 } from './Event/Header';
+import {
+    IAsInterceptor,
+} from './Entity/Header';
 
 // [state, expected, testName, expectedResult = true -> null]
 type TestCase = [G.GameState, F.IFilterState, String, boolean];
@@ -267,6 +270,85 @@ let expectedStackContents: Array<IEvent> = [
             playerHas: expected,
         },
         'mismatching playerHas - invalid path',
+        false,
+    ]);
+})();
+
+let expectedInterceptorContents: Array<IAsInterceptor> = [
+    {
+        Identity: T.ExternalEntityCode,
+        Filter: {},
+        Mutator: {
+            Mutator: EffectMutator.Cancel,
+        },
+    } as IAsInterceptor,
+];
+
+let fluffInterceptorContents: Array<IAsInterceptor> = [
+    {
+        Identity: T.ExternalEntityCode,
+        Filter: {Null: true},
+        Mutator: {
+            Mutator: EffectMutator.Cancel,
+        },
+    } as IAsInterceptor,
+];
+
+(() => {
+    let g = new G.GameState(T.DefaultPlayers);
+
+    g.interceptors.push(...expectedInterceptorContents);
+
+    cases.push([
+        g,
+        {
+            interceptsHas: expectedInterceptorContents,
+        },
+        'matching intercept subset - complete match',
+        true,
+    ]);
+})();
+
+(() => {
+    let g = new G.GameState(T.DefaultPlayers);
+
+    g.interceptors.push(...expectedInterceptorContents);
+    g.interceptors.push(...fluffInterceptorContents);
+
+    cases.push([
+        g,
+        {
+            interceptsHas: expectedInterceptorContents,
+        },
+        'matching intercept subset - offset subset match',
+        true,
+    ]);
+})();
+
+(() => {
+    let g = new G.GameState(T.DefaultPlayers);
+
+    cases.push([
+        g,
+        {
+            interceptsHas: expectedInterceptorContents,
+        },
+        'mismatching intercept subset - empty',
+        false,
+    ]);
+})();
+
+(() => {
+    let g = new G.GameState(T.DefaultPlayers);
+
+    g.interceptors.push(...fluffInterceptorContents);
+
+    cases.push([
+        g,
+        {
+            interceptsHas: expectedInterceptorContents,
+        },
+        'mismatching intercept subset - not present',
         false,
     ]);
 })();
