@@ -1,4 +1,5 @@
 import {
+    IEffectDescription, EffectOperator,
     TargetType, IEvent, IEffectPack, Effect,
 
     AsDamage, AsInterceptor, AsRemoveInterceptor,
@@ -28,13 +29,19 @@ import {
     NewEntityCode,
 } from '../Entity/EntityCode';
 
-type EffectOperator = (state: IGameState,
-    pack: IEffectPack, remoteQuery: PlayerResponseQuery) => IGameState;
-let operatorRegister = new Map<Effect, EffectOperator>();
+let operatorRegister = new Map<string, EffectOperator>();
+
+export function RegisterEffect(desc: IEffectDescription) {
+    if(operatorRegister.has(desc.Self)) {
+        throw Error(`duplicated identifier for ${desc.Self}`);
+    }
+    operatorRegister.set(desc.Self, desc.Op);
+    console.log('operator register looks like', operatorRegister);
+}
 
 // getPriorities returns an array of IEvent which will
 // give every player priority.
-function getPriorities(state: IGameState): Array<IEvent> {
+export function getPriorities(state: IGameState): Array<IEvent> {
     return state.players
         .map(p => NewPlayerPriorityEvent(p.Self.Identity));
 }

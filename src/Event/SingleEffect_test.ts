@@ -17,42 +17,19 @@ import {
     EffectMutator,
 } from './Header';
 import {
-    NewEndTurnEvent, NewStartTurnEvent, NewPlayerPriorityEvent,
+    NewStartTurnEvent,
 } from './Event';
 
 type TestCase = [GameState, IEffectPack, String, IFilterState];
 
-let cases = new Array<TestCase>();
-
-(() => {
-    let expected = [
-        NewPlayerPriorityEvent(T.PlayerOneEntityCode),
-        NewPlayerPriorityEvent(T.PlayerTwoEntityCode),
-        NewEndTurnEvent(T.PlayerOneEntityCode),
-    ];
-
-    cases.push([
-        new GameState(T.DefaultPlayers),
-        {
-            Source: GlobalStateEntityCode,
-            Targets: [T.PlayerOneEntityCode],
-            TargetType: TargetType.Global,
-            Effect: Effect.StartTurn,
-        },
-        'StartTurn empty state',
-        {
-            currentTurn: T.PlayerOneEntityCode,
-            stackHas: expected,
-        },
-    ]);
-})();
+export const Cases = new Array<TestCase>();
 
 (() => {
     let expected = [
         NewStartTurnEvent(T.PlayerTwoEntityCode),
     ];
 
-    cases.push([
+    Cases.push([
         new GameState(T.DefaultPlayers),
         {
             Source: GlobalStateEntityCode,
@@ -69,7 +46,7 @@ let cases = new Array<TestCase>();
 })();
 
 (() => {
-    cases.push([
+    Cases.push([
         new GameState(T.DefaultPlayers),
         {
             Source: GlobalStateEntityCode,
@@ -93,7 +70,7 @@ let cases = new Array<TestCase>();
     ];
     g.stack.push(...expected);
 
-    cases.push([
+    Cases.push([
         g,
         {
             Source: GlobalStateEntityCode,
@@ -120,7 +97,7 @@ let cases = new Array<TestCase>();
         ]]),
     );
 
-    cases.push([
+    Cases.push([
         new GameState(T.GetDefaultPlayers()),
         {
             Source: T.PlayerOneEntityCode,
@@ -149,7 +126,7 @@ let cases = new Array<TestCase>();
         ]]),
     );
 
-    cases.push([
+    Cases.push([
         new GameState(T.GetDefaultPlayers()),
         {
             Source: T.PlayerOneEntityCode,
@@ -189,7 +166,7 @@ let cases = new Array<TestCase>();
     } as IAsInterceptor;
     let expectedInterceptors = [interceptor];
 
-    cases.push([
+    Cases.push([
         new GameState(T.GetDefaultPlayers()),
         {
             Source: T.PlayerOneEntityCode,
@@ -227,7 +204,7 @@ let cases = new Array<TestCase>();
     } as IAsInterceptor;
     state.interceptors.push(interceptor);
 
-    cases.push([
+    Cases.push([
         state,
         {
             Source: T.PlayerOneEntityCode,
@@ -272,7 +249,7 @@ let cases = new Array<TestCase>();
     } as IAsInterceptor;
     state.interceptors.push(...[fluff, interceptor]);
 
-    cases.push([
+    Cases.push([
         state,
         {
             Source: T.PlayerOneEntityCode,
@@ -310,7 +287,7 @@ let cases = new Array<TestCase>();
     } as IAsInterceptor;
     state.interceptors.push(interceptor);
 
-    cases.push([
+    Cases.push([
         state,
         {
             Source: T.PlayerOneEntityCode,
@@ -348,7 +325,7 @@ let cases = new Array<TestCase>();
     // We did not create the identityToRemove interceptor, so it cannot exist
     state.interceptors.push(fluff);
 
-    cases.push([
+    Cases.push([
         state,
         {
             Source: T.PlayerOneEntityCode,
@@ -392,12 +369,12 @@ class SingleEffectTest extends T.Test {
 
 // Sanity check our cases before we package them up
 (() => {
-    let caseNames = cases.map(c => c[2]);
+    let caseNames = Cases.map(c => c[2]);
     let nameSet = new Set<String>(caseNames);
     if (nameSet.size !== caseNames.length) {
         throw Error('duplicated case name in IFilterState');
     }
 })();
 
-const tests = cases.map(c => new SingleEffectTest(c));
+const tests = Cases.map(c => new SingleEffectTest(c));
 export default tests;

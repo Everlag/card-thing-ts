@@ -1,4 +1,14 @@
 import { EntityCode } from '../Entity/Header';
+import { IGameState } from '../Game/Header';
+import { PlayerResponseQuery } from '../Player/Header';
+
+export type EffectOperator = (state: IGameState,
+    pack: IEffectPack, remoteQuery: PlayerResponseQuery) => IGameState;
+
+export interface IEffectDescription {
+    Self: string;
+    Op: EffectOperator;
+}
 
 export enum Effect {
     // StartTurn pushes a PlayerPriority per-playerr
