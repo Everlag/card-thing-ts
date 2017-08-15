@@ -6,6 +6,8 @@ import {
 } from '../Entity/Header';
 import { IPlayerResponse } from '../Player/Header';
 import { ApplyEffect } from '../Event/Effect';
+import { CheckFilter } from '../Event/Filter';
+import { ApplyMutator } from '../Event/Mutator';
 
 export abstract class GameMachine {
     constructor(public state: IGameState) { }
@@ -20,9 +22,19 @@ export abstract class GameMachine {
 
         // Execute the effects from top down
         event.Effects.forEach(e => {
-            this.state = ApplyEffect(e, this.state, (player: EntityCode) => {
-                return this.getPlayerResponse(player);
-            });
+            // Pass each effect through the interceptors and
+            // mutate on each match.
+            let mutated = this.state.interceptors
+                .reduce((pack, intercept) => {
+                    if (!CheckFilter(pack, intercept.Filter)) return pack;
+                    return ApplyMutator(pack, intercept.Mutator);
+                }, e);
+            // Skip effects which were cancelled during mutation.
+            if (mutated === null) return;
+            this.state = ApplyEffect(mutated, this.state,
+                (player: EntityCode) => {
+                    return this.getPlayerResponse(player);
+                });
         });
     }
 

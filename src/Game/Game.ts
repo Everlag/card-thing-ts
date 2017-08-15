@@ -1,5 +1,5 @@
 import {
-    IGameStack, IGameState, IPlayerInit, Phase,
+    IGameStack, IGameState, IPlayerInit, IEffectInterceptor, Phase,
 } from './Header';
 import {
     IEvent,
@@ -44,6 +44,8 @@ export class GameState implements IGameState {
     public phase: Phase;
 
     public stack: IGameStack = new GameStack();
+
+    public interceptors: Array<IEffectInterceptor> = [];
 
     public currentTurn: EntityCode;
 

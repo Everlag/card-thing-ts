@@ -1,5 +1,5 @@
 import {
-    IEvent,
+    IEvent, IEffectPackFilter, IEffectPackMutator,
 } from '../Event/Header';
 import {
     IPlayer, PlayerBehavior,
@@ -25,6 +25,7 @@ export interface IGameStack {
 export interface IGameState {
     phase: Phase;
     stack: IGameStack;
+    interceptors: Array<IEffectInterceptor>;
     players: Array<IPlayer>;
     currentTurn: EntityCode;
 }
@@ -34,4 +35,13 @@ export interface IGameState {
 export interface IPlayerInit {
     Self: IEntity;
     Behavior: PlayerBehavior;
+}
+
+/**
+ * IEventInterceptor conditionally applies Mutator to all
+ * IEffectPacks matched by Filter.
+ */
+export interface IEffectInterceptor {
+    Filter: IEffectPackFilter;
+    Mutator: IEffectPackMutator;
 }
