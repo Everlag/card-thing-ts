@@ -1,7 +1,7 @@
 import {
     TargetType, IEvent, IEffectPack, Effect,
 
-    AsDamage,
+    AsDamage, AsInterceptor,
 } from './Header';
 import {
     NewEndTurnEvent, NewStartTurnEvent, NewPlayerPriorityEvent,
@@ -10,7 +10,7 @@ import {
     IGameState,
 } from '../Game/Header';
 import {
-    getPlayerIndex,
+    getPlayerIndex, getRNGContext,
 } from '../Game/Game';
 import {
     GetPlayerResponse,
@@ -19,8 +19,14 @@ import {
     PlayerAction, PlayerResponseQuery,
 } from '../Player/Header';
 import {
+    EntityCode,
+
     AsWithHealth,
+    IAsInterceptor,
 } from '../Entity/Header';
+import {
+    NewEntityCode,
+} from '../Entity/EntityCode';
 
 type EffectOperator = (state: IGameState,
     pack: IEffectPack, remoteQuery: PlayerResponseQuery) => IGameState;
@@ -108,6 +114,40 @@ operatorRegister.set(Effect.Damage,
 
         let entity = AsWithHealth(player.Self);
         entity.Health -= damagePack.Damage;
+
+        return state;
+    });
+
+operatorRegister.set(Effect.SetIntercept,
+    (state: IGameState, pack: IEffectPack, remoteQuery: PlayerResponseQuery) => {
+        if (pack.Targets.length !== 1) {
+            throw Error(`SetInterceptg expects single target, got ${pack.Targets}`);
+        }
+
+        let interceptorPack = AsInterceptor(pack);
+
+        if (interceptorPack.TargetType !== TargetType.Global) {
+            throw Error(`unknown TargetType for SetIntercept: ${pack.TargetType}`);
+        }
+
+        // Fetch an EntityCode
+        //
+        // We require a dummy assignment as a result of the
+        // use of a callback to access the RNG context.
+        let identity: EntityCode = '';
+        getRNGContext(state, (rng) => {
+            identity = NewEntityCode(rng);
+        });
+
+        let interceptor: IAsInterceptor = {
+            Identity: identity,
+
+            IsInterceptor: true,
+            Filter: interceptorPack.Filter,
+            Mutator: interceptorPack.Mutator,
+        };
+
+        state.interceptors.push(interceptor);
 
         return state;
     });
