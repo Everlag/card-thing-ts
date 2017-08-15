@@ -353,6 +353,62 @@ let fluffInterceptorContents: Array<IAsInterceptor> = [
     ]);
 })();
 
+(() => {
+    let g = new G.GameState(T.DefaultPlayers);
+
+    cases.push([
+        g,
+        {
+            interceptCount: 0,
+        },
+        'matching intercept count - empty',
+        true,
+    ]);
+})();
+
+(() => {
+    let g = new G.GameState(T.DefaultPlayers);
+
+    g.interceptors.push(...expectedInterceptorContents);
+
+    cases.push([
+        g,
+        {
+            interceptCount: expectedInterceptorContents.length,
+        },
+        'matching intercept count - some present',
+        true,
+    ]);
+})();
+
+(() => {
+    let g = new G.GameState(T.DefaultPlayers);
+
+    cases.push([
+        g,
+        {
+            interceptCount: 10,
+        },
+        'mismatching intercept count - empty',
+        false,
+    ]);
+})();
+
+(() => {
+    let g = new G.GameState(T.DefaultPlayers);
+
+    g.interceptors.push(...expectedInterceptorContents);
+
+    cases.push([
+        g,
+        {
+            interceptCount: expectedInterceptorContents.length + 1,
+        },
+        'mismatching intercept count - some present',
+        false,
+    ]);
+})();
+
 class FilterMatchTest extends T.Test {
     constructor(private testCase: TestCase) {
         super();
