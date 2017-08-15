@@ -23,6 +23,7 @@ export interface IGameStack {
 }
 
 export interface IGameState {
+    seed: number;
     phase: Phase;
     stack: IGameStack;
     interceptors: Array<IAsInterceptor>;
