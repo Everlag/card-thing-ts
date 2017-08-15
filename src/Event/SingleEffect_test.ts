@@ -13,7 +13,8 @@ import { ApplyEffect } from './Effect';
 import {
     Effect, IEffectPack, TargetType,
 
-    ISetInterceptorEffectPack, EffectMutator,
+    ISetInterceptorEffectPack, IRemoveInterceptorEffectPack,
+    EffectMutator,
 } from './Header';
 import {
     NewEndTurnEvent, NewStartTurnEvent, NewPlayerPriorityEvent,
@@ -203,6 +204,165 @@ let cases = new Array<TestCase>();
         {
             StackHeight: 0,
             interceptsHas: expectedInterceptors,
+        },
+    ]);
+})();
+
+(() => {
+    // We construct ourselves an interceptor
+    let state = new GameState(T.GetDefaultPlayers());
+    let identityToRemove;
+    getRNGContext(state, (rng) => {
+        identityToRemove = NewEntityCode(rng);
+    });
+    if (identityToRemove === undefined) throw Error('failed to fetch EntityCode');
+
+    let interceptor = {
+        Identity: identityToRemove,
+        IsInterceptor: true,
+        Filter: {},
+        Mutator: {
+            Mutator: EffectMutator.Cancel,
+        },
+    } as IAsInterceptor;
+    state.interceptors.push(interceptor);
+
+    cases.push([
+        state,
+        {
+            Source: T.PlayerOneEntityCode,
+            Targets: [identityToRemove],
+            TargetType: TargetType.Interceptor,
+            Effect: Effect.RemoveIntercept,
+
+            MustMatch: 'all',
+        } as IRemoveInterceptorEffectPack,
+        'RemoveInterceptor removes interceptor - only interceptor',
+        {
+            StackHeight: 0,
+            interceptCount: 0,
+        },
+    ]);
+})();
+
+(() => {
+    // We construct ourselves an interceptor
+    let state = new GameState(T.GetDefaultPlayers());
+    let identityToRemove;
+    getRNGContext(state, (rng) => {
+        identityToRemove = NewEntityCode(rng);
+    });
+    if (identityToRemove === undefined) throw Error('failed to fetch EntityCode');
+
+    let interceptor = {
+        Identity: identityToRemove,
+        IsInterceptor: true,
+        Filter: {},
+        Mutator: {
+            Mutator: EffectMutator.Cancel,
+        },
+    } as IAsInterceptor;
+    let fluff = {
+        Identity: T.ExternalEntityCode,
+        IsInterceptor: true,
+        Filter: {},
+        Mutator: {
+            Mutator: EffectMutator.Cancel,
+        },
+    } as IAsInterceptor;
+    state.interceptors.push(...[fluff, interceptor]);
+
+    cases.push([
+        state,
+        {
+            Source: T.PlayerOneEntityCode,
+            Targets: [identityToRemove],
+            TargetType: TargetType.Interceptor,
+            Effect: Effect.RemoveIntercept,
+
+            MustMatch: 'all',
+        } as IRemoveInterceptorEffectPack,
+        'RemoveInterceptor removes interceptor - others interceptors present',
+        {
+            StackHeight: 0,
+            interceptsHas: [fluff],
+            interceptCount: 1,
+        },
+    ]);
+})();
+
+(() => {
+    // We construct ourselves an interceptor
+    let state = new GameState(T.GetDefaultPlayers());
+    let identityToRemove;
+    getRNGContext(state, (rng) => {
+        identityToRemove = NewEntityCode(rng);
+    });
+    if (identityToRemove === undefined) throw Error('failed to fetch EntityCode');
+
+    let interceptor = {
+        Identity: identityToRemove,
+        IsInterceptor: true,
+        Filter: {},
+        Mutator: {
+            Mutator: EffectMutator.Cancel,
+        },
+    } as IAsInterceptor;
+    state.interceptors.push(interceptor);
+
+    cases.push([
+        state,
+        {
+            Source: T.PlayerOneEntityCode,
+            Targets: [identityToRemove, T.ExternalEntityCode],
+            TargetType: TargetType.Interceptor,
+            Effect: Effect.RemoveIntercept,
+
+            MustMatch: 'some',
+        } as IRemoveInterceptorEffectPack,
+        'RemoveInterceptor ignores missing when some MustMatch - some missing',
+        {
+            StackHeight: 0,
+            interceptCount: 0,
+        },
+    ]);
+})();
+
+(() => {
+    // We construct ourselves an interceptor
+    let state = new GameState(T.GetDefaultPlayers());
+    let identityToRemove;
+    getRNGContext(state, (rng) => {
+        identityToRemove = NewEntityCode(rng);
+    });
+    if (identityToRemove === undefined) throw Error('failed to fetch EntityCode');
+
+    let fluff = {
+        Identity: T.ExternalEntityCode,
+        IsInterceptor: true,
+        Filter: {},
+        Mutator: {
+            Mutator: EffectMutator.Cancel,
+        },
+    } as IAsInterceptor;
+    // We did not create the identityToRemove interceptor, so it cannot exist
+    state.interceptors.push(fluff);
+
+    cases.push([
+        state,
+        {
+            Source: T.PlayerOneEntityCode,
+            Targets: [identityToRemove],
+            TargetType: TargetType.Interceptor,
+            Effect: Effect.RemoveIntercept,
+
+            MustMatch: undefined,
+        } as IRemoveInterceptorEffectPack,
+        'RemoveInterceptor ignores missing when not undefined MustMatch',
+        {
+            StackHeight: 0,
+            interceptsHas: [fluff],
+            interceptCount: 1,
         },
     ]);
 })();
