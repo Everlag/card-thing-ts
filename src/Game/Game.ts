@@ -4,9 +4,8 @@ import {
 import {
     IEvent,
 } from '../Event/Header';
-import {
-    EntityCode, IAsInterceptor,
-} from '../Entity/Header';
+import { EntityCode } from '../Entity/Header';
+import { IAsInterceptor } from '../Entity/Entities/AsInterceptor';
 import {
     IPlayer,
 } from '../Player/Header';

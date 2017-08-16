@@ -3,9 +3,7 @@ import {
     GameState, getRNGContext,
 } from '../../Game/Game';
 import * as T from '../../test';
-import {
-    IAsInterceptor,
-} from '../../Entity/Header';
+import { IAsInterceptor } from '../../Entity/Entities/AsInterceptor';
 import { NewEntityCode } from '../../Entity/EntityCode';
 import {
     TargetType,

@@ -10,10 +10,8 @@ import {
 import {
     getRNGContext,
 } from '../../Game/Game';
-import {
-    EntityCode,
-    IAsInterceptor,
-} from '../../Entity/Header';
+import { EntityCode } from '../../Entity/Header';
+import { IAsInterceptor } from '../../Entity/Entities/AsInterceptor';
 import {
     NewEntityCode,
 } from '../../Entity/EntityCode';

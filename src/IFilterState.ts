@@ -1,7 +1,8 @@
 import * as G from './Game/Header';
 import { IEvent } from './Event/Header';
 import { IPlayer } from './Player/Header';
-import { EntityCode, IAsInterceptor } from './Entity/Header';
+import { EntityCode } from './Entity/Header';
+import { IAsInterceptor } from './Entity/Entities/AsInterceptor';
 
 import { diff as deepdiff } from 'deep-diff';
 

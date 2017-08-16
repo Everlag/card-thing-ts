@@ -5,8 +5,8 @@ import {
 import * as T from '../../test';
 import {
     GlobalStateEntityCode,
-    IAsInterceptor,
 } from '../../Entity/Header';
+import { IAsInterceptor } from '../../Entity/Entities/AsInterceptor';
 import { NewEntityCode } from '../../Entity/EntityCode';
 import {
     TargetType,

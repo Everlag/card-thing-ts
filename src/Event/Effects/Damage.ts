@@ -6,7 +6,7 @@ import {
 } from '../Header';
 import {
     AsWithHealth,
-} from '../../Entity/Header';
+} from '../../Entity/Entities/WithHealth';
 import {
     IGameState,
 } from '../../Game/Header';

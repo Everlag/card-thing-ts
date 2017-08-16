@@ -10,8 +10,6 @@ export interface IEffectDescription {
     Op: EffectOperator;
 }
 
-// TODO: (@before-merge) switch to this
-// and move back to using Effect over bare string.
 export type Effect = string;
 
 export enum TargetType {

@@ -10,9 +10,7 @@ import {
 import {
     IEvent, TargetType, EffectMutator,
 } from './Event/Header';
-import {
-    IAsInterceptor,
-} from './Entity/Header';
+import { IAsInterceptor } from './Entity/Entities/AsInterceptor';
 
 // [state, expected, testName, expectedResult = true -> null]
 type TestCase = [G.GameState, F.IFilterState, String, boolean];

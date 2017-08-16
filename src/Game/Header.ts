@@ -5,8 +5,9 @@ import {
     IPlayer, PlayerBehavior,
 } from '../Player/Header';
 import {
-    IEntity, IAsInterceptor, EntityCode,
+    IEntity, EntityCode,
 } from '../Entity/Header';
+import { IAsInterceptor } from '../Entity/Entities/AsInterceptor';
 
 export enum Phase {
     DuringTurn = 'during-turn',
