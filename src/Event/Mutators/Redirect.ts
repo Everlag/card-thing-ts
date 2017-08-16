@@ -21,10 +21,7 @@ export function AsRedirect(e: IEffectPackMutator): IRedirectMutator {
 }
 
 /**
- * StartTurn pushes a PlayerPriority per-playerr
- * and an EndTurn for the next positional player.
- * Target of StartTurn is the player whose turn
- * it is when this resolves.
+ * Redirect changes the target of the effect.
  */
 export function Op(pack: IEffectPack, mutator: IEffectPackMutator) {
     let redirect = AsRedirect(mutator);
