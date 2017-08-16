@@ -10,7 +10,11 @@ import {
     ApplyMutator,
 } from './Mutator';
 
-export type TestCase = [IEffectPack, IEffectPackMutator, String, IEffectPackFilter];
+export type TestCase = [
+    IEffectPack,
+    IEffectPackMutator,
+    String,
+    Array<IEffectPackFilter>];
 
 let cases = new Array<TestCase>();
 
@@ -26,17 +30,28 @@ class EffectPackMutatorTest extends T.Test {
     }
 
     public Run() {
-        let [pack, mutator, name, filter] = this.testCase;
+        let [pack, mutator, name, filters] = this.testCase;
 
-        let result = ApplyMutator(pack, mutator);
-        if (CheckFilter(result, filter)) return;
+        let results = ApplyMutator(pack, mutator);
+        if (results.length !== filters.length) {
+            let msg = `results length did not match expected filter length
+            case - ${name}
+            results - ${JSON.stringify(results)}
+            `;
+            throw Error(msg);
+        }
+        let checked = filters.map((f, i) => {
+            if (CheckFilter(results[i], f)) return null;
+            return results[i];
+        });
+        if (checked.every(v => v === null)) return;
 
-        let msg = `filter did not match post-mutation
+        let msg = `some filters did not match post-mutation
         case - ${name}
         mutator - ${JSON.stringify(mutator)}
         pack    - ${JSON.stringify(pack)}
-        result  - ${JSON.stringify(result)}
-        filter  - ${JSON.stringify(filter)}`;
+        results  - ${JSON.stringify(results)}
+        filters  - ${JSON.stringify(filters)}`;
 
         throw new Error(msg);
     }

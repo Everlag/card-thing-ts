@@ -42,7 +42,7 @@ export function Op(pack: IEffectPack, mutator: IEffectPackMutator) {
         default:
             throw Error('fell through redirect.Direction switch');
         }
-    return mutable;
+    return [mutable];
 };
 
 export const Self = 'redirect-effect';

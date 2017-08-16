@@ -20,9 +20,11 @@ cases.push([
         Direction: RedirectMutatorDirection.ToSource,
     } as IRedirectMutator,
     'ToSource Redirect',
-    {
-        Targets: [T.PlayerOneEntityCode],
-    },
+    [
+        {
+            Targets: [T.PlayerOneEntityCode],
+        },
+    ],
 ]);
 
 cases.push([
@@ -38,9 +40,11 @@ cases.push([
         Others: [T.ExternalEntityCode],
     } as IRedirectMutator,
     'ToOthers Redirect',
-    {
-        Targets: [T.ExternalEntityCode],
-    },
+    [
+        {
+            Targets: [T.ExternalEntityCode],
+        },
+    ],
 ]);
 
 export default cases;

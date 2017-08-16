@@ -6,7 +6,7 @@ import {
  * Cancel indicates that the provided Effect should not be applied.
  */
 export function Op(pack: IEffectPack, mutator: IEffectPackMutator) {
-    return null;
+    return [null];
 };
 
 export const Self = 'cancel-effect';

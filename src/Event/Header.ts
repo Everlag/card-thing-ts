@@ -88,7 +88,7 @@ export type EffectMutator = string;
  * IEffectPack should not be applied.
  */
 export type Mutator = (pack: IEffectPack,
-    mutator: IEffectPackMutator) => IEffectPack | null;
+    mutator: IEffectPackMutator) => Array<IEffectPack | null>;
 
 export interface IMutatorDescription {
     Self: EffectMutator;

@@ -18,9 +18,11 @@ cases.push([
         Mutator: Cancel.Self,
     },
     'Cancel results in Null value',
-    {
-        Null: true,
-    },
+    [
+        {
+            Null: true,
+        },
+    ],
 ]);
 
 export default cases;

@@ -31,7 +31,7 @@ RegisterMutator(Redirect);
  * @param mutator IEffectPackMutator to be applied to the pack
  */
 export function ApplyMutator(pack: IEffectPack,
-        mutator: IEffectPackMutator): IEffectPack | null {
+        mutator: IEffectPackMutator): Array<IEffectPack | null> {
 
     let op = operatorRegister.get(mutator.Mutator);
     if (!op) {
