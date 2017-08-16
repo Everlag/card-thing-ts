@@ -1,8 +1,6 @@
 import {
     IEffectDescription, EffectOperator,
-    TargetType, IEvent, IEffectPack, Effect,
-
-    AsDamage, AsInterceptor, AsRemoveInterceptor,
+    TargetType, IEvent, IEffectPack, Effect, AsInterceptor, AsRemoveInterceptor,
 } from './Header';
 import {
     NewPlayerPriorityEvent,
@@ -11,15 +9,13 @@ import {
     IGameState,
 } from '../Game/Header';
 import {
-    getPlayerIndex, getRNGContext,
+    getRNGContext,
 } from '../Game/Game';
 import {
     PlayerResponseQuery,
 } from '../Player/Header';
 import {
     EntityCode,
-
-    AsWithHealth,
     IAsInterceptor,
 } from '../Entity/Header';
 import {
@@ -52,28 +48,8 @@ RegisterEffect(EndTurn);
 import PlayerPriority from './Effects/PlayerPriority';
 RegisterEffect(PlayerPriority);
 
-operatorRegister.set(Effect.Damage,
-    (state: IGameState, pack: IEffectPack, remoteQuery: PlayerResponseQuery) => {
-        if (pack.Targets.length !== 1) {
-            throw Error(`Damage expects single target, got ${pack.Targets}`);
-        }
-
-        let damagePack = AsDamage(pack);
-
-        // Eventually, this will be a switch/if-elif-else
-        // but for now we'll enjoy an early exit
-        if (damagePack.TargetType !== TargetType.Player) {
-            throw Error(`unknown TargetType for Damage: ${pack.TargetType}`);
-        }
-
-        let playerIndex = getPlayerIndex(state, damagePack.Targets[0]);
-        let player = state.players[playerIndex];
-
-        let entity = AsWithHealth(player.Self);
-        entity.Health -= damagePack.Damage;
-
-        return state;
-    });
+import Damage from './Effects/Damage';
+RegisterEffect(Damage);
 
 operatorRegister.set(Effect.SetIntercept,
     (state: IGameState, pack: IEffectPack, remoteQuery: PlayerResponseQuery) => {

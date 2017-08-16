@@ -14,9 +14,6 @@ export interface IEffectDescription {
 // export export type Effect = String;
 
 export enum Effect {
-    // Damage removes a magnitude
-    Damage = 'entity-damage',
-
     // SetIntercept establishes an Interceptor in the GameState.
     SetIntercept = 'set-interceptor',
 
@@ -52,21 +49,13 @@ export class EffectPackAssertError extends Error {
     }
 }
 
-function EffectPackAssertFail(desired: String, got: string): EffectPackAssertError {
+export function EffectPackAssertFail(desired: String,
+    got: string): EffectPackAssertError {
+
     return new EffectPackAssertError(desired, got);
 }
 
 export type IEffectPackAssert = (e: IEffectPack) => IEffectPack;
-
-export interface IDamageEffectPack extends IEffectPack {
-    Damage: number;
-}
-export function AsDamage(e: IEffectPack): IDamageEffectPack {
-    if (e.Effect !== Effect.Damage) {
-        throw EffectPackAssertFail(Effect.Damage, e.Effect);
-    }
-    return e as IDamageEffectPack;
-}
 
 export interface ISetInterceptorEffectPack extends IEffectPack {
     Filter: IEffectPackFilter;

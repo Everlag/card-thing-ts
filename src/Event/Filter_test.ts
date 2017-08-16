@@ -3,14 +3,15 @@ import {
     CheckFilter,
 } from './Filter';
 import {
-    TargetType, IEffectPack, Effect, IEffectPackFilter,
+    TargetType, IEffectPack, IEffectPackFilter,
 } from './Header';
 
 type TestCase = [IEffectPack | null, IEffectPackFilter, String, boolean];
 
 let cases = new Array<TestCase>();
 
-let fakeEffect = 'fake-effect';
+const fakeEffect = 'fake-effect';
+const wrongEffect = 'wrong-effect';
 
 cases.push([
     {
@@ -102,7 +103,7 @@ cases.push([
         Effect: fakeEffect,
     },
     {
-        Effect: Effect.Damage,
+        Effect: wrongEffect,
     },
     'Effect filter rejects when wrong',
     false,
@@ -174,7 +175,7 @@ cases.push([
     },
     {
         Targets: [T.PlayerTwoEntityCode],
-        Effect: Effect.Damage,
+        Effect: wrongEffect,
     },
     'Targets + Effect filter rejects when Effect wrong',
     false,

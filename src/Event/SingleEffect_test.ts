@@ -30,62 +30,8 @@ Cases.push(...EndTurn_test);
 import PlayerPriority_test from './Effects/PlayerPriority_test';
 Cases.push(...PlayerPriority_test);
 
-(() => {
-    let expected = new Map();
-    expected.set(
-        T.PlayerTwoEntityCode,
-        new Map([[
-            'Self.Health',
-            1,
-        ]]),
-    );
-
-    Cases.push([
-        new GameState(T.GetDefaultPlayers()),
-        {
-            Source: T.PlayerOneEntityCode,
-            Targets: [T.PlayerTwoEntityCode],
-            TargetType: TargetType.Player,
-            Effect: Effect.Damage,
-
-            // Ensure their health is reduced to exactly 1
-            Damage: T.PlayerDefaultHealth - 1,
-        },
-        'Damage decrement target player health to exactly 1',
-        {
-            StackHeight: 0,
-            playerHas: expected,
-        },
-    ]);
-})();
-
-(() => {
-    let expected = new Map();
-    expected.set(
-        T.PlayerTwoEntityCode,
-        new Map([[
-            'Self.Health',
-            T.PlayerDefaultHealth,
-        ]]),
-    );
-
-    Cases.push([
-        new GameState(T.GetDefaultPlayers()),
-        {
-            Source: T.PlayerOneEntityCode,
-            Targets: [T.PlayerTwoEntityCode],
-            TargetType: TargetType.Player,
-            Effect: Effect.Damage,
-
-            Damage: 0,
-        },
-        'Damage of zero does nothing',
-        {
-            StackHeight: 0,
-            playerHas: expected,
-        },
-    ]);
-})();
+import Damage_test from './Effects/Damage_test';
+Cases.push(...Damage_test);
 
 (() => {
     // We need to compute the EntityCode ahead of time.

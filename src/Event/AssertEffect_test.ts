@@ -1,22 +1,21 @@
 import * as T from '../test';
 import {
-    Effect, IEffectPack, TargetType,
+    IEffectPack, TargetType,
     IEffectPackAssert, EffectPackAssertError,
-
-    AsDamage,
 } from './Header';
 
 type TestCase = [IEffectPack, IEffectPackAssert, String, boolean];
 
 let cases = new Array<TestCase>();
 
+import Damage, { AsDamage } from './Effects/Damage';
 (() => {
     cases.push([
         {
             Source: T.PlayerOneEntityCode,
             Targets: [T.PlayerTwoEntityCode],
             TargetType: TargetType.Player,
-            Effect: Effect.Damage,
+            Effect: Damage.Self,
         },
         AsDamage,
         'valid IDamageEffectPack does not throw',
