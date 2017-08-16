@@ -5,13 +5,14 @@ import {
     IEvent, TargetType, Effect,
 } from './Header';
 
+import EndTurn from './Effects/EndTurn';
 export const EndTurnEvent: IEvent = {
     Effects: [
         {
             Source: GlobalStateEntityCode,
             Targets: [GlobalStateEntityCode],
             TargetType: TargetType.Global,
-            Effect: Effect.EndTurn,
+            Effect: EndTurn.Self,
         },
     ],
 };
@@ -37,7 +38,7 @@ export function NewEndTurnEvent(player: EntityCode): IEvent {
                 Source: GlobalStateEntityCode,
                 Targets: [player],
                 TargetType: TargetType.Global,
-                Effect: Effect.EndTurn,
+                Effect: EndTurn.Self,
             },
         ],
     };

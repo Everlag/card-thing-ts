@@ -24,13 +24,14 @@ let cases = new Array<TestCase>();
     ]);
 })();
 
+import EndTurn from './Effects/EndTurn';
 (() => {
     cases.push([
         {
             Source: T.PlayerOneEntityCode,
             Targets: [T.PlayerTwoEntityCode],
             TargetType: TargetType.Player,
-            Effect: Effect.EndTurn,
+            Effect: EndTurn.Self,
         },
         AsDamage,
         'invalid IDamageEffectPack throws',

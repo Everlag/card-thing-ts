@@ -16,12 +16,14 @@ type TestCase = [IEffectPack, IEffectPackMutator, String, IEffectPackFilter];
 
 let cases = new Array<TestCase>();
 
+let fakeEffect = 'fake-effect';
+
 cases.push([
     {
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
         TargetType: TargetType.Player,
-        Effect: Effect.EndTurn,
+        Effect: fakeEffect,
     },
     {
         Mutator: EffectMutator.Cancel,
@@ -37,7 +39,7 @@ cases.push([
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerTwoEntityCode],
         TargetType: TargetType.Player,
-        Effect: Effect.EndTurn,
+        Effect: fakeEffect,
     },
     {
         Mutator: EffectMutator.Redirect,
@@ -54,7 +56,7 @@ cases.push([
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerTwoEntityCode],
         TargetType: TargetType.Player,
-        Effect: Effect.EndTurn,
+        Effect: fakeEffect,
     },
     {
         Mutator: EffectMutator.Redirect,

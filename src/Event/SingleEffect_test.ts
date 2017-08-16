@@ -27,26 +27,8 @@ export const Cases = new Array<TestCase>();
 import StartTurn_test from './Effects/StartTurn_test';
 Cases.push(...StartTurn_test);
 
-(() => {
-    let expected = [
-        NewStartTurnEvent(T.PlayerTwoEntityCode),
-    ];
-
-    Cases.push([
-        new GameState(T.DefaultPlayers),
-        {
-            Source: GlobalStateEntityCode,
-            Targets: [T.PlayerOneEntityCode],
-            TargetType: TargetType.Global,
-            Effect: Effect.EndTurn,
-        },
-        'EndTurn empty state',
-        {
-            currentTurn: T.PlayerOneEntityCode,
-            stackHas: expected,
-        },
-    ]);
-})();
+import EndTurn_test from './Effects/EndTurn_test';
+Cases.push(...EndTurn_test);
 
 (() => {
     Cases.push([

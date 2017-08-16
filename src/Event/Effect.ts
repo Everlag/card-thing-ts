@@ -49,22 +49,8 @@ export function getPriorities(state: IGameState): Array<IEvent> {
 import StartTurn from './Effects/StartTurn';
 RegisterEffect(StartTurn);
 
-operatorRegister.set(Effect.EndTurn,
-    (state: IGameState, pack: IEffectPack) => {
-        if (pack.Targets.length !== 1) {
-            throw Error(`EndTurn expects single target, got ${pack.Targets}`);
-        }
-
-        // Set a StartTurn
-        let currentPlayerIndex = getPlayerIndex(state, pack.Targets[0]);
-        let nextPlayerIndex = (currentPlayerIndex + 1) % state.players.length;
-        let nextPlayer = state.players[nextPlayerIndex];
-        let startTurn = NewStartTurnEvent(nextPlayer.Self.Identity);
-
-        state.stack.push(startTurn);
-
-        return state;
-    });
+import EndTurn from './Effects/EndTurn';
+RegisterEffect(EndTurn);
 
 operatorRegister.set(Effect.PlayerPriority,
     (state: IGameState, pack: IEffectPack, remoteQuery: PlayerResponseQuery) => {

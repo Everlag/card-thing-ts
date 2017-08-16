@@ -10,12 +10,10 @@ export interface IEffectDescription {
     Op: EffectOperator;
 }
 
+// TODO: (@before-merge) switch to this
+// export export type Effect = String;
+
 export enum Effect {
-    // EndTurn pushes a StartTurn.
-    //
-    // Target of EndTurn is the player whose turn is currently
-    // completing.
-    EndTurn = 'end-turn',
     // PlayerPriority checks for a player response and handles
     // accordingly.
     //
@@ -118,7 +116,7 @@ export interface IEffectPackFilter {
      */
     Targets?: Array<EntityCode>;
     TargetType?: TargetType;
-    Effect?: Effect;
+    Effect?: string;
 
     /**
      * Null matches if and only if the provided IEffectPack

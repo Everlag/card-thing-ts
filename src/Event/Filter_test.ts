@@ -10,12 +10,14 @@ type TestCase = [IEffectPack | null, IEffectPackFilter, String, boolean];
 
 let cases = new Array<TestCase>();
 
+let fakeEffect = 'fake-effect';
+
 cases.push([
     {
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
         TargetType: TargetType.Player,
-        Effect: Effect.EndTurn,
+        Effect: fakeEffect,
     },
     {},
     'empty filter matches anything',
@@ -27,7 +29,7 @@ cases.push([
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
         TargetType: TargetType.Player,
-        Effect: Effect.EndTurn,
+        Effect: fakeEffect,
     },
     {
         Source: T.PlayerOneEntityCode,
@@ -41,7 +43,7 @@ cases.push([
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
         TargetType: TargetType.Player,
-        Effect: Effect.EndTurn,
+        Effect: fakeEffect,
     },
     {
         Source: T.PlayerTwoEntityCode,
@@ -55,7 +57,7 @@ cases.push([
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
         TargetType: TargetType.Player,
-        Effect: Effect.EndTurn,
+        Effect: fakeEffect,
     },
     {
         TargetType: TargetType.Player,
@@ -69,7 +71,7 @@ cases.push([
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
         TargetType: TargetType.Player,
-        Effect: Effect.EndTurn,
+        Effect: fakeEffect,
     },
     {
         TargetType: TargetType.Global,
@@ -83,10 +85,10 @@ cases.push([
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
         TargetType: TargetType.Player,
-        Effect: Effect.EndTurn,
+        Effect: fakeEffect,
     },
     {
-        Effect: Effect.EndTurn,
+        Effect: fakeEffect,
     },
     'Effect filter matches when correct',
     true,
@@ -97,7 +99,7 @@ cases.push([
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
         TargetType: TargetType.Player,
-        Effect: Effect.EndTurn,
+        Effect: fakeEffect,
     },
     {
         Effect: Effect.Damage,
@@ -111,7 +113,7 @@ cases.push([
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode, T.PlayerTwoEntityCode],
         TargetType: TargetType.Player,
-        Effect: Effect.EndTurn,
+        Effect: fakeEffect,
     },
     {
         Targets: [T.PlayerOneEntityCode],
@@ -125,7 +127,7 @@ cases.push([
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
         TargetType: TargetType.Player,
-        Effect: Effect.EndTurn,
+        Effect: fakeEffect,
     },
     {
         Targets: [T.PlayerOneEntityCode],
@@ -139,7 +141,7 @@ cases.push([
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
         TargetType: TargetType.Player,
-        Effect: Effect.EndTurn,
+        Effect: fakeEffect,
     },
     {
         Targets: [T.PlayerTwoEntityCode],
@@ -153,11 +155,11 @@ cases.push([
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
         TargetType: TargetType.Player,
-        Effect: Effect.EndTurn,
+        Effect: fakeEffect,
     },
     {
         Targets: [T.PlayerOneEntityCode],
-        Effect: Effect.EndTurn,
+        Effect: fakeEffect,
     },
     'Targets + Effect filter matches when both correct',
     true,
@@ -168,7 +170,7 @@ cases.push([
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
         TargetType: TargetType.Player,
-        Effect: Effect.EndTurn,
+        Effect: fakeEffect,
     },
     {
         Targets: [T.PlayerTwoEntityCode],
@@ -192,7 +194,7 @@ cases.push([
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
         TargetType: TargetType.Player,
-        Effect: Effect.EndTurn,
+        Effect: fakeEffect,
     },
     {
         Null: true,
