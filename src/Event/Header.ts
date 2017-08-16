@@ -14,12 +14,6 @@ export interface IEffectDescription {
 // export export type Effect = String;
 
 export enum Effect {
-    // PlayerPriority checks for a player response and handles
-    // accordingly.
-    //
-    // Target of PlayerPriority is the player to query a response from.
-    PlayerPriority = 'player-priority',
-
     // Damage removes a magnitude
     Damage = 'entity-damage',
 

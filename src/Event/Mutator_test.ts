@@ -1,6 +1,6 @@
 import * as T from '../test';
 import {
-    TargetType, IEffectPack, IEffectPackFilter, Effect, EffectMutator,
+    TargetType, IEffectPack, IEffectPackFilter, EffectMutator,
     IEffectPackMutator,
 
     IRedirectMutator, RedirectMutatorDirection,

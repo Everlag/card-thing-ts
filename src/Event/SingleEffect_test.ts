@@ -16,9 +16,6 @@ import {
     ISetInterceptorEffectPack, IRemoveInterceptorEffectPack,
     EffectMutator,
 } from './Header';
-import {
-    NewStartTurnEvent,
-} from './Event';
 
 export type TestCase = [GameState, IEffectPack, String, IFilterState];
 
@@ -30,47 +27,8 @@ Cases.push(...StartTurn_test);
 import EndTurn_test from './Effects/EndTurn_test';
 Cases.push(...EndTurn_test);
 
-(() => {
-    Cases.push([
-        new GameState(T.DefaultPlayers),
-        {
-            Source: GlobalStateEntityCode,
-            Targets: [T.PlayerOneEntityCode],
-            TargetType: TargetType.Global,
-            Effect: Effect.PlayerPriority,
-        },
-        'PlayerPriority pass with empty state',
-        {
-            currentTurn: T.PlayerOneEntityCode,
-            StackHeight: 0,
-        },
-    ]);
-})();
-
-(() => {
-    let g = new GameState(T.DefaultPlayers);
-
-    let expected = [
-        NewStartTurnEvent(T.PlayerTwoEntityCode),
-    ];
-    g.stack.push(...expected);
-
-    Cases.push([
-        g,
-        {
-            Source: GlobalStateEntityCode,
-            Targets: [T.PlayerOneEntityCode],
-            TargetType: TargetType.Global,
-            Effect: Effect.PlayerPriority,
-        },
-        'PlayerPriority pass with non-empty state',
-        {
-            currentTurn: T.PlayerOneEntityCode,
-            stackHas: expected,
-            StackHeight: 1,
-        },
-    ]);
-})();
+import PlayerPriority_test from './Effects/PlayerPriority_test';
+Cases.push(...PlayerPriority_test);
 
 (() => {
     let expected = new Map();

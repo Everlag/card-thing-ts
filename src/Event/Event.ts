@@ -2,7 +2,7 @@ import {
     EntityCode, GlobalStateEntityCode,
 } from '../Entity/Header';
 import {
-    IEvent, TargetType, Effect,
+    IEvent, TargetType,
 } from './Header';
 
 import EndTurn from './Effects/EndTurn';
@@ -44,6 +44,7 @@ export function NewEndTurnEvent(player: EntityCode): IEvent {
     };
 }
 
+import PlayerPriority from './Effects/PlayerPriority';
 export function NewPlayerPriorityEvent(player: EntityCode): IEvent {
     return {
         Effects: [
@@ -51,7 +52,7 @@ export function NewPlayerPriorityEvent(player: EntityCode): IEvent {
                 Source: GlobalStateEntityCode,
                 Targets: [player],
                 TargetType: TargetType.Global,
-                Effect: Effect.PlayerPriority,
+                Effect: PlayerPriority.Self,
             },
         ],
     };

@@ -5,7 +5,7 @@ import {
     AsDamage, AsInterceptor, AsRemoveInterceptor,
 } from './Header';
 import {
-    NewStartTurnEvent, NewPlayerPriorityEvent,
+    NewPlayerPriorityEvent,
 } from './Event';
 import {
     IGameState,
@@ -14,10 +14,7 @@ import {
     getPlayerIndex, getRNGContext,
 } from '../Game/Game';
 import {
-    GetPlayerResponse,
-} from '../Player/Player';
-import {
-    PlayerAction, PlayerResponseQuery,
+    PlayerResponseQuery,
 } from '../Player/Header';
 import {
     EntityCode,
@@ -52,28 +49,8 @@ RegisterEffect(StartTurn);
 import EndTurn from './Effects/EndTurn';
 RegisterEffect(EndTurn);
 
-operatorRegister.set(Effect.PlayerPriority,
-    (state: IGameState, pack: IEffectPack, remoteQuery: PlayerResponseQuery) => {
-        if (pack.Targets.length !== 1) {
-            throw Error(`EndTurn expects single target, got ${pack.Targets}`);
-        }
-
-        let response = GetPlayerResponse(pack.Targets[0], state, remoteQuery);
-
-        switch (response.Action) {
-            case PlayerAction.Pass:
-                return state;
-            case PlayerAction.Use:
-                // Since IPlayerResponse is just an IEvent with
-                // a flag, we can simply push it onto the stack.
-                //
-                // We also give all players the opportunity to react.
-                state.stack.push(...getPriorities(state), response);
-                return state;
-            default:
-                throw Error(`unknown PlayerAction in response, got: ${response.Action}`);
-        }
-    });
+import PlayerPriority from './Effects/PlayerPriority';
+RegisterEffect(PlayerPriority);
 
 operatorRegister.set(Effect.Damage,
     (state: IGameState, pack: IEffectPack, remoteQuery: PlayerResponseQuery) => {
