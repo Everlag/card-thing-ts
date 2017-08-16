@@ -3,6 +3,7 @@ import {
 } from '../Entity/Header';
 import {
     IEvent, TargetType,
+    IEffectPackFilter, IEffectPackMutator,
 } from './Header';
 
 import EndTurn from './Effects/EndTurn';
@@ -54,6 +55,25 @@ export function NewPlayerPriorityEvent(player: EntityCode): IEvent {
                 TargetType: TargetType.Global,
                 Effect: PlayerPriority.Self,
             },
+        ],
+    };
+}
+
+import SetIntercept,
+    { ISetInterceptorEffectPack } from './Effects/SetIntercept';
+export function NewSetInterceptEvent(source: EntityCode,
+    filter: IEffectPackFilter, mutator: IEffectPackMutator): IEvent {
+
+    return {
+        Effects: [
+            {
+                Source: source,
+                Targets: [GlobalStateEntityCode],
+                TargetType: TargetType.Global,
+                Effect: SetIntercept.Self,
+                Filter: filter,
+                Mutator: mutator,
+            } as ISetInterceptorEffectPack,
         ],
     };
 }
