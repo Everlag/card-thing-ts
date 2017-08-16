@@ -20,12 +20,11 @@ import {
     NewStartTurnEvent,
 } from './Event';
 
-
 export type TestCase = [GameState, IEffectPack, String, IFilterState];
 
 export const Cases = new Array<TestCase>();
 
-import StartTurn_test from './StartTurn_test';
+import StartTurn_test from './Effects/StartTurn_test';
 Cases.push(...StartTurn_test);
 
 (() => {

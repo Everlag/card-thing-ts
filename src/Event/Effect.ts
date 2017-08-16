@@ -5,7 +5,7 @@ import {
     AsDamage, AsInterceptor, AsRemoveInterceptor,
 } from './Header';
 import {
-    NewEndTurnEvent, NewStartTurnEvent, NewPlayerPriorityEvent,
+    NewStartTurnEvent, NewPlayerPriorityEvent,
 } from './Event';
 import {
     IGameState,
@@ -46,7 +46,7 @@ export function getPriorities(state: IGameState): Array<IEvent> {
         .map(p => NewPlayerPriorityEvent(p.Self.Identity));
 }
 
-import StartTurn from './StartTurn';
+import StartTurn from './Effects/StartTurn';
 RegisterEffect(StartTurn);
 
 operatorRegister.set(Effect.EndTurn,

@@ -1,15 +1,15 @@
 import {
     IEffectPack, IEffectDescription,
-} from './Header';
+} from '../Header';
 import {
     NewEndTurnEvent,
-} from './Event';
+} from '../Event';
 import {
     getPriorities,
-} from './Effect';
+} from '../Effect';
 import {
     IGameState,
-} from '../Game/Header';
+} from '../../Game/Header';
 
 /**
  * StartTurn pushes a PlayerPriority per-playerr

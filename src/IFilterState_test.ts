@@ -8,7 +8,7 @@ import {
     GlobalStateEntityCode,
 } from './Entity/Header';
 import {
-    IEvent, TargetType, Effect, EffectMutator,
+    IEvent, TargetType, EffectMutator,
 } from './Event/Header';
 import {
     IAsInterceptor,

@@ -16,7 +16,7 @@ export const EndTurnEvent: IEvent = {
     ],
 };
 
-import StartTurn from './StartTurn';
+import StartTurn from './Effects/StartTurn';
 export function NewStartTurnEvent(player: EntityCode): IEvent {
     return {
         Effects: [

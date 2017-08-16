@@ -1,13 +1,13 @@
-import { TestCase } from './SingleEffect_test';
+import { TestCase } from '../SingleEffect_test';
 import {
     GameState,
-} from '../Game/Game';
-import * as T from '../test';
-import { GlobalStateEntityCode} from '../Entity/Header';
-import { TargetType } from './Header';
+} from '../../Game/Game';
+import * as T from '../../test';
+import { GlobalStateEntityCode} from '../../Entity/Header';
+import { TargetType } from './../Header';
 import {
     NewEndTurnEvent, NewPlayerPriorityEvent,
-} from './Event';
+} from './../Event';
 import StartTurn from './StartTurn';
 
 let cases: Array<TestCase> = [];
