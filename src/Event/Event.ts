@@ -59,6 +59,20 @@ export function NewPlayerPriorityEvent(player: EntityCode): IEvent {
     };
 }
 
+import ThrowGuard from './Effects/ThrowGuard';
+export function NewThrowGuardEvent(): IEvent {
+    return {
+        Effects: [
+            {
+                Source: GlobalStateEntityCode,
+                Targets: [GlobalStateEntityCode],
+                TargetType: TargetType.Global,
+                Effect: ThrowGuard.Self,
+            },
+        ],
+    };
+}
+
 import SetIntercept,
     { ISetInterceptorEffectPack } from './Effects/SetIntercept';
 export function NewSetInterceptEvent(source: EntityCode,
@@ -74,6 +88,24 @@ export function NewSetInterceptEvent(source: EntityCode,
                 Filter: filter,
                 Mutator: mutator,
             } as ISetInterceptorEffectPack,
+        ],
+    };
+}
+
+import RemoveIntercept,
+    { IRemoveInterceptorEffectPack } from './Effects/RemoveIntercept';
+export function NewRemoveInterceptEvent(source: EntityCode, target: EntityCode,
+    mustMatch: string): IEvent {
+
+    return {
+        Effects: [
+            {
+                Source: source,
+                Targets: [target],
+                TargetType: TargetType.Interceptor,
+                Effect: RemoveIntercept.Self,
+                MustMatch: mustMatch,
+            } as IRemoveInterceptorEffectPack,
         ],
     };
 }

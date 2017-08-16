@@ -58,6 +58,9 @@ let cases = new Array<TestCase>();
 import PassPriorityToNextTurn from './MultiEffect_test/PassPriorityToNextTurn';
 cases.push(...PassPriorityToNextTurn);
 
+import InterceptThrowGuardAndRemove from './MultiEffect_test/InterceptThrowGuardAndRemove';
+cases.push(...InterceptThrowGuardAndRemove);
+
 // buildQueue constructs a ResponseQueue from a TestCase
 function buildQueue(c: TestCase): ResponseQueue {
     /* tslint:disable */
