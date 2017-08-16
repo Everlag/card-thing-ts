@@ -12,10 +12,7 @@ export interface IEffectDescription {
 
 // TODO: (@before-merge) switch to this
 // and move back to using Effect over bare string.
-// export type Effect = String;
-
-export enum Effect {
-}
+export type Effect = string;
 
 export enum TargetType {
     Global = 'global',
@@ -27,7 +24,7 @@ export interface IEffectPack {
     Source: EntityCode;
     Targets: Array<EntityCode>;
     TargetType: TargetType;
-    Effect: string;
+    Effect: Effect;
 
     // Allow properties which weren't specifically defined here to
     // be declared on literals.
@@ -69,7 +66,7 @@ export interface IEffectPackFilter {
      */
     Targets?: Array<EntityCode>;
     TargetType?: TargetType;
-    Effect?: string;
+    Effect?: Effect;
 
     /**
      * Null matches if and only if the provided IEffectPack
