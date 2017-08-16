@@ -15,8 +15,6 @@ export interface IEffectDescription {
 // export type Effect = String;
 
 export enum Effect {
-    // RemoveIntercept removes an Interceptor from the GameState.
-    RemoveIntercept = 'remove-interceptor',
 }
 
 export enum TargetType {
@@ -54,21 +52,6 @@ export function EffectPackAssertFail(desired: String,
 }
 
 export type IEffectPackAssert = (e: IEffectPack) => IEffectPack;
-
-export interface IRemoveInterceptorEffectPack extends IEffectPack {
-    // MustMatch causes the Effect to throw if it cannot match a target.
-    //
-    // This has two mode:
-    // - 'all' enforces that all targets must exist
-    // - 'some' enforces that at least one target must exist
-    MustMatch?: 'all' | 'some';
-}
-export function AsRemoveInterceptor(e: IEffectPack): IRemoveInterceptorEffectPack {
-    if (e.Effect !== Effect.RemoveIntercept) {
-        throw EffectPackAssertFail(Effect.RemoveIntercept, e.Effect);
-    }
-    return e as IRemoveInterceptorEffectPack;
-}
 
 export interface IEvent {
     Effects: Array<IEffectPack>;

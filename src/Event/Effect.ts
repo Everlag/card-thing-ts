@@ -1,6 +1,5 @@
 import {
-    IEffectDescription, EffectOperator,
-    TargetType, IEvent, IEffectPack, Effect, AsRemoveInterceptor,
+    IEffectDescription, EffectOperator, IEvent, IEffectPack,
 } from './Header';
 import {
     NewPlayerPriorityEvent,
@@ -44,55 +43,8 @@ RegisterEffect(Damage);
 import SetIntercept from './Effects/SetIntercept';
 RegisterEffect(SetIntercept);
 
-operatorRegister.set(Effect.RemoveIntercept,
-    (state: IGameState, pack: IEffectPack, remoteQuery: PlayerResponseQuery) => {
-        if (pack.Targets.length < 1) {
-            throw Error(`RemoveIntercept expects at least one target, got ${pack.Targets}`);
-        }
-
-        let interceptorPack = AsRemoveInterceptor(pack);
-
-        if (interceptorPack.TargetType !== TargetType.Interceptor) {
-            throw Error(`unknown TargetType for RemoveIntercept: ${pack.TargetType}`);
-        }
-
-        // Validate targets existence.
-        let someMatch = false;
-        let allMatch = true;
-        pack.Targets.forEach(t => {
-            let found = state.interceptors.some(intercept => {
-                return intercept.Identity === t;
-            });
-            someMatch = found || someMatch;
-            allMatch = found && allMatch;
-        });
-        switch (interceptorPack.MustMatch) {
-            case 'all':
-                if (!allMatch) {
-                    throw Error(`failed to match all targets when required
-                    ${JSON.stringify(pack)}`);
-                }
-                break;
-            case 'some':
-            if (!someMatch) {
-                throw Error(`failed to match any targets when required
-                    ${JSON.stringify(pack)}`);
-                }
-                break;
-            case undefined:
-                break;
-            default:
-                throw Error('fell through exhaustive MustMatch switch');
-        }
-
-        // Remove targets
-        state.interceptors = state.interceptors
-            .filter(i => {
-                return !pack.Targets.some(target => target === i.Identity);
-            });
-
-        return state;
-    });
+import RemoveIntercept from './Effects/RemoveIntercept';
+RegisterEffect(RemoveIntercept);
 
 // ApplyEffect applies the given Effect to the IGameState and returns it.
 export function ApplyEffect(effect: IEffectPack,
