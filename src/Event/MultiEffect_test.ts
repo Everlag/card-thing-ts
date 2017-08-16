@@ -47,9 +47,7 @@ let cases = new Array<TestCase>();
         3,
         'Pass priority to next turn',
         {
-            // UHHHH
-            // Something is not right with player priority being appended.
-            // currentTurn: T.PlayerOneEntityCode,
+            currentTurn: T.PlayerOneEntityCode,
             stackHas: expected,
         },
     ]);
