@@ -12,27 +12,14 @@ import {
     ApplyMutator,
 } from './Mutator';
 
-type TestCase = [IEffectPack, IEffectPackMutator, String, IEffectPackFilter];
+export type TestCase = [IEffectPack, IEffectPackMutator, String, IEffectPackFilter];
 
 let cases = new Array<TestCase>();
 
 let fakeEffect = 'fake-effect';
 
-cases.push([
-    {
-        Source: T.PlayerOneEntityCode,
-        Targets: [T.PlayerOneEntityCode],
-        TargetType: TargetType.Player,
-        Effect: fakeEffect,
-    },
-    {
-        Mutator: EffectMutator.Cancel,
-    },
-    'Cancel results in Null value',
-    {
-        Null: true,
-    },
-]);
+import Cancel_test from './Mutators/Cancel_test';
+cases.push(...Cancel_test);
 
 cases.push([
     {

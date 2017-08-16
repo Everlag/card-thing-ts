@@ -6,7 +6,7 @@ export type EffectOperator = (state: IGameState,
     pack: IEffectPack, remoteQuery: PlayerResponseQuery) => IGameState;
 
 export interface IEffectDescription {
-    Self: string;
+    Self: Effect;
     Op: EffectOperator;
 }
 
@@ -75,7 +75,26 @@ export interface IEffectPackFilter {
 
 export enum EffectMutator {
     Redirect = 'redirect',
-    Cancel = 'cancel',
+}
+
+/**
+ * Mutator is an operation associated with a specific EffectMutator.
+ *
+ * This performs the actual mutation of the IEffectPack.
+ * The given IEffectPack should never be mutated, instead it should be
+ * copied and returned.
+ *
+ * IEffectPackMutator is included as an argument as it may be extended
+ *
+ * A Mutator may return an explicitly null result to indicate the
+ * IEffectPack should not be applied.
+ */
+export type Mutator = (pack: IEffectPack,
+    mutator: IEffectPackMutator) => IEffectPack | null;
+
+export interface IMutatorDescription {
+    Self: string; // TODO: make export type Mutator
+    Op: Mutator;
 }
 
 /**
@@ -91,7 +110,7 @@ export enum EffectMutator {
  * through all of the filters.
  */
 export interface IEffectPackMutator {
-    Mutator: EffectMutator;
+    Mutator: string; // TODO: back to EffectMutator when migrated
 
     // Allow properties not specifically declared here to be included
     // on literals which will allow them to satisfy interfaces
@@ -100,7 +119,7 @@ export interface IEffectPackMutator {
 }
 
 export class EffectPackMutatorAssertError extends Error {
-    constructor(desired: String, got: EffectMutator) {
+    constructor(desired: String, got: string) {
         super(`cannot cast ${got} IEffectPackMutator to ${desired}`);
 
         // Set the prototype explicitly.
@@ -108,7 +127,7 @@ export class EffectPackMutatorAssertError extends Error {
     }
 }
 
-function EffectPackMutatorAssertFail(desired: String, got: EffectMutator): EffectPackAssertError {
+function EffectPackMutatorAssertFail(desired: String, got: string): EffectPackAssertError {
     return new EffectPackMutatorAssertError(desired, got);
 }
 

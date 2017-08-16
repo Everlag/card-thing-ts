@@ -10,11 +10,12 @@ import { IAsInterceptor } from '../../Entity/Entities/AsInterceptor';
 import { NewEntityCode } from '../../Entity/EntityCode';
 import {
     TargetType,
-    EffectMutator,
 } from './../Header';
 import SetIntercept, { ISetInterceptorEffectPack } from './SetIntercept';
 
 let cases: Array<TestCase> = [];
+
+let fakeMutator = 'some-mutator';
 
 (() => {
     // We need to compute the EntityCode ahead of time.
@@ -33,7 +34,7 @@ let cases: Array<TestCase> = [];
         IsInterceptor: true,
         Filter: {},
         Mutator: {
-            Mutator: EffectMutator.Cancel,
+            Mutator: fakeMutator,
         },
     } as IAsInterceptor;
     let expectedInterceptors = [interceptor];

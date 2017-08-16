@@ -8,7 +8,7 @@ import {
     GlobalStateEntityCode,
 } from './Entity/Header';
 import {
-    IEvent, TargetType, EffectMutator,
+    IEvent, TargetType,
 } from './Event/Header';
 import { IAsInterceptor } from './Entity/Entities/AsInterceptor';
 
@@ -277,7 +277,7 @@ let expectedInterceptorContents: Array<IAsInterceptor> = [
         Identity: T.ExternalEntityCode,
         Filter: {},
         Mutator: {
-            Mutator: EffectMutator.Cancel,
+            Mutator: 'some-mutator',
         },
     } as IAsInterceptor,
 ];
@@ -287,7 +287,7 @@ let fluffInterceptorContents: Array<IAsInterceptor> = [
         Identity: T.ExternalEntityCode,
         Filter: {Null: true},
         Mutator: {
-            Mutator: EffectMutator.Cancel,
+            Mutator: 'some-mutator',
         },
     } as IAsInterceptor,
 ];

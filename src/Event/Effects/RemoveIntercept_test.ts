@@ -7,12 +7,13 @@ import { IAsInterceptor } from '../../Entity/Entities/AsInterceptor';
 import { NewEntityCode } from '../../Entity/EntityCode';
 import {
     TargetType,
-    EffectMutator,
 } from './../Header';
 import RemoveIntercept,
     { IRemoveInterceptorEffectPack } from './RemoveIntercept';
 
 let cases: Array<TestCase> = [];
+
+let fakeMutator = 'some-mutator';
 
 (() => {
     // We construct ourselves an interceptor
@@ -28,7 +29,7 @@ let cases: Array<TestCase> = [];
         IsInterceptor: true,
         Filter: {},
         Mutator: {
-            Mutator: EffectMutator.Cancel,
+            Mutator: fakeMutator,
         },
     } as IAsInterceptor;
     state.interceptors.push(interceptor);
@@ -65,7 +66,7 @@ let cases: Array<TestCase> = [];
         IsInterceptor: true,
         Filter: {},
         Mutator: {
-            Mutator: EffectMutator.Cancel,
+            Mutator: fakeMutator,
         },
     } as IAsInterceptor;
     let fluff = {
@@ -73,7 +74,7 @@ let cases: Array<TestCase> = [];
         IsInterceptor: true,
         Filter: {},
         Mutator: {
-            Mutator: EffectMutator.Cancel,
+            Mutator: fakeMutator,
         },
     } as IAsInterceptor;
     state.interceptors.push(...[fluff, interceptor]);
@@ -111,7 +112,7 @@ let cases: Array<TestCase> = [];
         IsInterceptor: true,
         Filter: {},
         Mutator: {
-            Mutator: EffectMutator.Cancel,
+            Mutator: fakeMutator,
         },
     } as IAsInterceptor;
     state.interceptors.push(interceptor);
@@ -148,7 +149,7 @@ let cases: Array<TestCase> = [];
         IsInterceptor: true,
         Filter: {},
         Mutator: {
-            Mutator: EffectMutator.Cancel,
+            Mutator: fakeMutator,
         },
     } as IAsInterceptor;
     // We did not create the identityToRemove interceptor, so it cannot exist
