@@ -20,6 +20,9 @@ RegisterMutator(Cancel);
 import Redirect from './Mutators/Redirect';
 RegisterMutator(Redirect);
 
+import Affix from './Mutators/Affix';
+RegisterMutator(Affix);
+
 /**
  * ApplyMutator applies the given IEffectPackMutator to an
  * IEffectPack.

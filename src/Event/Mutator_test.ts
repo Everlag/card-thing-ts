@@ -24,6 +24,9 @@ cases.push(...Cancel_test);
 import Redirect_test from './Mutators/Redirect_test';
 cases.push(...Redirect_test);
 
+import Affix_test from './Mutators/Affix_test';
+cases.push(...Affix_test);
+
 class EffectPackMutatorTest extends T.Test {
     constructor(private testCase: TestCase) {
         super();
