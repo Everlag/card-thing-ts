@@ -11,12 +11,10 @@ export interface IEffectDescription {
 }
 
 // TODO: (@before-merge) switch to this
-// export export type Effect = String;
+// and move back to using Effect over bare string.
+// export type Effect = String;
 
 export enum Effect {
-    // SetIntercept establishes an Interceptor in the GameState.
-    SetIntercept = 'set-interceptor',
-
     // RemoveIntercept removes an Interceptor from the GameState.
     RemoveIntercept = 'remove-interceptor',
 }
@@ -56,17 +54,6 @@ export function EffectPackAssertFail(desired: String,
 }
 
 export type IEffectPackAssert = (e: IEffectPack) => IEffectPack;
-
-export interface ISetInterceptorEffectPack extends IEffectPack {
-    Filter: IEffectPackFilter;
-    Mutator: IEffectPackMutator;
-}
-export function AsInterceptor(e: IEffectPack): ISetInterceptorEffectPack {
-    if (e.Effect !== Effect.SetIntercept) {
-        throw EffectPackAssertFail(Effect.SetIntercept, e.Effect);
-    }
-    return e as ISetInterceptorEffectPack;
-}
 
 export interface IRemoveInterceptorEffectPack extends IEffectPack {
     // MustMatch causes the Effect to throw if it cannot match a target.

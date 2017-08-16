@@ -4,16 +4,12 @@ import {
 import * as T from '../test';
 import { IFilterState, FilterMatches } from '../IFilterState';
 import {
-    GlobalStateEntityCode,
-
     IAsInterceptor,
 } from '../Entity/Header';
 import { NewEntityCode } from '../Entity/EntityCode';
 import { ApplyEffect } from './Effect';
 import {
-    Effect, IEffectPack, TargetType,
-
-    ISetInterceptorEffectPack, IRemoveInterceptorEffectPack,
+    Effect, IEffectPack, TargetType, IRemoveInterceptorEffectPack,
     EffectMutator,
 } from './Header';
 
@@ -33,46 +29,8 @@ Cases.push(...PlayerPriority_test);
 import Damage_test from './Effects/Damage_test';
 Cases.push(...Damage_test);
 
-(() => {
-    // We need to compute the EntityCode ahead of time.
-    //
-    // We rely on the default, static seed to ensure consistency
-    // of results between GameState instances for RNG access.
-    let state = new GameState(T.GetDefaultPlayers());
-    let identity;
-    getRNGContext(state, (rng) => {
-        identity = NewEntityCode(rng);
-    });
-    if (identity === undefined) throw Error('failed to fetch EntityCode');
-
-    let interceptor = {
-        Identity: identity,
-        IsInterceptor: true,
-        Filter: {},
-        Mutator: {
-            Mutator: EffectMutator.Cancel,
-        },
-    } as IAsInterceptor;
-    let expectedInterceptors = [interceptor];
-
-    Cases.push([
-        new GameState(T.GetDefaultPlayers()),
-        {
-            Source: T.PlayerOneEntityCode,
-            Targets: [GlobalStateEntityCode],
-            TargetType: TargetType.Global,
-            Effect: Effect.SetIntercept,
-
-            Filter: interceptor.Filter,
-            Mutator: interceptor.Mutator,
-        } as ISetInterceptorEffectPack,
-        'SetInterceptor registers interceptor',
-        {
-            StackHeight: 0,
-            interceptsHas: expectedInterceptors,
-        },
-    ]);
-})();
+import SetIntercept_test from './Effects/SetIntercept_test';
+Cases.push(...SetIntercept_test);
 
 (() => {
     // We construct ourselves an interceptor
