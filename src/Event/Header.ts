@@ -73,9 +73,7 @@ export interface IEffectPackFilter {
     Null?: boolean;
 }
 
-export enum EffectMutator {
-    Redirect = 'redirect',
-}
+export type EffectMutator = string;
 
 /**
  * Mutator is an operation associated with a specific EffectMutator.
@@ -93,7 +91,7 @@ export type Mutator = (pack: IEffectPack,
     mutator: IEffectPackMutator) => IEffectPack | null;
 
 export interface IMutatorDescription {
-    Self: string; // TODO: make export type Mutator
+    Self: EffectMutator;
     Op: Mutator;
 }
 
@@ -110,7 +108,7 @@ export interface IMutatorDescription {
  * through all of the filters.
  */
 export interface IEffectPackMutator {
-    Mutator: string; // TODO: back to EffectMutator when migrated
+    Mutator: EffectMutator;
 
     // Allow properties not specifically declared here to be included
     // on literals which will allow them to satisfy interfaces
@@ -119,7 +117,7 @@ export interface IEffectPackMutator {
 }
 
 export class EffectPackMutatorAssertError extends Error {
-    constructor(desired: String, got: string) {
+    constructor(desired: String, got: EffectMutator) {
         super(`cannot cast ${got} IEffectPackMutator to ${desired}`);
 
         // Set the prototype explicitly.
@@ -127,25 +125,10 @@ export class EffectPackMutatorAssertError extends Error {
     }
 }
 
-function EffectPackMutatorAssertFail(desired: String, got: string): EffectPackAssertError {
+export function EffectPackMutatorAssertFail(desired: String,
+    got: EffectMutator): EffectPackAssertError {
+
     return new EffectPackMutatorAssertError(desired, got);
 }
 
 export type IEffectPackMutatorAssert = (e: IEffectPackMutator) => IEffectPackMutator;
-
-export enum RedirectMutatorDirection {
-    ToSource = 'to-source',
-    ToOthers = 'to-others',
-}
-export interface IRedirectMutator extends IEffectPackMutator {
-    Direction: RedirectMutatorDirection;
-
-    Others?: Array<EntityCode>;
-}
-export function AsRedirect(e: IEffectPackMutator): IRedirectMutator {
-    if (e.Mutator !== EffectMutator.Redirect) {
-        throw EffectPackMutatorAssertFail(EffectMutator.Redirect,
-            e.Mutator);
-    }
-    return e as IRedirectMutator;
-}

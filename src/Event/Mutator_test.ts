@@ -1,9 +1,7 @@
 import * as T from '../test';
 import {
-    TargetType, IEffectPack, IEffectPackFilter, EffectMutator,
+    IEffectPack, IEffectPackFilter,
     IEffectPackMutator,
-
-    IRedirectMutator, RedirectMutatorDirection,
 } from './Header';
 import {
     CheckFilter,
@@ -16,45 +14,11 @@ export type TestCase = [IEffectPack, IEffectPackMutator, String, IEffectPackFilt
 
 let cases = new Array<TestCase>();
 
-let fakeEffect = 'fake-effect';
-
 import Cancel_test from './Mutators/Cancel_test';
 cases.push(...Cancel_test);
 
-cases.push([
-    {
-        Source: T.PlayerOneEntityCode,
-        Targets: [T.PlayerTwoEntityCode],
-        TargetType: TargetType.Player,
-        Effect: fakeEffect,
-    },
-    {
-        Mutator: EffectMutator.Redirect,
-        Direction: RedirectMutatorDirection.ToSource,
-    } as IRedirectMutator,
-    'ToSource Redirect',
-    {
-        Targets: [T.PlayerOneEntityCode],
-    },
-]);
-
-cases.push([
-    {
-        Source: T.PlayerOneEntityCode,
-        Targets: [T.PlayerTwoEntityCode],
-        TargetType: TargetType.Player,
-        Effect: fakeEffect,
-    },
-    {
-        Mutator: EffectMutator.Redirect,
-        Direction: RedirectMutatorDirection.ToOthers,
-        Others: [T.ExternalEntityCode],
-    } as IRedirectMutator,
-    'ToOthers Redirect',
-    {
-        Targets: [T.ExternalEntityCode],
-    },
-]);
+import Redirect_test from './Mutators/Redirect_test';
+cases.push(...Redirect_test);
 
 class EffectPackMutatorTest extends T.Test {
     constructor(private testCase: TestCase) {
