@@ -44,14 +44,15 @@ export abstract class GameMachine {
                 return ApplyMutator(p, intercept.Mutator);
             });
             let flat = intercepted.reduce((total, parts) => {
-                total.push(...packs);
+                total.push(...parts);
                 return total;
             }, []);
             return flat;
         }, [e]);
 
         mutated.forEach(m => {
-            this.state = ApplyEffect(e, this.state,
+            if (m === null) return;
+            this.state = ApplyEffect(m, this.state,
                 (player: EntityCode) => this.getPlayerResponse(player));
         });
     }
