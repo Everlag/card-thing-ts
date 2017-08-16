@@ -1,12 +1,10 @@
-import { GameState } from '../Game/Game';
+import { GameState, GameStack } from '../Game/Game';
+import { IGameState, IGameStack } from '../Game/Header';
 import * as T from '../test';
 import { IFilterState, FilterMatches } from '../IFilterState';
 import {
     EntityCode,
 } from '../Entity/Header';
-import {
-    NewEndTurnEvent, NewStartTurnEvent, NewPlayerPriorityEvent,
-} from './Event';
 import {
     TestMachine, ResponseQueue, GetResponseQueue, AddResponsesToQueue,
 } from '../TestMachine';
@@ -16,7 +14,7 @@ import {
 
 /* tslint:disable */
 // Disabling as it wants a trailing comma and we can't allow that.
-type TestCase = [
+export type TestCase = [
     GameState, // Seed state
     Array<IEvent> | null, // Player 1
     Array<IEvent> | null, // Player 2, null to always pass.
@@ -26,32 +24,39 @@ type TestCase = [
 ];
 /* tslint:enable */
 
+/**
+ * Acquire a deep-copy of the provided IGameStack
+ *
+ * Offered as a convenience function for tests which want to step
+ * through identical GameState while only defining it once.
+ */
+export function CloneGameStack(s: IGameStack): IGameStack {
+    // This is the most trivial way to accomplish what we want
+    let raw = JSON.parse(JSON.stringify(s));
+    return Object.assign(new GameStack(), raw);
+}
+
+/**
+ * Acquire a deep-copy of the provided IGameState
+ *
+ * Offered as a convenience function for tests which want to step
+ * through identical GameState while only defining it once.
+ */
+export function CloneGameState(s: IGameState): IGameState {
+    // This is the most trivial way to accomplish what we want
+    let raw = JSON.parse(JSON.stringify(s));
+    // The provided players will be overwritten.
+    let clone = Object.assign(new GameState(T.GetDefaultPlayers()), raw);
+    // Necessary as the stack is defined as a class rather than as
+    // as interface.
+    clone.stack = CloneGameStack(s.stack);
+    return clone;
+}
+
 let cases = new Array<TestCase>();
 
-(() => {
-    let expected = [
-        NewStartTurnEvent(T.PlayerTwoEntityCode),
-    ];
-
-    let g = new GameState(T.GetDefaultPlayersWithMods(T.AlwaysQuery));
-    g.stack.push(...[
-        NewEndTurnEvent(T.PlayerOneEntityCode),
-        NewPlayerPriorityEvent(T.PlayerTwoEntityCode),
-        NewPlayerPriorityEvent(T.PlayerOneEntityCode),
-    ]);
-
-    cases.push([
-        g,
-        null,
-        null,
-        3,
-        'Pass priority to next turn',
-        {
-            currentTurn: T.PlayerOneEntityCode,
-            stackHas: expected,
-        },
-    ]);
-})();
+import PassPriorityToNextTurn from './MultiEffect_test/PassPriorityToNextTurn';
+cases.push(...PassPriorityToNextTurn);
 
 // buildQueue constructs a ResponseQueue from a TestCase
 function buildQueue(c: TestCase): ResponseQueue {
