@@ -1,5 +1,5 @@
 import {
-    IGameStack, IGameState, IPlayerInit, Phase,
+    IGameStack, IGameState, IPlayerInit,
 } from './Header';
 import {
     IEvent,
@@ -43,23 +43,19 @@ export class GameState implements IGameState {
 
     public players: Array<IPlayer>;
 
-    public phase: Phase;
-
     public stack: IGameStack = new GameStack();
 
     public interceptors: Array<IAsInterceptor> = [];
 
     public currentTurn: EntityCode;
 
-    constructor(players: Array<IPlayerInit>,
-        phase = Phase.StartOfTurn, seed = 0) {
+    constructor(players: Array<IPlayerInit>, seed = 0) {
         if (players.length < 2) throw Error('need at least two players');
         this.players = players.map(p => IPlayerInitToPlayer(p));
 
         // CurrentTurn defaults to the first player entered into the state
         this.currentTurn = this.players[0].Self.Identity;
 
-        this.phase = phase;
         this.seed = seed;
     }
 }

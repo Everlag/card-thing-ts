@@ -26,9 +26,6 @@ const PathStringRegex = /^(\w{1,}\.)*\w*$/;
 // match. Any non-existent(undefined) attribute is considered
 // to always match.
 export interface IFilterState {
-    // phase matches when the game is in the provided Phase
-    phase?: G.Phase;
-
     // currentTurn matches when the current turn is held by the
     // player with the provided entity code.
     currentTurn?: EntityCode;
@@ -55,9 +52,6 @@ export interface IFilterState {
 // failed to match.
 export function FilterMatches(s: G.IGameState,
     f: IFilterState): String | null {
-
-    let phaseMatch = FilterMatchString(s.phase, f.phase, 'phase');
-    if (phaseMatch) return phaseMatch;
 
     let currentTurnMatch = FilterMatchString(s.currentTurn, f.currentTurn,
         'currentTurn');

@@ -9,12 +9,6 @@ import {
 } from '../Entity/Header';
 import { IAsInterceptor } from '../Entity/Entities/AsInterceptor';
 
-export enum Phase {
-    DuringTurn = 'during-turn',
-    EndOfTurn = 'end-of-turn',
-    StartOfTurn = 'start-of-turn',
-}
-
 export interface IGameStack {
     push(...events: Array<IEvent>): void;
 
@@ -25,7 +19,6 @@ export interface IGameStack {
 
 export interface IGameState {
     seed: number;
-    phase: Phase;
     stack: IGameStack;
     interceptors: Array<IAsInterceptor>;
     players: Array<IPlayer>;

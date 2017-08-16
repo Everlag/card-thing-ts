@@ -2,9 +2,6 @@ import * as G from './Game/Game';
 import * as T from './test';
 import * as F from './IFilterState';
 import {
-    Phase,
-} from './Game/Header';
-import {
     GlobalStateEntityCode,
 } from './Entity/Header';
 import {
@@ -25,16 +22,7 @@ cases.push([
 ]);
 
 cases.push([
-    new G.GameState(T.DefaultPlayers, Phase.EndOfTurn),
-    {
-        phase: Phase.EndOfTurn,
-    },
-    'matching phases',
-    true,
-]);
-
-cases.push([
-    new G.GameState(T.DefaultPlayers, Phase.DuringTurn),
+    new G.GameState(T.DefaultPlayers),
     {
         currentTurn: T.PlayerTwoEntityCode,
     },
@@ -43,21 +31,12 @@ cases.push([
 ]);
 
 cases.push([
-    new G.GameState(T.DefaultPlayers, Phase.EndOfTurn),
+    new G.GameState(T.DefaultPlayers),
     {
         currentTurn: T.PlayerOneEntityCode,
     },
     'matching currentTurn',
     true,
-]);
-
-cases.push([
-    new G.GameState(T.DefaultPlayers, Phase.DuringTurn),
-    {
-        phase: Phase.EndOfTurn,
-    },
-    'non-matching phases',
-    false,
 ]);
 
 let fluffContents: Array<IEvent> = [

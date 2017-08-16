@@ -1,5 +1,4 @@
 import { GameState } from '../../Game/Game';
-import { Phase } from '../../Game/Header';
 import * as T from '../../test';
 import { TestCase, CloneGameState } from '../MultiEffect_test';
 import {
@@ -32,7 +31,6 @@ let cases: Array<TestCase> = [];
         {
             currentTurn: T.PlayerOneEntityCode,
             stackHas: priorExpected,
-            phase: Phase.StartOfTurn,
         },
     ]);
 
