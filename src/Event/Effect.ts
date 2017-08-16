@@ -28,6 +28,9 @@ export function getPriorities(state: IGameState): Array<IEvent> {
         .map(p => NewPlayerPriorityEvent(p.Self.Identity));
 }
 
+import ThrowGuard from './Effects/ThrowGuard';
+RegisterEffect(ThrowGuard);
+
 import StartTurn from './Effects/StartTurn';
 RegisterEffect(StartTurn);
 
