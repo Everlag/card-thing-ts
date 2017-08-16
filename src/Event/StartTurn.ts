@@ -6,12 +6,17 @@ import {
 } from './Event';
 import {
     getPriorities,
-    RegisterEffect,
 } from './Effect';
 import {
     IGameState,
 } from '../Game/Header';
 
+/**
+ * StartTurn pushes a PlayerPriority per-playerr
+ * and an EndTurn for the next positional player.
+ * Target of StartTurn is the player whose turn
+ * it is when this resolves.
+ */
 export function Op(state: IGameState, pack: IEffectPack) {
     if (pack.Targets.length !== 1) {
         throw Error(`StartTurn expects single target, got ${pack.Targets}`);
@@ -33,4 +38,4 @@ export const Desc = {
     Op, Self,
 } as IEffectDescription;
 
-RegisterEffect(Desc);
+export default Desc;

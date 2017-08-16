@@ -11,12 +11,6 @@ export interface IEffectDescription {
 }
 
 export enum Effect {
-    // StartTurn pushes a PlayerPriority per-playerr
-    // and an EndTurn for the next positional player.
-    //
-    // Target of StartTurn is the player whose turn
-    // it is when this resolves.
-    StartTurn = 'start-turn',
     // EndTurn pushes a StartTurn.
     //
     // Target of EndTurn is the player whose turn is currently
@@ -48,7 +42,7 @@ export interface IEffectPack {
     Source: EntityCode;
     Targets: Array<EntityCode>;
     TargetType: TargetType;
-    Effect: Effect;
+    Effect: string;
 
     // Allow properties which weren't specifically defined here to
     // be declared on literals.
@@ -58,7 +52,7 @@ export interface IEffectPack {
 }
 
 export class EffectPackAssertError extends Error {
-    constructor(desired: String, got: Effect) {
+    constructor(desired: String, got: string) {
         super(`cannot cast ${got} IEffectPack to ${desired}`);
 
         // Set the prototype explicitly.
@@ -66,7 +60,7 @@ export class EffectPackAssertError extends Error {
     }
 }
 
-function EffectPackAssertFail(desired: String, got: Effect): EffectPackAssertError {
+function EffectPackAssertFail(desired: String, got: string): EffectPackAssertError {
     return new EffectPackAssertError(desired, got);
 }
 

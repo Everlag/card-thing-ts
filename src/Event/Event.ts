@@ -16,6 +16,7 @@ export const EndTurnEvent: IEvent = {
     ],
 };
 
+import StartTurn from './StartTurn';
 export function NewStartTurnEvent(player: EntityCode): IEvent {
     return {
         Effects: [
@@ -23,7 +24,7 @@ export function NewStartTurnEvent(player: EntityCode): IEvent {
                 Source: GlobalStateEntityCode,
                 Targets: [player],
                 TargetType: TargetType.Global,
-                Effect: Effect.StartTurn,
+                Effect: StartTurn.Self,
             },
         ],
     };

@@ -32,7 +32,7 @@ import {
 let operatorRegister = new Map<string, EffectOperator>();
 
 export function RegisterEffect(desc: IEffectDescription) {
-    if(operatorRegister.has(desc.Self)) {
+    if (operatorRegister.has(desc.Self)) {
         throw Error(`duplicated identifier for ${desc.Self}`);
     }
     operatorRegister.set(desc.Self, desc.Op);
@@ -46,21 +46,8 @@ export function getPriorities(state: IGameState): Array<IEvent> {
         .map(p => NewPlayerPriorityEvent(p.Self.Identity));
 }
 
-operatorRegister.set(Effect.StartTurn,
-    (state: IGameState, pack: IEffectPack) => {
-        if (pack.Targets.length !== 1) {
-            throw Error(`StartTurn expects single target, got ${pack.Targets}`);
-        }
-
-        let currentPlayer = pack.Targets[0];
-        let endTurn = NewEndTurnEvent(currentPlayer);
-
-        state.stack.push(...getPriorities(state), endTurn);
-
-        state.currentTurn = currentPlayer;
-
-        return state;
-    });
+import StartTurn from './StartTurn';
+RegisterEffect(StartTurn);
 
 operatorRegister.set(Effect.EndTurn,
     (state: IGameState, pack: IEffectPack) => {
