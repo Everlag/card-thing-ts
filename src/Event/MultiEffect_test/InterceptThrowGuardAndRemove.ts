@@ -3,7 +3,7 @@ import * as T from '../../test';
 import { TestCase, CloneGameState } from '../MultiEffect_test';
 import {
     NewEndTurnEvent, NewStartTurnEvent,
-    NewPlayerPriorityEvent, NewSetInterceptEvent,
+    NewPlayerPriorityEvent, NewSetInterceptEvent, NewRemoveInterceptEvent,
     NewThrowGuardEvent,
 } from './../Event';
 
@@ -15,6 +15,7 @@ let cases: Array<TestCase> = [];
 /**
  * Register an interceptor to cancel a ThrowGuard Event.
  * Validate that the ThrowGuard Effect is cancelled when it is detected.
+ * Remove the interceptor.
  */
 (() => {
     let g = new GameState(T.GetDefaultPlayersWithMods(T.AlwaysQuery));
@@ -32,7 +33,7 @@ let cases: Array<TestCase> = [];
     ]);
 
     cases.push([
-        g,
+        CloneGameState(g),
         null,
         null,
         2,
