@@ -14,9 +14,9 @@ let cases: Array<TestCase> = [];
 
 (() => {
     let expected = [
+        NewEndTurnEvent(T.PlayerOneEntityCode),
         NewPlayerPriorityEvent(T.PlayerOneEntityCode),
         NewPlayerPriorityEvent(T.PlayerTwoEntityCode),
-        NewEndTurnEvent(T.PlayerOneEntityCode),
     ];
 
     cases.push([

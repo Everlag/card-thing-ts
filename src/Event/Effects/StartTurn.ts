@@ -25,7 +25,7 @@ export function Op(state: IGameState, pack: IEffectPack) {
     let currentPlayer = pack.Targets[0];
     let endTurn = NewEndTurnEvent(currentPlayer);
 
-    state.stack.push(...getPriorities(state), endTurn);
+    state.stack.push(endTurn, ...getPriorities(state));
 
     state.currentTurn = currentPlayer;
 

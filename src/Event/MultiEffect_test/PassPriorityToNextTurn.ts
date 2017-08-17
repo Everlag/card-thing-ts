@@ -23,7 +23,7 @@ let cases: Array<TestCase> = [];
     ]);
 
     cases.push([
-        g,
+        CloneGameState(g),
         null,
         null,
         3,
@@ -35,9 +35,9 @@ let cases: Array<TestCase> = [];
     ]);
 
     let afterExpected = [
+        NewEndTurnEvent(T.PlayerTwoEntityCode),
         NewPlayerPriorityEvent(T.PlayerOneEntityCode),
         NewPlayerPriorityEvent(T.PlayerTwoEntityCode),
-        NewEndTurnEvent(T.PlayerTwoEntityCode),
     ];
 
     cases.push([
@@ -50,6 +50,18 @@ let cases: Array<TestCase> = [];
             currentTurn: T.PlayerTwoEntityCode,
             StackHeight: 3,
             stackHas: afterExpected,
+        },
+    ]);
+
+    cases.push([
+        CloneGameState(g),
+        null,
+        null,
+        8,
+        'Pass priority to turn after next turn  - after StartTurn',
+        {
+            currentTurn: T.PlayerOneEntityCode,
+            StackHeight: 3,
         },
     ]);
 })();
