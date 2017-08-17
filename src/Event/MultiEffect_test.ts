@@ -25,6 +25,15 @@ export type TestCase = [
 /* tslint:enable */
 
 /**
+ * ISuiteDescription provides all information needed to register
+ * and run a MultiEffect test suite.
+ */
+export interface ISuiteDescription {
+    Self: string;
+    Cases: Array<TestCase>;
+}
+
+/**
  * Acquire a deep-copy of the provided IGameStack
  *
  * Offered as a convenience function for tests which want to step
@@ -55,14 +64,32 @@ export function CloneGameState(s: IGameState): IGameState {
 
 let cases = new Array<TestCase>();
 
+/**
+ * Prepend each provided case with the provided prefix and
+ * add it to our cases.
+ *
+ * This allows duplication of case names across tests without issue
+ * and is more descriptive when viewing errors.
+ *
+ * NOTE: the provided cases will have their names permanently modified.
+ */
+let pushDesc = (desc: ISuiteDescription) => {
+    desc.Cases.forEach(c => {
+        let name = c[4];
+        name = `${desc.Self} | ${name}`;
+        c[4] = name;
+    });
+    cases.push(...desc.Cases);
+};
+
 import PassPriorityToNextTurn from './MultiEffect_test/PassPriorityToNextTurn';
-cases.push(...PassPriorityToNextTurn);
+pushDesc(PassPriorityToNextTurn);
 
 import InterceptThrowGuardAndRemove from './MultiEffect_test/InterceptThrowGuardAndRemove';
-cases.push(...InterceptThrowGuardAndRemove);
+pushDesc(InterceptThrowGuardAndRemove);
 
 import InterceptForExtraTurn from './MultiEffect_test/InterceptForExtraTurn';
-cases.push(...InterceptForExtraTurn);
+pushDesc(InterceptForExtraTurn);
 
 // buildQueue constructs a ResponseQueue from a TestCase
 function buildQueue(c: TestCase): ResponseQueue {

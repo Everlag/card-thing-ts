@@ -1,6 +1,6 @@
 import { GameState } from '../../Game/Game';
 import * as T from '../../test';
-import { TestCase, CloneGameState } from '../MultiEffect_test';
+import { TestCase, ISuiteDescription, CloneGameState } from '../MultiEffect_test';
 import {
     NewSetInterceptEvent, NewThrowGuardEvent, NewPlayerPriorityEvent,
 } from './../Event';
@@ -64,4 +64,11 @@ let cases: Array<TestCase> = [];
     ]);
 })();
 
-export default cases;
+export const Self = 'InterceptThrowGuardAndRemove';
+
+export const Desc = {
+    Cases: cases,
+    Self,
+} as ISuiteDescription;
+
+export default Desc;
