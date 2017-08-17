@@ -76,7 +76,8 @@ export function NewThrowGuardEvent(): IEvent {
 import SetIntercept,
     { ISetInterceptorEffectPack } from './Effects/SetIntercept';
 export function NewSetInterceptEvent(source: EntityCode,
-    filter: IEffectPackFilter, mutator: IEffectPackMutator): IEvent {
+    filter: IEffectPackFilter, mutator: IEffectPackMutator,
+    expiry?: IEffectPackFilter): IEvent {
 
     return {
         Effects: [
@@ -87,6 +88,7 @@ export function NewSetInterceptEvent(source: EntityCode,
                 Effect: SetIntercept.Self,
                 Filter: filter,
                 Mutator: mutator,
+                Expiry: expiry,
             } as ISetInterceptorEffectPack,
         ],
     };

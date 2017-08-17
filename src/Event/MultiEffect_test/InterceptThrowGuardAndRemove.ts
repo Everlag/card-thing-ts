@@ -2,12 +2,11 @@ import { GameState } from '../../Game/Game';
 import * as T from '../../test';
 import { TestCase, CloneGameState } from '../MultiEffect_test';
 import {
-    NewEndTurnEvent, NewStartTurnEvent,
-    NewPlayerPriorityEvent, NewSetInterceptEvent, NewRemoveInterceptEvent,
-    NewThrowGuardEvent,
+    NewSetInterceptEvent, NewThrowGuardEvent, NewPlayerPriorityEvent,
 } from './../Event';
 
 import ThrowGuard from './../Effects/ThrowGuard';
+import PlayerPriority from './../Effects/PlayerPriority';
 import Cancel from './../Mutators/Cancel';
 
 let cases: Array<TestCase> = [];
@@ -15,7 +14,7 @@ let cases: Array<TestCase> = [];
 /**
  * Register an interceptor to cancel a ThrowGuard Event.
  * Validate that the ThrowGuard Effect is cancelled when it is detected.
- * Remove the interceptor.
+ * Additionally, remove the interceptor on the next PlayerPriority Effect.
  */
 (() => {
     let g = new GameState(T.GetDefaultPlayersWithMods(T.AlwaysQuery));
@@ -25,11 +24,18 @@ let cases: Array<TestCase> = [];
         },
         {
             Mutator: Cancel.Self,
-        });
+        },
+        {
+            Effect: PlayerPriority.Self,
+            Targets: [T.PlayerOneEntityCode],
+        },
+    );
 
     g.stack.push(...[
-        NewThrowGuardEvent(),
-        guardCanceller,
+        // Triggers interceptor removal
+        NewPlayerPriorityEvent(T.PlayerOneEntityCode),
+        NewThrowGuardEvent(), // Removed by interceptor
+        guardCanceller, // Introduces interceptor
     ]);
 
     cases.push([
@@ -39,8 +45,21 @@ let cases: Array<TestCase> = [];
         2,
         'Establish interceptor - catches guard',
         {
+            StackHeight: 1,
+            // One for the desired interceptor and one for its Expiry
+            interceptCount: 2,
+        },
+    ]);
+
+    cases.push([
+        CloneGameState(g),
+        null,
+        null,
+        3,
+        'Establish interceptor - removed on registered Expiry',
+        {
             StackHeight: 0,
-            interceptCount: 1,
+            interceptCount: 0,
         },
     ]);
 })();

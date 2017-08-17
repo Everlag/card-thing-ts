@@ -40,6 +40,11 @@ export abstract class GameMachine {
     public executeEffect(e: IEffectPack) {
         let mutated = this.state.interceptors.reduce((packs, intercept) => {
             let intercepted = packs.map(p => {
+                // Remove nulled Effects before they reach the filter.
+                // This is necessary as filters get unhappy with
+                // non-expected null packs as those can cause a
+                // cascade of problems if we allow them when not expected.
+                if (p === null) return [];
                 if (!CheckFilter(p, intercept.Filter)) return [p];
                 return ApplyMutator(p, intercept.Mutator);
             });
