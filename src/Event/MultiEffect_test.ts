@@ -61,6 +61,9 @@ cases.push(...PassPriorityToNextTurn);
 import InterceptThrowGuardAndRemove from './MultiEffect_test/InterceptThrowGuardAndRemove';
 cases.push(...InterceptThrowGuardAndRemove);
 
+import InterceptForExtraTurn from './MultiEffect_test/InterceptForExtraTurn';
+cases.push(...InterceptForExtraTurn);
+
 // buildQueue constructs a ResponseQueue from a TestCase
 function buildQueue(c: TestCase): ResponseQueue {
     /* tslint:disable */
