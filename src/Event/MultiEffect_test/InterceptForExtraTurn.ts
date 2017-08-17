@@ -2,13 +2,9 @@ import { GameState } from '../../Game/Game';
 import * as T from '../../test';
 import { TestCase, CloneGameState } from '../MultiEffect_test';
 import {
-    NewSetInterceptEvent, NewThrowGuardEvent, NewPlayerPriorityEvent,
-    NewEndTurnEvent,
+    NewSetInterceptEvent, NewEndTurnEvent,
 } from './../Event';
-
-import EndTurn from './../Effects/EndTurn';
 import StartTurn from './../Effects/StartTurn';
-import PlayerPriority from './../Effects/PlayerPriority';
 import Redirect,
     {
         IRedirectMutator, RedirectMutatorDirection,
