@@ -3,11 +3,12 @@ import {
 } from '../Game/Game';
 import * as T from '../test';
 import {
-    GetZone,
-    FindEntity,
-    AddEntity,
-    AddSafeEntity,
+    FindEntity, zoneRegister,
 } from './Zone';
+import {
+    GetZone,
+    AddEntity,
+} from './Internal';
 import {
     ZoneCode, TargetType,
 } from './Header';
@@ -42,7 +43,10 @@ class ZoneTest extends T.Test {
         try {
             switch (operation) {
                 case 'add':
-                    AddSafeEntity(entity, zone, state);
+                    let desc = zoneRegister.get(zone);
+                    if (desc === undefined) throw Error(`unknown zone ${zone}`);
+
+                    desc.Add(entity, state);
                     break;
                 case 'find':
                     // Unsafely add it prior to Finding it

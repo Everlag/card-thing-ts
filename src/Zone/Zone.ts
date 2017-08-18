@@ -1,5 +1,5 @@
 import {
-    ZoneCode, IZone, IZoneDescription,
+    ZoneCode, IZoneDescription,
     TargetType,
 } from './Header';
 import {
@@ -8,42 +8,11 @@ import {
 import { IEntity, EntityCode } from '../Entity/Header';
 
 /**
- * GetEntity fetches an Entity from the Zone by its identity EntityCode
+ * Exported to allow Zone tests to run.
  *
- * null result is returned when the Entity does not exist within that Zone.
- *
- * NOTE: this is for Zone-internal usage only. Prefer to use
- *       FindEntity which will perform a search for the identity based
- *       off of the TargetType associated with it.
- * @param identity EntityCode of the entity to fetch
- * @param zone Zone to fetch from
+ * TODO: refactor to not require or to standardize
  */
-export function GetEntity(identity: EntityCode,
-    zone: IZone): IEntity | null {
-
-    let entity = zone.Contents[identity];
-    if (entity === undefined) {
-        return null;
-    }
-    return entity;
-}
-
-/**
- * AddEntity includes the provided Entity in the Zone.
- *
- * If the Zone already contains that Entity, this is a NOP.
- *
- * NOTE: this is for Zone-internal usage only. Prefer to use
- *       AddSafeEntity which will equivalently perform this operation
- *       in a safe manner.
- * @param entity Entity to add to the Zone
- * @param zone Zone to hold the Entity
- */
-export function AddEntity(entity: IEntity, zone: IZone) {
-    zone.Contents[entity.Identity] = entity;
-}
-
-let zoneRegister = new Map<ZoneCode, IZoneDescription>();
+export const zoneRegister = new Map<ZoneCode, IZoneDescription>();
 let targetTypeRegister = new Map<TargetType, Array<ZoneCode>>();
 
 /**
@@ -80,45 +49,6 @@ import Players from './Zones/Players';
 RegisterZone(Players);
 
 /**
- * GetZone returns the zone specified in ZoneCode.
- *
- * GetZone will lazily instantiate the Zone if it does not exist.
- * This allows IGameState to require no knowledge about what
- * Zones have been registered.
- */
-export function GetZone(zone: ZoneCode, state: IGameState): IZone {
-
-    let z = state.zones[zone];
-    if (z === undefined) {
-        z = {
-            Self: zone,
-            Contents: {},
-        };
-        state.zones[zone] = z;
-    }
-
-    return z;
-}
-
-/**
- * AddSafeEntity adds an Entity to the zone specified in ZoneCode.
- *
- * AddSafeEntity uses the Add defined for the specific zone rather than
- * bypassing it as AddEntity does. This ensures garbage cannot be added
- * to the Zone.
- */
-export function AddSafeEntity(entity: IEntity, zone: ZoneCode,
-    state: IGameState) {
-
-    let z = GetZone(zone, state);
-    let desc = zoneRegister.get(zone);
-    if (desc === undefined) {
-        throw Error(`no description registered for zone ${zone}`);
-    }
-    desc.Add(entity, z);
-}
-
-/**
  * FindEntity resolves a provided EntityCode and TargetType
  * to a specific Entity.
  *
@@ -139,8 +69,7 @@ export function FindEntity(identity: EntityCode, targetType: TargetType,
         if (desc === undefined) {
             throw Error(`no description registered for zone ${z}`);
         }
-        let zone = GetZone(desc.Self, state);
-        return desc.Get(identity, zone);
+        return desc.Get(identity, state);
     }).filter(e => e != null);
 
     // The Entity must be in exactly 1 place. No more, no less.

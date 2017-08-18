@@ -1,4 +1,5 @@
 import { IEntity, EntityCode } from '../Entity/Header';
+import { IGameState } from '../Game/Header';
 
 export type ZoneCode = string;
 
@@ -39,8 +40,8 @@ export interface IZone {
     Contents: IEntityCollection;
 }
 
-export type AddEntityOperator = (entity: IEntity, zone: IZone) => void;
-export type GetEntityOperator = (identity: EntityCode, zone: IZone) => IEntity;
+export type AddEntityOperator = (entity: IEntity, state: IGameState) => void;
+export type GetEntityOperator = (identity: EntityCode, state: IGameState) => IEntity;
 
 /**
  * TargetType is a valid TargetType to be used in Effects.
