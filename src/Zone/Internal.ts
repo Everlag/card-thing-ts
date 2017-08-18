@@ -2,6 +2,9 @@ import {
     ZoneCode, IZone,
 } from './Header';
 import {
+    zoneRegister,
+} from './Zone';
+import {
     IGameState,
 } from '../Game/Header';
 import { IEntity, EntityCode } from '../Entity/Header';
@@ -42,6 +45,21 @@ export function AddEntity(entity: IEntity, zone: IZone) {
 }
 
 /**
+ * NewZone returns an object which minimally satisfies IZone.
+ *
+ * NOTE: this is for Zone-internal usage only.
+ *       Typical usage is to wrap this with the annotations needed
+ *       to satisfy extensions to IZone.
+ * @param zone Zone name to attribute this to.
+ */
+export function NewZone(zone: ZoneCode): IZone {
+    return  {
+        Self: zone,
+        Contents: {},
+    };
+}
+
+/**
  * GetZone returns the zone specified in ZoneCode.
  *
  * GetZone will lazily instantiate the Zone if it does not exist.
@@ -54,10 +72,9 @@ export function GetZone(zone: ZoneCode, state: IGameState): IZone {
 
     let z = state.zones[zone];
     if (z === undefined) {
-        z = {
-            Self: zone,
-            Contents: {},
-        };
+        let desc = zoneRegister.get(zone);
+        if (desc === undefined) throw Error(`cannot access unregistered zone ${zone}`);
+        z = desc.New();
         state.zones[zone] = z;
     }
 

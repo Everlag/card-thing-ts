@@ -38,10 +38,15 @@ export interface IEntityCollection {
 export interface IZone {
     Self: ZoneCode;
     Contents: IEntityCollection;
+
+    // Allow indexing into IZone so extensions of this interface
+    // can perform assertions on it.
+    [others: string]: any;
 }
 
 export type AddEntityOperator = (entity: IEntity, state: IGameState) => void;
 export type GetEntityOperator = (identity: EntityCode, state: IGameState) => IEntity;
+export type NewZoneOperator = () => IZone;
 
 /**
  * TargetType is a valid TargetType to be used in Effects.
@@ -73,4 +78,25 @@ export interface IZoneDescription {
      */
     Add: AddEntityOperator;
     Get: GetEntityOperator;
+
+    /**
+     * New provides the ability to create a new Zone satisfying
+     * the constraints of the extensions of IZone.
+     */
+    New: NewZoneOperator;
+}
+
+export class ZoneAssertError extends Error {
+    constructor(desired: String, flag: String) {
+        super(`cannot cast IZone to ${desired} with falsey ${flag}`);
+
+        // Set the prototype explicitly.
+        Object.setPrototypeOf(this, ZoneAssertError.prototype);
+    }
+}
+
+export function ZoneAssertFail(desired: String,
+    flag: String): ZoneAssertError {
+
+    return new ZoneAssertError(desired, flag);
 }
