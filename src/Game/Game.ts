@@ -6,9 +6,7 @@ import {
 } from '../Event/Header';
 import { EntityCode } from '../Entity/Header';
 import { IAsInterceptor } from '../Entity/Entities/AsInterceptor';
-import {
-    IPlayer,
-} from '../Player/Header';
+import { IAsPlayer } from '../Entity/Entities/AsPlayer';
 import { IZoneCollection } from '../Zone/Header';
 import RNG from '../seeded_rng';
 
@@ -32,9 +30,10 @@ export class GameStack implements IGameStack {
     }
 }
 
-function IPlayerInitToPlayer(init: IPlayerInit): IPlayer {
+function IPlayerInitToPlayer(init: IPlayerInit): IAsPlayer {
     return {
-        Self: init.Self,
+        ...init.Self,
+        IsPlayer: true,
         Behavior: init.Behavior,
     };
 }
@@ -42,7 +41,7 @@ function IPlayerInitToPlayer(init: IPlayerInit): IPlayer {
 export class GameState implements IGameState {
     public seed: number;
 
-    public players: Array<IPlayer>;
+    public players: Array<IAsPlayer>;
 
     public stack: IGameStack = new GameStack();
 
@@ -57,7 +56,7 @@ export class GameState implements IGameState {
         this.players = players.map(p => IPlayerInitToPlayer(p));
 
         // CurrentTurn defaults to the first player entered into the state
-        this.currentTurn = this.players[0].Self.Identity;
+        this.currentTurn = this.players[0].Identity;
 
         this.seed = seed;
     }
@@ -66,7 +65,7 @@ export class GameState implements IGameState {
 // getPlayerIndex returns the index of a player in the players
 // array of the state.
 export function getPlayerIndex(s: IGameState, previous: EntityCode): number {
-    let index = s.players.findIndex((p) => p.Self.Identity === previous);
+    let index = s.players.findIndex((p) => p.Identity === previous);
     if (index === -1) throw Error(`cannot find unknown player ${previous}`);
     return index;
 }

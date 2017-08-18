@@ -5,13 +5,8 @@ import {
     IGameState,
 } from '../Game/Header';
 import {
-    IEntity, EntityCode,
+    EntityCode,
 } from '../Entity/Header';
-
-export interface IPlayer {
-    Self: IEntity;
-    Behavior: PlayerBehavior;
-}
 
 export enum PlayerAction {
     // The player passes priority. NOP

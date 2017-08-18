@@ -25,7 +25,7 @@ export function RegisterEffect(desc: IEffectDescription) {
 // give every player priority.
 export function getPriorities(state: IGameState): Array<IEvent> {
     return state.players
-        .map(p => NewPlayerPriorityEvent(p.Self.Identity));
+        .map(p => NewPlayerPriorityEvent(p.Identity));
 }
 
 import ThrowGuard from './Effects/ThrowGuard';

@@ -1,6 +1,6 @@
 import * as G from './Game/Header';
 import { IEvent } from './Event/Header';
-import { IPlayer } from './Player/Header';
+import { IAsPlayer } from './Entity/Entities/AsPlayer';
 import { EntityCode } from './Entity/Header';
 import { IAsInterceptor } from './Entity/Entities/AsInterceptor';
 
@@ -94,13 +94,13 @@ export function FilterMatchString(state: String,
     ${state}`;
 }
 
-export function FilterMatchPlayers(state: Array<IPlayer>,
+export function FilterMatchPlayers(state: Array<IAsPlayer>,
     expected: Map<EntityCode, Map<PathString, String | number>> | undefined): String | null {
 
     if (!expected) return null;
     let results = new Array<String | null>();
     expected.forEach((propertyMatcher, entity) => {
-        let player = state.find(p => p.Self.Identity === entity);
+        let player = state.find(p => p.Identity === entity);
         if (player === undefined) return `unknwon player ${entity}`;
 
         results.push(FilterMatchPlayer(player, propertyMatcher));
@@ -111,7 +111,7 @@ export function FilterMatchPlayers(state: Array<IPlayer>,
     return filtered.join('\n');
 }
 
-export function FilterMatchPlayer(state: IPlayer,
+export function FilterMatchPlayer(state: IAsPlayer,
     expected: Map<PathString, String | number>): String | null {
 
     if (expected === undefined) return null;

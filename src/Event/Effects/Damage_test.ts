@@ -13,7 +13,7 @@ let cases: Array<TestCase> = [];
     expected.set(
         T.PlayerTwoEntityCode,
         new Map([[
-            'Self.Health',
+            'Health',
             1,
         ]]),
     );
@@ -42,7 +42,7 @@ let cases: Array<TestCase> = [];
     expected.set(
         T.PlayerTwoEntityCode,
         new Map([[
-            'Self.Health',
+            'Health',
             T.PlayerDefaultHealth,
         ]]),
     );

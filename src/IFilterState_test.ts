@@ -184,7 +184,7 @@ let expectedStackContents: Array<IEvent> = [
     expected.set(
         T.PlayerOneEntityCode,
         new Map([[
-            'Self.Identity',
+            'Identity',
             T.PlayerOneEntityCode,
         ]]),
     );
@@ -212,7 +212,7 @@ let expectedStackContents: Array<IEvent> = [
     expected.set(
         T.PlayerOneEntityCode,
         new Map([[
-            'Self.Identity',
+            'Identity',
             // Notice this references the second player,
             // this what causes the test failure.
             T.PlayerTwoEntityCode,
@@ -236,7 +236,7 @@ let expectedStackContents: Array<IEvent> = [
     expected.set(
         T.PlayerOneEntityCode,
         new Map([[
-            'Self.DoesNotExist.apples',
+            'DoesNotExist.apples',
             T.PlayerOneEntityCode,
         ]]),
     );

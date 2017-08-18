@@ -25,7 +25,7 @@ export function Op(state: IGameState, pack: IEffectPack) {
     let currentPlayerIndex = getPlayerIndex(state, pack.Targets[0]);
     let nextPlayerIndex = (currentPlayerIndex + 1) % state.players.length;
     let nextPlayer = state.players[nextPlayerIndex];
-    let startTurn = NewStartTurnEvent(nextPlayer.Self.Identity);
+    let startTurn = NewStartTurnEvent(nextPlayer.Identity);
 
     state.stack.push(startTurn);
 

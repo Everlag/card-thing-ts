@@ -44,7 +44,7 @@ export function Op(state: IGameState, pack: IEffectPack) {
     let playerIndex = getPlayerIndex(state, damagePack.Targets[0]);
     let player = state.players[playerIndex];
 
-    let entity = AsWithHealth(player.Self);
+    let entity = AsWithHealth(player);
     entity.Health -= damagePack.Damage;
 
     return state;
