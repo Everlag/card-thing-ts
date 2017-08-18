@@ -11,6 +11,7 @@ export function Add(entity: IEntity, zone: IZone) {
 
 export function Get(identity: EntityCode, zone: IZone) {
     let entity = GetEntity(identity, zone);
+    if (entity === null) return null;
     return AsPlayer(entity);
 }
 

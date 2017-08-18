@@ -30,7 +30,7 @@ export class GameStack implements IGameStack {
     }
 }
 
-function IPlayerInitToPlayer(init: IPlayerInit): IAsPlayer {
+export function IPlayerInitToPlayer(init: IPlayerInit): IAsPlayer {
     return {
         ...init.Self,
         IsPlayer: true,

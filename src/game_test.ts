@@ -4,6 +4,7 @@ import * as filter_array_match_test from './IFilterStateArrayMatch_test';
 import * as filter_test from './IFilterState_test';
 import * as entity_code_test from './Entity/EntityCode_test';
 import * as effect_test from './Event/Effect_test';
+import * as zone_test from './Zone/Zone_test';
 
 let tests = new Array<T.Test>();
 
@@ -19,6 +20,7 @@ tests.push(...[
     ...filter_array_match_test.default,
     ...filter_test.default,
     ...effect_test.default,
+    ...zone_test.default,
 ]);
 
 export function RunAll() {

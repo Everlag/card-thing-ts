@@ -23,7 +23,7 @@ export interface IEntity {
     [others: string]: any;
 }
 
-class EntityAssertError extends Error {
+export class EntityAssertError extends Error {
     constructor(desired: String, flag: String) {
         super(`cannot cast IEntity to ${desired} with falsey ${flag}`);
 
