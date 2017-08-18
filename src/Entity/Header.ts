@@ -1,4 +1,4 @@
-export type EntityCode = String;
+export type EntityCode = string;
 
 // GlobalStateEntityCode is the reserved EntityCode assigned
 // to modfying GlobalState.
