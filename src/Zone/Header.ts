@@ -1,5 +1,4 @@
-import { IEntity } from '../Entity/Header';
-// import {  } from '../Entity/Entities';
+import { IEntity, EntityCode } from '../Entity/Header';
 
 export type ZoneCode = string;
 
@@ -38,4 +37,39 @@ export interface IEntityCollection {
 export interface IZone {
     Self: ZoneCode;
     Contents: IEntityCollection;
+}
+
+export type AddEntityOperator = (entity: IEntity, zone: IZone) => void;
+export type GetEntityOperator = (identity: EntityCode, zone: IZone) => IEntity;
+
+/**
+ * TargetType is a valid TargetType to be used in Effects.
+ */
+export type TargetType = string;
+
+/**
+ * TargetTypes declares a mapping of TargetType this Zone can deal with.
+ *
+ * As this must be declared on each Zone as a literal, we can retain
+ * type safety when referencing a specific TargetType.
+ */
+export type TargetTypes = {
+    [TargetType: string]: string;
+};
+
+/**
+ * IZoneDescription describes all necessary fields for a Zone
+ * to function.
+ */
+export interface IZoneDescription {
+    Self: ZoneCode;
+    TargetTypes: TargetTypes;
+
+    /**
+     * Basic Add and Get operations should be wrapped
+     * to enforce the validity of data entering and
+     * exiting the Zone.
+     */
+    Add: AddEntityOperator;
+    Get: GetEntityOperator;
 }
