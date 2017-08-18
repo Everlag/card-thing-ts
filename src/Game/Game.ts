@@ -34,6 +34,7 @@ export function IPlayerInitToPlayer(init: IPlayerInit): IAsPlayer {
     return {
         ...init.Self,
         IsPlayer: true,
+        Index: init.Index,
         Behavior: init.Behavior,
     };
 }

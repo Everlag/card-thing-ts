@@ -1,7 +1,7 @@
 import { IZone, IZoneDescription, ZoneAssertFail } from '../Header';
 import { IGameState } from '../../Game/Header';
 import { AddEntity, GetEntity, GetZone, NewZone } from '../Internal';
-import { AsPlayer } from '../../Entity/Entities/AsPlayer';
+import { AsPlayer, IAsPlayer } from '../../Entity/Entities/AsPlayer';
 
 import { IEntity, EntityCode } from '../../Entity/Header';
 
@@ -29,8 +29,18 @@ export function New(): IPlayersZone {
 
 export function Add(entity: IEntity, state: IGameState) {
     let zone = GetZone(Self, state);
+    let asPlayersZone = AsPlayersZone(zone);
     let asPlayer = AsPlayer(entity);
+
+    // Sanity check our index
+    let existingIndexEntry = asPlayersZone.IndexToIdentity[asPlayer.Index];
+    if (existingIndexEntry !== undefined) {
+        throw Error(`pre-existing player at index ${asPlayer.Index} prevents additon`);
+    }
+
+    // Perform the additons
     AddEntity(asPlayer, zone);
+    asPlayersZone.IndexToIdentity[asPlayer.Index] = asPlayer.Identity;
 }
 
 export function Get(identity: EntityCode, state: IGameState) {
@@ -50,6 +60,32 @@ export const Desc = {
 
     Get, Add,
     New,
+
+    // Included so as to be available for tests.
+    GetPlayerIndex, GetPlayerByIndex,
 } as IZoneDescription;
 
 export default Desc;
+
+/**
+ * GetPlayerIndex returns the index associated with the given player.
+ */
+export function GetPlayerIndex(identity: EntityCode, state: IGameState): number {
+    let player = Get(identity, state);
+    if (player === null) throw Error(`cannot find unknown player ${identity}`);
+    return player.Index;
+}
+
+/**
+ * GetPlayerByIndex returns the player associated with the given index.
+ */
+export function GetPlayerByIndex(index: number, state: IGameState): IAsPlayer {
+    let zone = GetZone(Self, state);
+    let asPlayersZone = AsPlayersZone(zone);
+
+    let identity = asPlayersZone.IndexToIdentity[index];
+    if (identity === undefined) {
+        throw Error(`unknown index entry at number ${identity}`);
+    }
+    return this.Get(identity);
+}

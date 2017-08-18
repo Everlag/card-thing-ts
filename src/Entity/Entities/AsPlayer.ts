@@ -8,6 +8,7 @@ import {
 export interface IAsPlayer extends IEntity {
     IsPlayer: true;
 
+    Index: number;
     Behavior: PlayerBehavior;
 }
 export function AsPlayer(e: IEntity): IAsPlayer {

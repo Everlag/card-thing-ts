@@ -32,5 +32,6 @@ export interface IGameState {
 // use in an IGameState
 export interface IPlayerInit {
     Self: IEntity;
+    Index: number;
     Behavior: PlayerBehavior;
 }

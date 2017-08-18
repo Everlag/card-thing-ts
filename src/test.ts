@@ -51,6 +51,7 @@ function GetDefaultPlayerOne(): IPlayerInit {
             HasHealth: true,
             Health: PlayerDefaultHealth,
         },
+        Index: 0,
         Behavior: PlayerBehavior.AlwaysPass,
     };
 }
@@ -63,6 +64,7 @@ function GetDefaultPlayerTwo(): IPlayerInit {
             HasHealth: true,
             Health: PlayerDefaultHealth,
         },
+        Index: 1,
         Behavior: PlayerBehavior.AlwaysPass,
     };
 };
