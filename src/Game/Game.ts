@@ -9,6 +9,7 @@ import { IAsInterceptor } from '../Entity/Entities/AsInterceptor';
 import {
     IPlayer,
 } from '../Player/Header';
+import { IZoneCollection } from '../Zone/Header';
 import RNG from '../seeded_rng';
 
 export class GameStack implements IGameStack {
@@ -44,6 +45,8 @@ export class GameState implements IGameState {
     public players: Array<IPlayer>;
 
     public stack: IGameStack = new GameStack();
+
+    public zones: IZoneCollection = {};
 
     public interceptors: Array<IAsInterceptor> = [];
 

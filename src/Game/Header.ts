@@ -7,6 +7,7 @@ import {
 import {
     IEntity, EntityCode,
 } from '../Entity/Header';
+import { IZoneCollection } from '../Zone/Header';
 import { IAsInterceptor } from '../Entity/Entities/AsInterceptor';
 
 export interface IGameStack {
@@ -22,6 +23,7 @@ export interface IGameState {
     stack: IGameStack;
     interceptors: Array<IAsInterceptor>;
     players: Array<IPlayer>;
+    zones: IZoneCollection;
     currentTurn: EntityCode;
 }
 
