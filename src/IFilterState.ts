@@ -37,9 +37,12 @@ export interface IFilterState {
 
     StackHeight?: number;
 
-    // zoneHas matches when all Zones in the map have
+    // zonePathHas matches when all Zones in the map have
     // all specified properties with specified values.
-    zoneHas?: Map<ZoneCode, Map<PathString, String | number>>;
+    //
+    // This allows significantly easier matching on desired
+    // characteristics than using zoneContains for an exact, ordered match
+    zonePathHas?: Map<ZoneCode, Map<PathString, String | number>>;
 
     // interceptHas matches when the provided set of intercepts
     // exists in the provided order.
@@ -67,7 +70,7 @@ export function FilterMatches(s: G.IGameState,
     if (stackHeightMatch) return stackHeightMatch;
 
     let filterMatchZones = FilterMatchZones(s,
-        f.zoneHas);
+        f.zonePathHas);
     if (filterMatchZones) return filterMatchZones;
 
     let interceptHasMAtch = FilterMatchSubArray(s.interceptors,

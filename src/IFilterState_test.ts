@@ -193,7 +193,7 @@ let expectedStackContents: Array<IEvent> = [
     cases.push([
         g,
         {
-            zoneHas: expected,
+            zonePathHas: expected,
         },
         'matching zoneHas - ensure own identity',
         true,
@@ -223,7 +223,7 @@ let expectedStackContents: Array<IEvent> = [
     cases.push([
         g,
         {
-            zoneHas: expected,
+            zonePathHas: expected,
         },
         'mismatching zoneHas - ensure wrong identity',
         false,
@@ -245,7 +245,7 @@ let expectedStackContents: Array<IEvent> = [
     cases.push([
         g,
         {
-            zoneHas: expected,
+            zonePathHas: expected,
         },
         'mismatching zoneHas - invalid path',
         false,

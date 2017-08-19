@@ -33,7 +33,7 @@ let cases: Array<TestCase> = [];
         'Damage decrement target player health to exactly 1',
         {
             StackHeight: 0,
-            zoneHas: expected,
+            zonePathHas: expected,
         },
     ]);
 })();
@@ -61,7 +61,7 @@ let cases: Array<TestCase> = [];
         'Damage of zero does nothing',
         {
             StackHeight: 0,
-            zoneHas: expected,
+            zonePathHas: expected,
         },
     ]);
 })();
