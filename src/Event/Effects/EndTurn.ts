@@ -8,8 +8,9 @@ import {
     IGameState,
 } from '../../Game/Header';
 import {
-    getPlayerIndex,
-} from '../../Game/Game';
+        GetPlayerIndex, GetPlayerByIndex,
+        GetPlayerCount,
+    } from '../../Zone/Zones/Players';
 
 /**
  * EndTurn pushes a StartTurn.
@@ -22,9 +23,9 @@ export function Op(state: IGameState, pack: IEffectPack) {
     }
 
     // Set a StartTurn
-    let currentPlayerIndex = getPlayerIndex(state, pack.Targets[0]);
-    let nextPlayerIndex = (currentPlayerIndex + 1) % state.players.length;
-    let nextPlayer = state.players[nextPlayerIndex];
+    let currentPlayerIndex = GetPlayerIndex(pack.Targets[0], state);
+    let nextPlayerIndex = (currentPlayerIndex + 1) % GetPlayerCount(state);
+    let nextPlayer = GetPlayerByIndex(nextPlayerIndex, state);
     let startTurn = NewStartTurnEvent(nextPlayer.Identity);
 
     state.stack.push(startTurn);

@@ -39,7 +39,7 @@ export function IPlayerInitToPlayer(init: IPlayerInit): IAsPlayer {
     };
 }
 
-import Players from '../Zone/Zones/Players';
+import Players, { GetPlayerIndex } from '../Zone/Zones/Players';
 
 export class GameState implements IGameState {
     public seed: number;
@@ -72,9 +72,7 @@ export class GameState implements IGameState {
 // getPlayerIndex returns the index of a player in the players
 // array of the state.
 export function getPlayerIndex(s: IGameState, previous: EntityCode): number {
-    let index = s.players.findIndex((p) => p.Identity === previous);
-    if (index === -1) throw Error(`cannot find unknown player ${previous}`);
-    return index;
+    return GetPlayerIndex(previous, s);
 }
 
 /**

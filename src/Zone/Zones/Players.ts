@@ -10,6 +10,9 @@ import { IEntity, EntityCode } from '../../Entity/Header';
 export interface IPlayersZone extends IZone {
     IsPlayers: true;
 
+    // TODO: review transitioning Count to exist in the IZone definition
+    //       as it seems useful across most situations.
+    Count: number;
     IndexToIdentity: {
         [Index: number]: EntityCode,
     };
@@ -24,6 +27,7 @@ export function New(): IPlayersZone {
     return {
         ...base,
 
+        Count: 0,
         IsPlayers: true,
         IndexToIdentity: {},
     };
@@ -43,6 +47,7 @@ export function Add(entity: IEntity, state: IGameState) {
     // Perform the additons
     AddEntity(asPlayer, zone);
     asPlayersZone.IndexToIdentity[asPlayer.Index] = asPlayer.Identity;
+    asPlayersZone.Count++;
 }
 
 export function Get(identity: EntityCode, state: IGameState) {
@@ -62,12 +67,18 @@ export const Desc = {
 
     Get, Add,
     New,
-
-    // Included so as to be available for tests.
-    GetPlayerIndex, GetPlayerByIndex,
 } as IZoneDescription;
 
 export default Desc;
+
+/**
+ * GetPlayerCount returns the number of players in the Zone.
+ */
+export function GetPlayerCount(state: IGameState): number {
+    let zone = LazyZoneInit(GetZone(Self, state), New, state);
+    let asPlayersZone = AsPlayersZone(zone);
+    return asPlayersZone.Count;
+}
 
 /**
  * GetPlayerIndex returns the index associated with the given player.
@@ -89,5 +100,9 @@ export function GetPlayerByIndex(index: number, state: IGameState): IAsPlayer {
     if (identity === undefined) {
         throw Error(`unknown index entry at number ${identity}`);
     }
-    return this.Get(identity);
+    let found = Get(identity, state);
+    if (found === null) {
+        throw Error(`failed to Get player ${identity} after resolving index ${index}`);
+    }
+    return found;
 }

@@ -47,10 +47,6 @@ export function RegisterZone(desc: IZoneDescription) {
 }
 
 import Players from './Zones/Players';
-console.log('we are importing', Players);
-if (Players === undefined) {
-    throw Error('transitive dependency breaking Players import');
-}
 RegisterZone(Players);
 
 /**
