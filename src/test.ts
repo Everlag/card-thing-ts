@@ -39,6 +39,7 @@ export abstract class Test {
 
 export const PlayerOneEntityCode: EntityCode = 'f1r571';
 export const PlayerTwoEntityCode: EntityCode = '53c0nd';
+export const TertiaryPlayerEntityCode: EntityCode  = '73r7ry';
 export const ExternalEntityCode: EntityCode =  '3Xrn4l';
 
 export const PlayerDefaultHealth = 30;
@@ -69,6 +70,19 @@ function GetDefaultPlayerTwo(): IPlayerInit {
     };
 };
 
+function GetTertiaryPlayerThree(): IPlayerInit {
+    return {
+        Self: {
+            Identity: TertiaryPlayerEntityCode,
+
+            HasHealth: true,
+            Health: PlayerDefaultHealth,
+        },
+        Index: 2,
+        Behavior: PlayerBehavior.AlwaysPass,
+    };
+};
+
 export function GetDefaultPlayers(): Array<IPlayerInit> {
     return [
         GetDefaultPlayerOne(),
@@ -81,6 +95,9 @@ Object.freeze(PlayerOneInit);
 
 export const PlayerTwoInit: IPlayerInit = GetDefaultPlayerTwo();
 Object.freeze(PlayerTwoInit);
+
+export const PlayerTertiaryInit: IPlayerInit = GetTertiaryPlayerThree();
+Object.freeze(PlayerTertiaryInit);
 
 export const DefaultPlayers = GetDefaultPlayers();
 Object.freeze(DefaultPlayers);
