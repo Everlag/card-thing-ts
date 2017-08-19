@@ -13,6 +13,7 @@ import {
 import {
     getPlayerIndex,
 } from '../../Game/Game';
+import { GetPlayerByIndex } from '../../Zone/Zones/Players';
 
 export interface IDamageEffectPack extends IEffectPack {
     Damage: number;
@@ -42,7 +43,7 @@ export function Op(state: IGameState, pack: IEffectPack) {
     }
 
     let playerIndex = getPlayerIndex(state, damagePack.Targets[0]);
-    let player = state.players[playerIndex];
+    let player = GetPlayerByIndex(playerIndex, state);
 
     let entity = AsWithHealth(player);
     entity.Health -= damagePack.Damage;

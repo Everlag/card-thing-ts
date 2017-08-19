@@ -11,6 +11,7 @@ import {
 import {
     EntityCode,
 } from '../Entity/Header';
+import { GetPlayerByIndex } from '../Zone/Zones/Players';
 
 let queryRegister = new Map<PlayerBehavior, PlayerResponseQuery>();
 
@@ -36,7 +37,7 @@ export function GetPlayerResponse(player: EntityCode,
     if (player === undefined) {
         throw Error(`cannot GetPlayerResponse of unknown player ${player}`);
     }
-    let behavior = state.players[playerIndex].Behavior;
+    let behavior = GetPlayerByIndex(playerIndex, state).Behavior;
 
     let query: PlayerResponseQuery;
     if (behavior === PlayerBehavior.Query) {

@@ -10,6 +10,7 @@ import {
 import {
     PlayerResponseQuery,
 } from '../Player/Header';
+import { GetPlayerByIndex, GetPlayerCount } from '../Zone/Zones/Players';
 
 let operatorRegister = new Map<string, EffectOperator>();
 
@@ -24,8 +25,14 @@ export function RegisterEffect(desc: IEffectDescription) {
 // getPriorities returns an array of IEvent which will
 // give every player priority.
 export function getPriorities(state: IGameState): Array<IEvent> {
-    return state.players
-        .map(p => NewPlayerPriorityEvent(p.Identity));
+    // TODO: handle possibility of players being removed from the
+    //       the state. This relies on every player always existing and
+    //       their being indexed as monotonically increasing from 0.
+    let count = GetPlayerCount(state);
+    return Array.from(new Array(count)).map((_, i) => {
+        let identity = GetPlayerByIndex(i, state).Identity;
+        return NewPlayerPriorityEvent(identity);
+    });
 }
 
 import ThrowGuard from './Effects/ThrowGuard';
