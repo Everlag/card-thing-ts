@@ -1,8 +1,9 @@
 import * as G from './Game/Header';
 import { IEvent } from './Event/Header';
-import { IAsPlayer } from './Entity/Entities/AsPlayer';
 import { EntityCode } from './Entity/Header';
 import { IAsInterceptor } from './Entity/Entities/AsInterceptor';
+import { ZoneCode, IZone } from './Zone/Header';
+import { GetZone } from './Zone/Internal';
 
 import { diff as deepdiff } from 'deep-diff';
 
@@ -36,9 +37,9 @@ export interface IFilterState {
 
     StackHeight?: number;
 
-    // playerHas matches when all players in the map have
+    // zoneHas matches when all Zones in the map have
     // all specified properties with specified values.
-    playerHas?: Map<EntityCode, Map<PathString, String | number>>;
+    zoneHas?: Map<ZoneCode, Map<PathString, String | number>>;
 
     // interceptHas matches when the provided set of intercepts
     // exists in the provided order.
@@ -65,9 +66,9 @@ export function FilterMatches(s: G.IGameState,
         f.StackHeight, 'stackHeight');
     if (stackHeightMatch) return stackHeightMatch;
 
-    let filterMatchPlayers = FilterMatchPlayers(s.players,
-        f.playerHas);
-    if (filterMatchPlayers) return filterMatchPlayers;
+    let filterMatchZones = FilterMatchZones(s,
+        f.zoneHas);
+    if (filterMatchZones) return filterMatchZones;
 
     let interceptHasMAtch = FilterMatchSubArray(s.interceptors,
         f.interceptsHas, 'interceptHas');
@@ -94,16 +95,17 @@ export function FilterMatchString(state: String,
     ${state}`;
 }
 
-export function FilterMatchPlayers(state: Array<IAsPlayer>,
+export function FilterMatchZones(state: G.IGameState,
     expected: Map<EntityCode, Map<PathString, String | number>> | undefined): String | null {
 
     if (!expected) return null;
     let results = new Array<String | null>();
-    expected.forEach((propertyMatcher, entity) => {
-        let player = state.find(p => p.Identity === entity);
-        if (player === undefined) return `unknwon player ${entity}`;
+    expected.forEach((propertyMatcher, zoneCode) => {
+        // let player = state.find(p => p.Self.Identity === entity);
+        let zone = GetZone(zoneCode, state);
+        if (zone === null) return `unknown zone ${zoneCode}`;
 
-        results.push(FilterMatchPlayer(player, propertyMatcher));
+        results.push(FilterMatchPlayer(zone, propertyMatcher));
     });
 
     let filtered = results.filter(v => v !== null);
@@ -111,14 +113,15 @@ export function FilterMatchPlayers(state: Array<IAsPlayer>,
     return filtered.join('\n');
 }
 
-export function FilterMatchPlayer(state: IAsPlayer,
+export function FilterMatchPlayer(state: IZone,
     expected: Map<PathString, String | number>): String | null {
 
     if (expected === undefined) return null;
 
     let results = new Array<String | null>();
     expected.forEach((value, path) => {
-        let result = FilterMatchPath(path, state, value);
+        // We start delving in at Contents
+        let result = FilterMatchPath(path, state.Contents, value);
         results.push(result);
     });
 

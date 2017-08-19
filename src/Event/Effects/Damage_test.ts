@@ -5,15 +5,16 @@ import {
 import * as T from '../../test';
 import { TargetType } from './../Header';
 import Damage from './Damage';
+import Players from '../../Zone/Zones/Players';
 
 let cases: Array<TestCase> = [];
 
 (() => {
     let expected = new Map();
     expected.set(
-        T.PlayerTwoEntityCode,
+        Players.Self,
         new Map([[
-            'Health',
+            `${T.PlayerTwoEntityCode}.Health`,
             1,
         ]]),
     );
@@ -32,7 +33,7 @@ let cases: Array<TestCase> = [];
         'Damage decrement target player health to exactly 1',
         {
             StackHeight: 0,
-            playerHas: expected,
+            zoneHas: expected,
         },
     ]);
 })();
@@ -40,9 +41,9 @@ let cases: Array<TestCase> = [];
 (() => {
     let expected = new Map();
     expected.set(
-        T.PlayerTwoEntityCode,
+        Players.Self,
         new Map([[
-            'Health',
+            `${T.PlayerTwoEntityCode}.Health`,
             T.PlayerDefaultHealth,
         ]]),
     );
@@ -60,7 +61,7 @@ let cases: Array<TestCase> = [];
         'Damage of zero does nothing',
         {
             StackHeight: 0,
-            playerHas: expected,
+            zoneHas: expected,
         },
     ]);
 })();

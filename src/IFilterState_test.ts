@@ -8,6 +8,7 @@ import {
     IEvent, TargetType,
 } from './Event/Header';
 import { IAsInterceptor } from './Entity/Entities/AsInterceptor';
+import Players from './Zone/Zones/Players';
 
 // [state, expected, testName, expectedResult = true -> null]
 type TestCase = [G.GameState, F.IFilterState, String, boolean];
@@ -182,9 +183,9 @@ let expectedStackContents: Array<IEvent> = [
 
     let expected = new Map();
     expected.set(
-        T.PlayerOneEntityCode,
+        Players.Self,
         new Map([[
-            'Identity',
+            `${T.PlayerOneEntityCode}.Identity`,
             T.PlayerOneEntityCode,
         ]]),
     );
@@ -192,9 +193,9 @@ let expectedStackContents: Array<IEvent> = [
     cases.push([
         g,
         {
-            playerHas: expected,
+            zoneHas: expected,
         },
-        'matching playerHas - ensure own identity',
+        'matching zoneHas - ensure own identity',
         true,
     ]);
 })();
@@ -210,9 +211,9 @@ let expectedStackContents: Array<IEvent> = [
 
     let expected = new Map();
     expected.set(
-        T.PlayerOneEntityCode,
+        Players.Self,
         new Map([[
-            'Identity',
+            `${T.PlayerOneEntityCode}.Identity`,
             // Notice this references the second player,
             // this what causes the test failure.
             T.PlayerTwoEntityCode,
@@ -222,9 +223,9 @@ let expectedStackContents: Array<IEvent> = [
     cases.push([
         g,
         {
-            playerHas: expected,
+            zoneHas: expected,
         },
-        'mismatching playerHas - ensure wrong identity',
+        'mismatching zoneHas - ensure wrong identity',
         false,
     ]);
 })();
@@ -234,7 +235,7 @@ let expectedStackContents: Array<IEvent> = [
 
     let expected = new Map();
     expected.set(
-        T.PlayerOneEntityCode,
+        Players.Self,
         new Map([[
             'DoesNotExist.apples',
             T.PlayerOneEntityCode,
@@ -244,9 +245,9 @@ let expectedStackContents: Array<IEvent> = [
     cases.push([
         g,
         {
-            playerHas: expected,
+            zoneHas: expected,
         },
-        'mismatching playerHas - invalid path',
+        'mismatching zoneHas - invalid path',
         false,
     ]);
 })();
