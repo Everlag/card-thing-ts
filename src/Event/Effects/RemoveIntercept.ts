@@ -6,6 +6,8 @@ import {
 import {
     IGameState,
 } from '../../Game/Header';
+import Interceptors,
+    { RemoveInterceptor } from '../../Zone/Zones/Interceptors';
 
 export interface IRemoveInterceptorEffectPack extends IEffectPack {
     // MustMatch causes the Effect to throw if it cannot match a target.
@@ -40,9 +42,7 @@ export function Op(state: IGameState, pack: IEffectPack) {
     let someMatch = false;
     let allMatch = true;
     pack.Targets.forEach(t => {
-        let found = state.interceptors.some(intercept => {
-            return intercept.Identity === t;
-        });
+        let found = Interceptors.Get(t, state) != null;
         someMatch = found || someMatch;
         allMatch = found && allMatch;
     });
@@ -66,10 +66,7 @@ export function Op(state: IGameState, pack: IEffectPack) {
     }
 
     // Remove targets
-    state.interceptors = state.interceptors
-        .filter(i => {
-            return !pack.Targets.some(target => target === i.Identity);
-        });
+    pack.Targets.forEach(t => RemoveInterceptor(t, state));
 
     return state;
 }

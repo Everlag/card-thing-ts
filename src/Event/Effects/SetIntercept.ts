@@ -15,9 +15,11 @@ import { IAsInterceptor } from '../../Entity/Entities/AsInterceptor';
 import {
     NewEntityCode,
 } from '../../Entity/EntityCode';
+import Interceptors from '../../Zone/Zones/Interceptors';
 import RemoveIntercept,
     { IRemoveInterceptorEffectPack } from './RemoveIntercept';
 import Affix, { IAffixMutator, AffixMutatorPlacment } from '../Mutators/Affix';
+
 
 export interface ISetInterceptorEffectPack extends IEffectPack {
     Filter: IEffectPackFilter;
@@ -83,7 +85,7 @@ function registerExpiry(state: IGameState,
             Placement: AffixMutatorPlacment.After,
         } as IAffixMutator,
     };
-    state.interceptors.push(expiryInterceptor);
+    Interceptors.Add(expiryInterceptor, state);
 
     return state;
 }
@@ -119,7 +121,7 @@ export function Op(state: IGameState, pack: IEffectPack) {
         Mutator: interceptorPack.Mutator,
     };
 
-    state.interceptors.push(interceptor);
+    Interceptors.Add(interceptor, state);
 
     // Register expiry if declared
     if (interceptorPack.Expiry) {

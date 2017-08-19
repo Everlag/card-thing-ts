@@ -49,6 +49,9 @@ export function RegisterZone(desc: IZoneDescription) {
 import Players from './Zones/Players';
 RegisterZone(Players);
 
+import Interceptors from './Zones/Interceptors';
+RegisterZone(Interceptors);
+
 /**
  * FindEntity resolves a provided EntityCode and TargetType
  * to a specific Entity.

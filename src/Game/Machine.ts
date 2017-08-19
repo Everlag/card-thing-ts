@@ -10,6 +10,9 @@ import { ApplyEffect } from '../Event/Effect';
 import { CheckFilter } from '../Event/Filter';
 import { ApplyMutator } from '../Event/Mutator';
 
+import Interceptors,
+    { GetOrderedInterceptors } from '../Zone/Zones/Interceptors';
+
 export abstract class GameMachine {
     constructor(public state: IGameState) { }
 
@@ -38,7 +41,10 @@ export abstract class GameMachine {
      * All matching interceptors will be applied to the EffectPack.
      */
     public executeEffect(e: IEffectPack) {
-        let mutated = this.state.interceptors.reduce((packs, intercept) => {
+        let interceptors = GetOrderedInterceptors(this.state).map(code => {
+            return Interceptors.Get(code, this.state);
+        });
+        let mutated = interceptors.reduce((packs, intercept) => {
             let intercepted = packs.map(p => {
                 // Remove nulled Effects before they reach the filter.
                 // This is necessary as filters get unhappy with
