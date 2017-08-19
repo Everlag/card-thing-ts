@@ -39,6 +39,8 @@ export function IPlayerInitToPlayer(init: IPlayerInit): IAsPlayer {
     };
 }
 
+import Players from '../Zone/Zones/Players';
+
 export class GameState implements IGameState {
     public seed: number;
 
@@ -55,6 +57,10 @@ export class GameState implements IGameState {
     constructor(players: Array<IPlayerInit>, seed = 0) {
         if (players.length < 2) throw Error('need at least two players');
         this.players = players.map(p => IPlayerInitToPlayer(p));
+
+        players
+            .map(p => IPlayerInitToPlayer(p))
+            .forEach(p => Players.Add(p, this));
 
         // CurrentTurn defaults to the first player entered into the state
         this.currentTurn = this.players[0].Identity;

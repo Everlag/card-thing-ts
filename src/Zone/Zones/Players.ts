@@ -1,6 +1,8 @@
 import { IZone, IZoneDescription, ZoneAssertFail } from '../Header';
 import { IGameState } from '../../Game/Header';
-import { AddEntity, GetEntity, GetZone, NewZone } from '../Internal';
+import {
+    AddEntity, GetEntity, GetZone, NewZone, LazyZoneInit,
+} from '../Internal';
 import { AsPlayer, IAsPlayer } from '../../Entity/Entities/AsPlayer';
 
 import { IEntity, EntityCode } from '../../Entity/Header';
@@ -28,7 +30,7 @@ export function New(): IPlayersZone {
 }
 
 export function Add(entity: IEntity, state: IGameState) {
-    let zone = GetZone(Self, state);
+    let zone = LazyZoneInit(GetZone(Self, state), New, state);
     let asPlayersZone = AsPlayersZone(zone);
     let asPlayer = AsPlayer(entity);
 
@@ -44,7 +46,7 @@ export function Add(entity: IEntity, state: IGameState) {
 }
 
 export function Get(identity: EntityCode, state: IGameState) {
-    let zone = GetZone(Self, state);
+    let zone = LazyZoneInit(GetZone(Self, state), New, state);
     let entity = GetEntity(identity, zone);
     if (entity === null) return null;
     return AsPlayer(entity);
@@ -80,7 +82,7 @@ export function GetPlayerIndex(identity: EntityCode, state: IGameState): number 
  * GetPlayerByIndex returns the player associated with the given index.
  */
 export function GetPlayerByIndex(index: number, state: IGameState): IAsPlayer {
-    let zone = GetZone(Self, state);
+    let zone = LazyZoneInit(GetZone(Self, state), New, state);
     let asPlayersZone = AsPlayersZone(zone);
 
     let identity = asPlayersZone.IndexToIdentity[index];

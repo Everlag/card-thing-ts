@@ -8,7 +8,7 @@ let cases: Array<TestCase> = [];
 (() => {
     cases.push([
         {
-            Identity: T.PlayerOneEntityCode,
+            Identity: T.TertiaryPlayerEntityCode,
         },
         Players.Self,
         Players.TargetTypes.Player,
@@ -19,7 +19,7 @@ let cases: Array<TestCase> = [];
 
     cases.push([
         {
-            Identity: T.PlayerOneEntityCode,
+            Identity: T.TertiaryPlayerEntityCode,
         },
         Players.Self,
         Players.TargetTypes.Player,
@@ -29,7 +29,7 @@ let cases: Array<TestCase> = [];
     ]);
 
     cases.push([
-        IPlayerInitToPlayer(T.PlayerOneInit),
+        IPlayerInitToPlayer(T.PlayerTertiaryInit),
         Players.Self,
         Players.TargetTypes.Player,
         'Players find succeeds when given valid Player',
@@ -38,7 +38,7 @@ let cases: Array<TestCase> = [];
     ]);
 
     cases.push([
-        IPlayerInitToPlayer(T.PlayerOneInit),
+        IPlayerInitToPlayer(T.PlayerTertiaryInit),
         Players.Self,
         Players.TargetTypes.Player,
         'Players add succeeds when given valid Player',

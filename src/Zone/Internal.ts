@@ -1,9 +1,6 @@
 import {
-    ZoneCode, IZone,
+    ZoneCode, IZone, NewZoneOperator,
 } from './Header';
-import {
-    zoneRegister,
-} from './Zone';
 import {
     IGameState,
 } from '../Game/Header';
@@ -62,21 +59,32 @@ export function NewZone(zone: ZoneCode): IZone {
 /**
  * GetZone returns the zone specified in ZoneCode.
  *
- * GetZone will lazily instantiate the Zone if it does not exist.
- * This allows IGameState to require no knowledge about what
- * Zones have been registered.
+ * GetZone returns null if it cannot find the Zone.
+ * This indicates that the Zone should be initialized by the caller.
  *
  * NOTE: this is for Zone-internal usage only.
  */
-export function GetZone(zone: ZoneCode, state: IGameState): IZone {
+export function GetZone(zone: ZoneCode, state: IGameState): IZone | null {
 
     let z = state.zones[zone];
-    if (z === undefined) {
-        let desc = zoneRegister.get(zone);
-        if (desc === undefined) throw Error(`cannot access unregistered zone ${zone}`);
-        z = desc.New();
-        state.zones[zone] = z;
-    }
+    if (z === undefined) return null;
 
     return z;
+}
+
+/**
+ * LazyZoneInit initializes the passed IZone if it is null.
+ *
+ * This allows zones to be created lazily without requiring significant
+ * boilerplate in the GameState
+ * @param zone
+ */
+export function LazyZoneInit(zone: IZone | null,
+    newOp: NewZoneOperator, state: IGameState): IZone {
+
+    if (zone === null) {
+        zone = newOp();
+        state.zones[zone.Self] = zone;
+    }
+    return zone;
 }

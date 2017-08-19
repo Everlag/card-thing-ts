@@ -8,6 +8,7 @@ import {
 import {
     GetZone,
     AddEntity,
+    LazyZoneInit,
 } from './Internal';
 import {
     ZoneCode, TargetType,
@@ -38,14 +39,14 @@ class ZoneTest extends T.Test {
 
         let state = new GameState(T.GetDefaultPlayers());
 
+        let desc = zoneRegister.get(zone);
+        if (desc === undefined) throw Error(`unknown zone ${zone}`);
+        let z = LazyZoneInit(GetZone(zone, state), desc.New, state);
+
         let didThrow = false;
-        let z = GetZone(zone, state);
         try {
             switch (operation) {
                 case 'add':
-                    let desc = zoneRegister.get(zone);
-                    if (desc === undefined) throw Error(`unknown zone ${zone}`);
-
                     desc.Add(entity, state);
                     break;
                 case 'find':

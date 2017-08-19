@@ -20,6 +20,7 @@ let targetTypeRegister = new Map<TargetType, Array<ZoneCode>>();
  * as our targetTypeRegister when resolving a TargetType to a specific zone
  */
 export function RegisterZone(desc: IZoneDescription) {
+    console.log('I have description desc', desc);
     if (zoneRegister.has(desc.Self)) {
         throw Error(`duplicated identifier for ${desc.Self}`);
     }
@@ -46,6 +47,10 @@ export function RegisterZone(desc: IZoneDescription) {
 }
 
 import Players from './Zones/Players';
+console.log('we are importing', Players);
+if (Players === undefined) {
+    throw Error('transitive dependency breaking Players import');
+}
 RegisterZone(Players);
 
 /**
