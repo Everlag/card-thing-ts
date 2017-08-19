@@ -5,6 +5,9 @@ import { IAsInterceptor } from './Entity/Entities/AsInterceptor';
 import { ZoneCode, IZone } from './Zone/Header';
 import { GetZone } from './Zone/Internal';
 
+import Interceptors,
+    { GetOrderedInterceptors } from './Zone/Zones/Interceptors';
+
 import { diff as deepdiff } from 'deep-diff';
 
 function diffString(a: any, b: any): String {
@@ -73,11 +76,14 @@ export function FilterMatches(s: G.IGameState,
         f.zonePathHas);
     if (filterMatchZones) return filterMatchZones;
 
-    let interceptHasMAtch = FilterMatchSubArray(s.interceptors,
+    // TODO: correct to generic, ZoneHas with acceptable handling.
+    let interceptors = GetOrderedInterceptors(s)
+        .map(i => Interceptors.Get(i, s));
+    let interceptHasMatch = FilterMatchSubArray(interceptors,
         f.interceptsHas, 'interceptHas');
-    if (interceptHasMAtch) return interceptHasMAtch;
+    if (interceptHasMatch) return interceptHasMatch;
 
-    let interceptCountMatch = FilterMatchLength(s.interceptors,
+    let interceptCountMatch = FilterMatchLength(interceptors,
         f.interceptCount, 'interceptCount');
     if (interceptCountMatch) return interceptCountMatch;
 

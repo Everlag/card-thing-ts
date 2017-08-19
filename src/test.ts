@@ -41,6 +41,7 @@ export const PlayerOneEntityCode: EntityCode = 'f1r571';
 export const PlayerTwoEntityCode: EntityCode = '53c0nd';
 export const TertiaryPlayerEntityCode: EntityCode  = '73r7ry';
 export const ExternalEntityCode: EntityCode =  '3Xrn4l';
+export const OtherEntityCode: EntityCode =  '07h3rr';
 
 export const PlayerDefaultHealth = 30;
 

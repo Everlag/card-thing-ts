@@ -5,7 +5,6 @@ import {
     IEvent,
 } from '../Event/Header';
 import { EntityCode } from '../Entity/Header';
-import { IAsInterceptor } from '../Entity/Entities/AsInterceptor';
 import { IAsPlayer } from '../Entity/Entities/AsPlayer';
 import { IZoneCollection } from '../Zone/Header';
 import RNG from '../seeded_rng';
@@ -47,8 +46,6 @@ export class GameState implements IGameState {
     public stack: IGameStack = new GameStack();
 
     public zones: IZoneCollection = {};
-
-    public interceptors: Array<IAsInterceptor> = [];
 
     public currentTurn: EntityCode;
 

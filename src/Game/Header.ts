@@ -21,7 +21,6 @@ export interface IGameStack {
 export interface IGameState {
     seed: number;
     stack: IGameStack;
-    interceptors: Array<IAsInterceptor>;
     zones: IZoneCollection;
     currentTurn: EntityCode;
 }

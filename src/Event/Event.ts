@@ -97,7 +97,7 @@ export function NewSetInterceptEvent(source: EntityCode,
 import RemoveIntercept,
     { IRemoveInterceptorEffectPack } from './Effects/RemoveIntercept';
 export function NewRemoveInterceptEvent(source: EntityCode, target: EntityCode,
-    mustMatch: string): IEvent {
+    mustMatch: 'all' | 'some' | undefined): IEvent {
 
     return {
         Effects: [

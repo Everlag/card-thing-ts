@@ -20,7 +20,6 @@ import RemoveIntercept,
     { IRemoveInterceptorEffectPack } from './RemoveIntercept';
 import Affix, { IAffixMutator, AffixMutatorPlacment } from '../Mutators/Affix';
 
-
 export interface ISetInterceptorEffectPack extends IEffectPack {
     Filter: IEffectPackFilter;
     Mutator: IEffectPackMutator;

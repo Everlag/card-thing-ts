@@ -8,6 +8,7 @@ import {
     IEvent, TargetType,
 } from './Event/Header';
 import { IAsInterceptor } from './Entity/Entities/AsInterceptor';
+import Interceptors from './Zone/Zones/Interceptors';
 import Players from './Zone/Zones/Players';
 
 // [state, expected, testName, expectedResult = true -> null]
@@ -254,6 +255,7 @@ let expectedStackContents: Array<IEvent> = [
 
 let expectedInterceptorContents: Array<IAsInterceptor> = [
     {
+        IsInterceptor: true,
         Identity: T.ExternalEntityCode,
         Filter: {},
         Mutator: {
@@ -264,7 +266,8 @@ let expectedInterceptorContents: Array<IAsInterceptor> = [
 
 let fluffInterceptorContents: Array<IAsInterceptor> = [
     {
-        Identity: T.ExternalEntityCode,
+        IsInterceptor: true,
+        Identity: T.OtherEntityCode,
         Filter: {Null: true},
         Mutator: {
             Mutator: 'some-mutator',
@@ -275,7 +278,7 @@ let fluffInterceptorContents: Array<IAsInterceptor> = [
 (() => {
     let g = new G.GameState(T.DefaultPlayers);
 
-    g.interceptors.push(...expectedInterceptorContents);
+    expectedInterceptorContents.forEach(i => Interceptors.Add(i, g));
 
     cases.push([
         g,
@@ -290,8 +293,8 @@ let fluffInterceptorContents: Array<IAsInterceptor> = [
 (() => {
     let g = new G.GameState(T.DefaultPlayers);
 
-    g.interceptors.push(...expectedInterceptorContents);
-    g.interceptors.push(...fluffInterceptorContents);
+    expectedInterceptorContents.forEach(i => Interceptors.Add(i, g));
+    fluffInterceptorContents.forEach(i => Interceptors.Add(i, g));
 
     cases.push([
         g,
@@ -319,7 +322,7 @@ let fluffInterceptorContents: Array<IAsInterceptor> = [
 (() => {
     let g = new G.GameState(T.DefaultPlayers);
 
-    g.interceptors.push(...fluffInterceptorContents);
+    fluffInterceptorContents.forEach(i => Interceptors.Add(i, g));
 
     cases.push([
         g,
@@ -347,7 +350,7 @@ let fluffInterceptorContents: Array<IAsInterceptor> = [
 (() => {
     let g = new G.GameState(T.DefaultPlayers);
 
-    g.interceptors.push(...expectedInterceptorContents);
+    expectedInterceptorContents.forEach(i => Interceptors.Add(i, g));
 
     cases.push([
         g,
@@ -375,7 +378,7 @@ let fluffInterceptorContents: Array<IAsInterceptor> = [
 (() => {
     let g = new G.GameState(T.DefaultPlayers);
 
-    g.interceptors.push(...expectedInterceptorContents);
+    expectedInterceptorContents.forEach(i => Interceptors.Add(i, g));
 
     cases.push([
         g,

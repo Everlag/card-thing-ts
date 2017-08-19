@@ -5,9 +5,7 @@ import {
 import * as T from '../../test';
 import { IAsInterceptor } from '../../Entity/Entities/AsInterceptor';
 import { NewEntityCode } from '../../Entity/EntityCode';
-import {
-    TargetType,
-} from './../Header';
+import Interceptors from '../../Zone/Zones/Interceptors';
 import RemoveIntercept,
     { IRemoveInterceptorEffectPack } from './RemoveIntercept';
 
@@ -32,14 +30,14 @@ let fakeMutator = 'some-mutator';
             Mutator: fakeMutator,
         },
     } as IAsInterceptor;
-    state.interceptors.push(interceptor);
+    [interceptor].forEach(i => Interceptors.Add(i, state));
 
     cases.push([
         state,
         {
             Source: T.PlayerOneEntityCode,
             Targets: [identityToRemove],
-            TargetType: TargetType.Interceptor,
+            TargetType: Interceptors.TargetTypes.Interceptor,
             Effect: RemoveIntercept.Self,
 
             MustMatch: 'all',
@@ -77,14 +75,14 @@ let fakeMutator = 'some-mutator';
             Mutator: fakeMutator,
         },
     } as IAsInterceptor;
-    state.interceptors.push(...[fluff, interceptor]);
+    [...[fluff, interceptor]].forEach(i => Interceptors.Add(i, state));
 
     cases.push([
         state,
         {
             Source: T.PlayerOneEntityCode,
             Targets: [identityToRemove],
-            TargetType: TargetType.Interceptor,
+            TargetType: Interceptors.TargetTypes.Interceptor,
             Effect: RemoveIntercept.Self,
 
             MustMatch: 'all',
@@ -115,14 +113,14 @@ let fakeMutator = 'some-mutator';
             Mutator: fakeMutator,
         },
     } as IAsInterceptor;
-    state.interceptors.push(interceptor);
+    [interceptor].forEach(i => Interceptors.Add(i, state));
 
     cases.push([
         state,
         {
             Source: T.PlayerOneEntityCode,
             Targets: [identityToRemove, T.ExternalEntityCode],
-            TargetType: TargetType.Interceptor,
+            TargetType: Interceptors.TargetTypes.Interceptor,
             Effect: RemoveIntercept.Self,
 
             MustMatch: 'some',
@@ -153,14 +151,14 @@ let fakeMutator = 'some-mutator';
         },
     } as IAsInterceptor;
     // We did not create the identityToRemove interceptor, so it cannot exist
-    state.interceptors.push(fluff);
+    [fluff].forEach(i => Interceptors.Add(i, state));
 
     cases.push([
         state,
         {
             Source: T.PlayerOneEntityCode,
             Targets: [identityToRemove],
-            TargetType: TargetType.Interceptor,
+            TargetType: Interceptors.TargetTypes.Interceptor,
             Effect: RemoveIntercept.Self,
 
             MustMatch: undefined,

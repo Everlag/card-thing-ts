@@ -12,6 +12,7 @@ export interface IEffectDescription {
 
 export type Effect = string;
 
+// TODO: migrate to correct Zone-based handling
 export enum TargetType {
     Global = 'global',
     Player = 'player',
@@ -21,7 +22,8 @@ export enum TargetType {
 export interface IEffectPack {
     Source: EntityCode;
     Targets: Array<EntityCode>;
-    TargetType: TargetType;
+    // TODO: migrate to correct Zone-based handling
+    TargetType: string;
     Effect: Effect;
 
     // Allow properties which weren't specifically defined here to
