@@ -1,6 +1,6 @@
 import * as G from './Game/Header';
 import { IEvent } from './Event/Header';
-import { EntityCode } from './Entity/Header';
+import { EntityCode, IEntity } from './Entity/Header';
 import { IAsInterceptor } from './Entity/Entities/AsInterceptor';
 import { ZoneCode, IZone } from './Zone/Header';
 import { GetZone } from './Zone/Internal';
@@ -47,6 +47,11 @@ export interface IFilterState {
     // characteristics than using zoneContains for an exact, ordered match
     zonePathHas?: Map<ZoneCode, Map<PathString, String | number>>;
 
+    // zoneHas matches when all Zones in the map have all
+    // IEntities existing within their ordered representation
+    // in the provided order.
+    zoneHas?: Map<ZoneCode, Array<IEntity>>;
+
     // interceptHas matches when the provided set of intercepts
     // exists in the provided order.
     interceptsHas?: Array<IAsInterceptor>;
@@ -72,9 +77,12 @@ export function FilterMatches(s: G.IGameState,
         f.StackHeight, 'stackHeight');
     if (stackHeightMatch) return stackHeightMatch;
 
-    let filterMatchZones = FilterMatchZones(s,
+    let filterMatchZonePathHas = FilterMatchZones(s,
         f.zonePathHas);
-    if (filterMatchZones) return filterMatchZones;
+    if (filterMatchZonePathHas) return filterMatchZonePathHas;
+
+    let filterMatchZoneHasExact = FilterMatchZonesHas(s, f.zoneHas);
+    if (filterMatchZoneHasExact) return filterMatchZoneHasExact;
 
     // TODO: correct to generic, ZoneHas with acceptable handling.
     let interceptors = GetOrderedInterceptors(s)
@@ -166,11 +174,42 @@ function FilterMatchPath(path: PathString,
     return null;
 }
 
+export function FilterMatchZonesHas(state: G.IGameState,
+    expected: Map<ZoneCode, Array<IEntity>> | undefined): String | null {
+
+    if (!expected) return null;
+    let results = new Array<String | null>();
+    expected.forEach((knownGood, zoneCode) => {
+        let zone = GetZone(zoneCode, state);
+        if (zone === null) {
+            // Zones need to be explicitly prepared ahead of time.
+            // This can be as simple as adding and removing an Entity
+            // when you need an empty zone.
+            throw `unknown zone ${zoneCode}`;
+        }
+
+        let asArray = zone.Ordered.map(entity => {
+            if (zone === null) throw Error(`known non-null zone is null`);
+            return zone.Contents[entity];
+        });
+        console.log('ordered are', zone.Ordered);
+        console.log('the zone is', zone);
+        results.push(FilterMatchSubArray(asArray, knownGood, 'zoneHas'));
+    });
+
+    let filtered = results.filter(v => v !== null);
+    if (filtered.length === 0) return null;
+    return filtered.join('\n');
+}
+
 export function FilterMatchSubArray(state: Array<any>,
     expected: Array<any> | undefined,
     propertyName: String): String | null {
 
     if (expected === undefined) return null;
+    if (expected.length > state.length) {
+        return 'mismatched lengths on input';
+    }
 
     let stateSerial = state.map(item => JSON.stringify(item, null, 2));
     let expectedSerial = expected.map(item => JSON.stringify(item, null, 2));

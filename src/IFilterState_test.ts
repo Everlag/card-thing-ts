@@ -8,8 +8,10 @@ import {
     IEvent, TargetType,
 } from './Event/Header';
 import { IAsInterceptor } from './Entity/Entities/AsInterceptor';
-import Interceptors from './Zone/Zones/Interceptors';
 import Players from './Zone/Zones/Players';
+import Interceptors, {
+    RemoveInterceptor, GetOrderedInterceptors,
+} from './Zone/Zones/Interceptors';
 
 // [state, expected, testName, expectedResult = true -> null]
 type TestCase = [G.GameState, F.IFilterState, String, boolean];
@@ -275,6 +277,10 @@ let fluffInterceptorContents: Array<IAsInterceptor> = [
     } as IAsInterceptor,
 ];
 
+let expectedInterceptorZoneHas = new Map();
+expectedInterceptorZoneHas.set(Interceptors.Self,
+    expectedInterceptorContents);
+
 (() => {
     let g = new G.GameState(T.DefaultPlayers);
 
@@ -283,9 +289,9 @@ let fluffInterceptorContents: Array<IAsInterceptor> = [
     cases.push([
         g,
         {
-            interceptsHas: expectedInterceptorContents,
+            zoneHas: expectedInterceptorZoneHas,
         },
-        'matching intercept subset - complete match',
+        'matching zone subset - complete match',
         true,
     ]);
 })();
@@ -299,9 +305,9 @@ let fluffInterceptorContents: Array<IAsInterceptor> = [
     cases.push([
         g,
         {
-            interceptsHas: expectedInterceptorContents,
+            zoneHas: expectedInterceptorZoneHas,
         },
-        'matching intercept subset - offset subset match',
+        'matching zone subset - offset subset match',
         true,
     ]);
 })();
@@ -309,12 +315,20 @@ let fluffInterceptorContents: Array<IAsInterceptor> = [
 (() => {
     let g = new G.GameState(T.DefaultPlayers);
 
+    // We need to force the zone to be created
+    fluffInterceptorContents.forEach(i => Interceptors.Add(i, g));
+    fluffInterceptorContents.forEach(i => RemoveInterceptor(i.Identity, g));
+
+    if (GetOrderedInterceptors(g).length > 0) {
+        throw Error('expected empty zone is not empty');
+    }
+
     cases.push([
         g,
         {
-            interceptsHas: expectedInterceptorContents,
+            zoneHas: expectedInterceptorZoneHas,
         },
-        'mismatching intercept subset - empty',
+        'mismatching zone subset - empty',
         false,
     ]);
 })();
@@ -327,9 +341,9 @@ let fluffInterceptorContents: Array<IAsInterceptor> = [
     cases.push([
         g,
         {
-            interceptsHas: expectedInterceptorContents,
+            zoneHas: expectedInterceptorZoneHas,
         },
-        'mismatching intercept subset - not present',
+        'mismatching zone subset - not present',
         false,
     ]);
 })();
