@@ -1,4 +1,4 @@
-import { EntityCode } from './Entity/Header';
+import { EntityCode, IEntity } from './Entity/Header';
 import { IPlayerInit } from './Game/Header';
 import { PlayerBehavior } from './Player/Header';
 import { ZoneCode } from './Zone/Header';
@@ -134,4 +134,19 @@ export function NewExpectedCount(zoneCode: ZoneCode,
     let expectedCount = new Map();
     expectedCount.set(zoneCode, count);
     return expectedCount;
+}
+
+/**
+ * NewExpectedContents provides a shorthand for generating a
+ * Map which will satisfy the zoneHas field of IFilterState
+ * for exactly one zone.
+ * @param zoneCode ZoneCode of registered Zone to specify.
+ * @param count The Entities expected to exist within the Zone.
+ */
+export function NewExpectedContents(zoneCode: ZoneCode,
+    contents: Array<IEntity>): Map<ZoneCode, Array<IEntity>> {
+
+    let expected = new Map();
+    expected.set(zoneCode, contents);
+    return expected;
 }

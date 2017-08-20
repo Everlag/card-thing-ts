@@ -277,8 +277,7 @@ let fluffInterceptorContents: Array<IAsInterceptor> = [
     } as IAsInterceptor,
 ];
 
-let expectedInterceptorZoneHas = new Map();
-expectedInterceptorZoneHas.set(Interceptors.Self,
+let expectedInterceptorZoneHas = T.NewExpectedContents(Interceptors.Self,
     expectedInterceptorContents);
 
 // forceInterceptorsZoneExistence ensures that the interceptors
