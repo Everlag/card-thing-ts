@@ -1,6 +1,7 @@
 import { EntityCode } from './Entity/Header';
 import { IPlayerInit } from './Game/Header';
 import { PlayerBehavior } from './Player/Header';
+import { ZoneCode } from './Zone/Header';
 
 // Expect tests that the serialized expected and got will be equivalent
 // If not equivalent, we throw either the providied message or a generic error.
@@ -118,4 +119,19 @@ export function GetDefaultPlayersWithMods(...mods: Array<DefaultPlayerInitMod>):
 export function AlwaysQuery(initial: IPlayerInit): IPlayerInit {
     initial.Behavior = PlayerBehavior.Query;
     return initial;
+}
+
+/**
+ * NewExpectedCount provides a shorthand for generating a
+ * Map which will satisfy the zoneCount field of IFilterState
+ * for exactly one zone.
+ * @param zoneCode ZoneCode of registered Zone to specify.
+ * @param count The number of Entities within the Zone expected to exist.
+ */
+export function NewExpectedCount(zoneCode: ZoneCode,
+    count: number): Map<ZoneCode, number> {
+
+    let expectedCount = new Map();
+    expectedCount.set(zoneCode, count);
+    return expectedCount;
 }

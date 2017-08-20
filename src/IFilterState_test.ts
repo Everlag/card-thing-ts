@@ -363,8 +363,7 @@ let forceInterceptorsZoneExistence = (g: G.GameState) => {
 
     forceInterceptorsZoneExistence(g);
 
-    let expectedCount = new Map();
-    expectedCount.set(Interceptors.Self, 0);
+    let expectedCount = T.NewExpectedCount(Interceptors.Self, 0);
 
     cases.push([
         g,
@@ -381,8 +380,7 @@ let forceInterceptorsZoneExistence = (g: G.GameState) => {
 
     expectedInterceptorContents.forEach(i => Interceptors.Add(i, g));
 
-    let expectedCount = new Map();
-    expectedCount.set(Interceptors.Self,
+    let expectedCount = T.NewExpectedCount(Interceptors.Self,
         expectedInterceptorContents.length);
 
     cases.push([
@@ -400,8 +398,7 @@ let forceInterceptorsZoneExistence = (g: G.GameState) => {
 
     forceInterceptorsZoneExistence(g);
 
-    let expectedCount = new Map();
-    expectedCount.set(Interceptors.Self, 10);
+    let expectedCount = T.NewExpectedCount(Interceptors.Self, 10);
 
     cases.push([
         g,
@@ -418,8 +415,7 @@ let forceInterceptorsZoneExistence = (g: G.GameState) => {
 
     expectedInterceptorContents.forEach(i => Interceptors.Add(i, g));
 
-    let expectedCount = new Map();
-    expectedCount.set(Interceptors.Self,
+    let expectedCount = T.NewExpectedCount(Interceptors.Self,
         expectedInterceptorContents.length + 1);
 
     cases.push([
