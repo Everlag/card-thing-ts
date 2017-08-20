@@ -89,5 +89,7 @@ export function RemoveInterceptor(identity: EntityCode,
         return v !== identity;
     });
 
+    asInterceptorsZone.Count--;
+
     return true;
 }
