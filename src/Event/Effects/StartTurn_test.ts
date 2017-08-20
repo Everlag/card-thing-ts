@@ -4,7 +4,7 @@ import {
 } from '../../Game/Game';
 import * as T from '../../test';
 import { GlobalStateEntityCode} from '../../Entity/Header';
-import { TargetType } from './../Header';
+import Global from '../../Zone/Zones/Global';
 import {
     NewEndTurnEvent, NewPlayerPriorityEvent,
 } from './../Event';
@@ -24,7 +24,7 @@ let cases: Array<TestCase> = [];
         {
             Source: GlobalStateEntityCode,
             Targets: [T.PlayerOneEntityCode],
-            TargetType: TargetType.Global,
+            TargetType: Global.TargetTypes.Global,
             Effect: StartTurn.Self,
         },
         'StartTurn empty state',

@@ -3,7 +3,6 @@ import {
     GameState,
 } from '../../Game/Game';
 import * as T from '../../test';
-import { TargetType } from './../Header';
 import Damage from './Damage';
 import Players from '../../Zone/Zones/Players';
 
@@ -24,7 +23,7 @@ let cases: Array<TestCase> = [];
         {
             Source: T.PlayerOneEntityCode,
             Targets: [T.PlayerTwoEntityCode],
-            TargetType: TargetType.Player,
+            TargetType: Players.TargetTypes.Player,
             Effect: Damage.Self,
 
             // Ensure their health is reduced to exactly 1
@@ -53,7 +52,7 @@ let cases: Array<TestCase> = [];
         {
             Source: T.PlayerOneEntityCode,
             Targets: [T.PlayerTwoEntityCode],
-            TargetType: TargetType.Player,
+            TargetType: Players.TargetTypes.Player,
             Effect: Damage.Self,
 
             Damage: 0,

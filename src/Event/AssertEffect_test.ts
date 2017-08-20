@@ -1,8 +1,9 @@
 import * as T from '../test';
 import {
-    IEffectPack, TargetType,
+    IEffectPack,
     IEffectPackAssert, EffectPackAssertError,
 } from './Header';
+import Players from '../Zone/Zones/Players';
 
 type TestCase = [IEffectPack, IEffectPackAssert, String, boolean];
 
@@ -14,7 +15,7 @@ import Damage, { AsDamage } from './Effects/Damage';
         {
             Source: T.PlayerOneEntityCode,
             Targets: [T.PlayerTwoEntityCode],
-            TargetType: TargetType.Player,
+            TargetType: Players.TargetTypes.Player,
             Effect: Damage.Self,
         },
         AsDamage,
@@ -29,7 +30,7 @@ import EndTurn from './Effects/EndTurn';
         {
             Source: T.PlayerOneEntityCode,
             Targets: [T.PlayerTwoEntityCode],
-            TargetType: TargetType.Player,
+            TargetType: Players.TargetTypes.Player,
             Effect: EndTurn.Self,
         },
         AsDamage,

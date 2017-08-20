@@ -9,9 +9,10 @@ import {
 import { IAsInterceptor } from '../../Entity/Entities/AsInterceptor';
 import { NewEntityCode } from '../../Entity/EntityCode';
 import {
-    TargetType, IEffectPackFilter,
+    IEffectPackFilter,
 } from './../Header';
 import Interceptors from '../../Zone/Zones/Interceptors';
+import Global from '../../Zone/Zones/Global';
 import SetIntercept, { ISetInterceptorEffectPack } from './SetIntercept';
 import RemoveIntercept from './RemoveIntercept';
 import Affix,
@@ -49,7 +50,7 @@ let fakeEffect = 'some-effect';
         {
             Source: T.PlayerOneEntityCode,
             Targets: [GlobalStateEntityCode],
-            TargetType: TargetType.Global,
+            TargetType: Global.TargetTypes.Global,
             Effect: SetIntercept.Self,
 
             Filter: interceptor.Filter,
@@ -106,7 +107,7 @@ let fakeEffect = 'some-effect';
                     Targets: [
                         interceptorIdentity,
                     ],
-                    TargetType: TargetType.Interceptor,
+                    TargetType: Interceptors.TargetTypes.Interceptor,
                     Effect: RemoveIntercept.Self,
                   },
                   {
@@ -114,7 +115,7 @@ let fakeEffect = 'some-effect';
                     Targets: [
                         expiryIdentity,
                     ],
-                    TargetType: TargetType.Interceptor,
+                    TargetType: Interceptors.TargetTypes.Interceptor,
                     Effect: RemoveIntercept.Self,
                   },
             ],
@@ -128,7 +129,7 @@ let fakeEffect = 'some-effect';
         {
             Source: T.PlayerOneEntityCode,
             Targets: [GlobalStateEntityCode],
-            TargetType: TargetType.Global,
+            TargetType: Global.TargetTypes.Global,
             Effect: SetIntercept.Self,
 
             Filter: interceptor.Filter,

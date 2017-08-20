@@ -1,6 +1,6 @@
 import { TestCase } from '../Mutator_test';
 import * as T from '../../test';
-import { TargetType } from './../Header';
+import Players from '../../Zone/Zones/Players';
 import Cancel from './Cancel';
 
 let cases: Array<TestCase> = [];
@@ -11,7 +11,7 @@ cases.push([
     {
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
-        TargetType: TargetType.Player,
+        TargetType: Players.TargetTypes.Player,
         Effect: fakeEffect,
     },
     {

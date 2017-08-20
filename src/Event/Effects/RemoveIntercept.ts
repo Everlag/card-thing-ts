@@ -1,5 +1,4 @@
 import {
-    TargetType,
     IEffectPack, IEffectDescription,
     EffectPackAssertFail,
 } from '../Header';
@@ -34,7 +33,7 @@ export function Op(state: IGameState, pack: IEffectPack) {
 
     let interceptorPack = AsRemoveInterceptor(pack);
 
-    if (interceptorPack.TargetType !== TargetType.Interceptor) {
+    if (interceptorPack.TargetType !== Interceptors.TargetTypes.Interceptor) {
         throw Error(`unknown TargetType for RemoveIntercept: ${pack.TargetType}`);
     }
 

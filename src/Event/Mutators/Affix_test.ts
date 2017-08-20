@@ -1,6 +1,7 @@
 import { TestCase } from '../Mutator_test';
 import * as T from '../../test';
-import { TargetType, IEffectPack, IEffectPackFilter } from './../Header';
+import { IEffectPack, IEffectPackFilter } from './../Header';
+import Players from '../../Zone/Zones/Players';
 import Affix,
     { AffixMutatorPlacment, IAffixMutator } from './Affix';
 
@@ -11,7 +12,7 @@ let fakeEffect = 'fake-effect';
 let toAffix = {
         Source: T.ExternalEntityCode,
         Targets: [T.ExternalEntityCode],
-        TargetType: TargetType.Player,
+        TargetType: Players.TargetTypes.Player,
         Effect: fakeEffect,
     } as IEffectPack;
 
@@ -26,7 +27,7 @@ cases.push([
     {
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerTwoEntityCode],
-        TargetType: TargetType.Player,
+        TargetType: Players.TargetTypes.Player,
         Effect: fakeEffect,
     },
     {
@@ -44,7 +45,7 @@ cases.push([
         {
             Source: T.PlayerOneEntityCode,
             Targets: [T.PlayerTwoEntityCode],
-            TargetType: TargetType.Player,
+            TargetType: Players.TargetTypes.Player,
             Effect: fakeEffect,
         },
     ],
@@ -54,7 +55,7 @@ cases.push([
     {
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerTwoEntityCode],
-        TargetType: TargetType.Player,
+        TargetType: Players.TargetTypes.Player,
         Effect: fakeEffect,
     },
     {
@@ -70,7 +71,7 @@ cases.push([
         {
             Source: T.PlayerOneEntityCode,
             Targets: [T.PlayerTwoEntityCode],
-            TargetType: TargetType.Player,
+            TargetType: Players.TargetTypes.Player,
             Effect: fakeEffect,
         },
         // Added effect is appended

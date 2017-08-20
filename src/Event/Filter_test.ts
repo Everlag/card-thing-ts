@@ -3,8 +3,10 @@ import {
     CheckFilter,
 } from './Filter';
 import {
-    TargetType, IEffectPack, IEffectPackFilter,
+    IEffectPack, IEffectPackFilter,
 } from './Header';
+import Players from '../Zone/Zones/Players';
+import Global from '../Zone/Zones/Global';
 
 type TestCase = [IEffectPack | null, IEffectPackFilter, String, boolean];
 
@@ -17,7 +19,7 @@ cases.push([
     {
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
-        TargetType: TargetType.Player,
+        TargetType: Players.TargetTypes.Player,
         Effect: fakeEffect,
     },
     {},
@@ -29,7 +31,7 @@ cases.push([
     {
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
-        TargetType: TargetType.Player,
+        TargetType: Players.TargetTypes.Player,
         Effect: fakeEffect,
     },
     {
@@ -43,7 +45,7 @@ cases.push([
     {
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
-        TargetType: TargetType.Player,
+        TargetType: Players.TargetTypes.Player,
         Effect: fakeEffect,
     },
     {
@@ -57,11 +59,11 @@ cases.push([
     {
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
-        TargetType: TargetType.Player,
+        TargetType: Players.TargetTypes.Player,
         Effect: fakeEffect,
     },
     {
-        TargetType: TargetType.Player,
+        TargetType: Players.TargetTypes.Player,
     },
     'TargetType filter matches when correct',
     true,
@@ -71,11 +73,11 @@ cases.push([
     {
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
-        TargetType: TargetType.Player,
+        TargetType: Players.TargetTypes.Player,
         Effect: fakeEffect,
     },
     {
-        TargetType: TargetType.Global,
+        TargetType: Global.TargetTypes.Global,
     },
     'TargetType filter rejects when wrong',
     false,
@@ -85,7 +87,7 @@ cases.push([
     {
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
-        TargetType: TargetType.Player,
+        TargetType: Players.TargetTypes.Player,
         Effect: fakeEffect,
     },
     {
@@ -99,7 +101,7 @@ cases.push([
     {
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
-        TargetType: TargetType.Player,
+        TargetType: Players.TargetTypes.Player,
         Effect: fakeEffect,
     },
     {
@@ -113,7 +115,7 @@ cases.push([
     {
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode, T.PlayerTwoEntityCode],
-        TargetType: TargetType.Player,
+        TargetType: Players.TargetTypes.Player,
         Effect: fakeEffect,
     },
     {
@@ -127,7 +129,7 @@ cases.push([
     {
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
-        TargetType: TargetType.Player,
+        TargetType: Players.TargetTypes.Player,
         Effect: fakeEffect,
     },
     {
@@ -141,7 +143,7 @@ cases.push([
     {
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
-        TargetType: TargetType.Player,
+        TargetType: Players.TargetTypes.Player,
         Effect: fakeEffect,
     },
     {
@@ -155,7 +157,7 @@ cases.push([
     {
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
-        TargetType: TargetType.Player,
+        TargetType: Players.TargetTypes.Player,
         Effect: fakeEffect,
     },
     {
@@ -170,7 +172,7 @@ cases.push([
     {
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
-        TargetType: TargetType.Player,
+        TargetType: Players.TargetTypes.Player,
         Effect: fakeEffect,
     },
     {
@@ -194,7 +196,7 @@ cases.push([
     {
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerOneEntityCode],
-        TargetType: TargetType.Player,
+        TargetType: Players.TargetTypes.Player,
         Effect: fakeEffect,
     },
     {

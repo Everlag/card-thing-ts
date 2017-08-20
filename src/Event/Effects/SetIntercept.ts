@@ -1,5 +1,4 @@
 import {
-    TargetType,
     IEffectPack, IEffectDescription,
     IEffectPackFilter, IEffectPackMutator,
     EffectPackAssertFail,
@@ -15,6 +14,7 @@ import { IAsInterceptor } from '../../Entity/Entities/AsInterceptor';
 import {
     NewEntityCode,
 } from '../../Entity/EntityCode';
+import Global from '../../Zone/Zones/Global';
 import Interceptors from '../../Zone/Zones/Interceptors';
 import RemoveIntercept,
     { IRemoveInterceptorEffectPack } from './RemoveIntercept';
@@ -62,13 +62,13 @@ function registerExpiry(state: IGameState,
     let expiry = {
         Source: identity,
         Targets: [identity],
-        TargetType: TargetType.Interceptor,
+        TargetType: Interceptors.TargetTypes.Interceptor,
         Effect: RemoveIntercept.Self,
     } as IRemoveInterceptorEffectPack;
     let selfExpiry = {
         Source: expiryIdentity,
         Targets: [expiryIdentity],
-        TargetType: TargetType.Interceptor,
+        TargetType: Interceptors.TargetTypes.Interceptor,
         Effect: RemoveIntercept.Self,
     } as IRemoveInterceptorEffectPack;
     let expiryInterceptor: IAsInterceptor = {
@@ -99,7 +99,7 @@ export function Op(state: IGameState, pack: IEffectPack) {
 
     let interceptorPack = AsInterceptor(pack);
 
-    if (interceptorPack.TargetType !== TargetType.Global) {
+    if (interceptorPack.TargetType !== Global.TargetTypes.Global) {
         throw Error(`unknown TargetType for SetIntercept: ${pack.TargetType}`);
     }
 

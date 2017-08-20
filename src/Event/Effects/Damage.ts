@@ -1,7 +1,5 @@
 import {
-    TargetType,
     IEffectPack, IEffectDescription,
-
     EffectPackAssertFail,
 } from '../Header';
 import {
@@ -13,7 +11,7 @@ import {
 import {
     getPlayerIndex,
 } from '../../Game/Game';
-import { GetPlayerByIndex } from '../../Zone/Zones/Players';
+import Players, { GetPlayerByIndex } from '../../Zone/Zones/Players';
 
 export interface IDamageEffectPack extends IEffectPack {
     Damage: number;
@@ -38,7 +36,7 @@ export function Op(state: IGameState, pack: IEffectPack) {
 
     // Eventually, this will be a switch/if-elif-else
     // but for now we'll enjoy an early exit
-    if (damagePack.TargetType !== TargetType.Player) {
+    if (damagePack.TargetType !== Players.TargetTypes.Player) {
         throw Error(`unknown TargetType for Damage: ${pack.TargetType}`);
     }
 

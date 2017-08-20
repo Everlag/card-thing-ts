@@ -2,9 +2,10 @@ import {
     EntityCode, GlobalStateEntityCode,
 } from '../Entity/Header';
 import {
-    IEvent, TargetType,
+    IEvent,
     IEffectPackFilter, IEffectPackMutator,
 } from './Header';
+import Global from '../Zone/Zones/Global';
 
 import EndTurn from './Effects/EndTurn';
 export const EndTurnEvent: IEvent = {
@@ -12,7 +13,7 @@ export const EndTurnEvent: IEvent = {
         {
             Source: GlobalStateEntityCode,
             Targets: [GlobalStateEntityCode],
-            TargetType: TargetType.Global,
+            TargetType: Global.TargetTypes.Global,
             Effect: EndTurn.Self,
         },
     ],
@@ -25,7 +26,7 @@ export function NewStartTurnEvent(player: EntityCode): IEvent {
             {
                 Source: GlobalStateEntityCode,
                 Targets: [player],
-                TargetType: TargetType.Global,
+                TargetType: Global.TargetTypes.Global,
                 Effect: StartTurn.Self,
             },
         ],
@@ -38,7 +39,7 @@ export function NewEndTurnEvent(player: EntityCode): IEvent {
             {
                 Source: GlobalStateEntityCode,
                 Targets: [player],
-                TargetType: TargetType.Global,
+                TargetType: Global.TargetTypes.Global,
                 Effect: EndTurn.Self,
             },
         ],
@@ -52,7 +53,7 @@ export function NewPlayerPriorityEvent(player: EntityCode): IEvent {
             {
                 Source: GlobalStateEntityCode,
                 Targets: [player],
-                TargetType: TargetType.Global,
+                TargetType: Global.TargetTypes.Global,
                 Effect: PlayerPriority.Self,
             },
         ],
@@ -66,7 +67,7 @@ export function NewThrowGuardEvent(): IEvent {
             {
                 Source: GlobalStateEntityCode,
                 Targets: [GlobalStateEntityCode],
-                TargetType: TargetType.Global,
+                TargetType: Global.TargetTypes.Global,
                 Effect: ThrowGuard.Self,
             },
         ],
@@ -84,7 +85,7 @@ export function NewSetInterceptEvent(source: EntityCode,
             {
                 Source: source,
                 Targets: [GlobalStateEntityCode],
-                TargetType: TargetType.Global,
+                TargetType: Global.TargetTypes.Global,
                 Effect: SetIntercept.Self,
                 Filter: filter,
                 Mutator: mutator,
@@ -96,6 +97,7 @@ export function NewSetInterceptEvent(source: EntityCode,
 
 import RemoveIntercept,
     { IRemoveInterceptorEffectPack } from './Effects/RemoveIntercept';
+import Interceptors from '../Zone/Zones/Interceptors';
 export function NewRemoveInterceptEvent(source: EntityCode, target: EntityCode,
     mustMatch: 'all' | 'some' | undefined): IEvent {
 
@@ -104,7 +106,7 @@ export function NewRemoveInterceptEvent(source: EntityCode, target: EntityCode,
             {
                 Source: source,
                 Targets: [target],
-                TargetType: TargetType.Interceptor,
+                TargetType: Interceptors.TargetTypes.Interceptor,
                 Effect: RemoveIntercept.Self,
                 MustMatch: mustMatch,
             } as IRemoveInterceptorEffectPack,

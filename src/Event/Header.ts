@@ -1,6 +1,7 @@
 import { EntityCode } from '../Entity/Header';
 import { IGameState } from '../Game/Header';
 import { PlayerResponseQuery } from '../Player/Header';
+import { TargetType } from '../Zone/Header';
 
 export type EffectOperator = (state: IGameState,
     pack: IEffectPack, remoteQuery: PlayerResponseQuery) => IGameState;
@@ -12,18 +13,10 @@ export interface IEffectDescription {
 
 export type Effect = string;
 
-// TODO: migrate to correct Zone-based handling
-export enum TargetType {
-    Global = 'global',
-    Player = 'player',
-    Interceptor = 'interceptor',
-}
-
 export interface IEffectPack {
     Source: EntityCode;
     Targets: Array<EntityCode>;
-    // TODO: migrate to correct Zone-based handling
-    TargetType: string;
+    TargetType: TargetType;
     Effect: Effect;
 
     // Allow properties which weren't specifically defined here to

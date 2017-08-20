@@ -1,6 +1,6 @@
 import { TestCase } from '../Mutator_test';
 import * as T from '../../test';
-import { TargetType } from './../Header';
+import Players from '../../Zone/Zones/Players';
 import Redirect,
     { IRedirectMutator, RedirectMutatorDirection } from './Redirect';
 
@@ -12,7 +12,7 @@ cases.push([
     {
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerTwoEntityCode],
-        TargetType: TargetType.Player,
+        TargetType: Players.TargetTypes.Player,
         Effect: fakeEffect,
     },
     {
@@ -31,7 +31,7 @@ cases.push([
     {
         Source: T.PlayerOneEntityCode,
         Targets: [T.PlayerTwoEntityCode],
-        TargetType: TargetType.Player,
+        TargetType: Players.TargetTypes.Player,
         Effect: fakeEffect,
     },
     {

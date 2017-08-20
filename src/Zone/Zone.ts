@@ -46,6 +46,9 @@ export function RegisterZone(desc: IZoneDescription) {
     }
 }
 
+import Global from './Zones/Global';
+RegisterZone(Global);
+
 import Players from './Zones/Players';
 RegisterZone(Players);
 

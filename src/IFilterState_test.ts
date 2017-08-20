@@ -5,9 +5,10 @@ import {
     GlobalStateEntityCode,
 } from './Entity/Header';
 import {
-    IEvent, TargetType,
+    IEvent,
 } from './Event/Header';
 import { IAsInterceptor } from './Entity/Entities/AsInterceptor';
+import Global from './Zone/Zones/Global';
 import Players from './Zone/Zones/Players';
 import Interceptors, {
     RemoveInterceptor, GetOrderedInterceptors,
@@ -49,7 +50,7 @@ let fluffContents: Array<IEvent> = [
             {
                 Source: GlobalStateEntityCode,
                 Targets: [GlobalStateEntityCode],
-                TargetType: TargetType.Global,
+                TargetType: Global.TargetTypes.Global,
                 Effect: 'fluff-effect',
             },
         ],
@@ -62,7 +63,7 @@ let expectedStackContents: Array<IEvent> = [
             {
                 Source: GlobalStateEntityCode,
                 Targets: [GlobalStateEntityCode],
-                TargetType: TargetType.Global,
+                TargetType: Global.TargetTypes.Global,
                 Effect: 'real-effect',
             },
         ],
