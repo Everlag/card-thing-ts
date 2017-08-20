@@ -192,8 +192,6 @@ export function FilterMatchZonesHas(state: G.IGameState,
             if (zone === null) throw Error(`known non-null zone is null`);
             return zone.Contents[entity];
         });
-        console.log('ordered are', zone.Ordered);
-        console.log('the zone is', zone);
         results.push(FilterMatchSubArray(asArray, knownGood, 'zoneHas'));
     });
 
