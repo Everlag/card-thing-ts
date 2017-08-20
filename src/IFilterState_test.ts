@@ -281,6 +281,21 @@ let expectedInterceptorZoneHas = new Map();
 expectedInterceptorZoneHas.set(Interceptors.Self,
     expectedInterceptorContents);
 
+// forceInterceptorsZoneExistence ensures that the interceptors
+// zone always exists by adding then removing from it.
+//
+// This is necessary as we use the Zones-internal GetZone in IFilterState
+// which provides no guarantees about lazy initialization.
+let forceInterceptorsZoneExistence = (g: G.GameState) => {
+    // We need to force the zone to be created
+    fluffInterceptorContents.forEach(i => Interceptors.Add(i, g));
+    fluffInterceptorContents.forEach(i => RemoveInterceptor(i.Identity, g));
+
+    if (GetOrderedInterceptors(g).length > 0) {
+        throw Error('expected empty zone is not empty');
+    }
+}
+
 (() => {
     let g = new G.GameState(T.DefaultPlayers);
 
@@ -316,12 +331,7 @@ expectedInterceptorZoneHas.set(Interceptors.Self,
     let g = new G.GameState(T.DefaultPlayers);
 
     // We need to force the zone to be created
-    fluffInterceptorContents.forEach(i => Interceptors.Add(i, g));
-    fluffInterceptorContents.forEach(i => RemoveInterceptor(i.Identity, g));
-
-    if (GetOrderedInterceptors(g).length > 0) {
-        throw Error('expected empty zone is not empty');
-    }
+    forceInterceptorsZoneExistence(g);
 
     cases.push([
         g,
@@ -351,12 +361,17 @@ expectedInterceptorZoneHas.set(Interceptors.Self,
 (() => {
     let g = new G.GameState(T.DefaultPlayers);
 
+    forceInterceptorsZoneExistence(g);
+
+    let expectedCount = new Map();
+    expectedCount.set(Interceptors.Self, 0);
+
     cases.push([
         g,
         {
-            interceptCount: 0,
+            zoneCount: expectedCount,
         },
-        'matching intercept count - empty',
+        'matching zone count - empty',
         true,
     ]);
 })();
@@ -366,12 +381,16 @@ expectedInterceptorZoneHas.set(Interceptors.Self,
 
     expectedInterceptorContents.forEach(i => Interceptors.Add(i, g));
 
+    let expectedCount = new Map();
+    expectedCount.set(Interceptors.Self,
+        expectedInterceptorContents.length);
+
     cases.push([
         g,
         {
-            interceptCount: expectedInterceptorContents.length,
+            zoneCount: expectedCount,
         },
-        'matching intercept count - some present',
+        'matching zone count - some present',
         true,
     ]);
 })();
@@ -379,12 +398,17 @@ expectedInterceptorZoneHas.set(Interceptors.Self,
 (() => {
     let g = new G.GameState(T.DefaultPlayers);
 
+    forceInterceptorsZoneExistence(g);
+
+    let expectedCount = new Map();
+    expectedCount.set(Interceptors.Self, 10);
+
     cases.push([
         g,
         {
-            interceptCount: 10,
+            zoneCount: expectedCount,
         },
-        'mismatching intercept count - empty',
+        'mismatching zone count - empty',
         false,
     ]);
 })();
@@ -394,12 +418,16 @@ expectedInterceptorZoneHas.set(Interceptors.Self,
 
     expectedInterceptorContents.forEach(i => Interceptors.Add(i, g));
 
+    let expectedCount = new Map();
+    expectedCount.set(Interceptors.Self,
+        expectedInterceptorContents.length + 1);
+
     cases.push([
         g,
         {
-            interceptCount: expectedInterceptorContents.length + 1,
+            zoneCount: expectedCount,
         },
-        'mismatching intercept count - some present',
+        'mismatching zone count - some present',
         false,
     ]);
 })();
@@ -417,6 +445,7 @@ class FilterMatchTest extends T.Test {
         if (expectedResult && result !== null) {
             msg = `failed to get expected match
                 case - ${name}
+                result - ${result}
                 state:
                 \t${T.stringify(state)}
                 filter:
@@ -426,6 +455,7 @@ class FilterMatchTest extends T.Test {
         if (!expectedResult && result === null) {
             msg = `unexpected match
                 case - ${name}
+                result - ${result}
                 state:
                 \t${T.stringify(state)}
                 filter:

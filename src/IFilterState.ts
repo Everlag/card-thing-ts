@@ -52,6 +52,10 @@ export interface IFilterState {
     // in the provided order.
     zoneHas?: Map<ZoneCode, Array<IEntity>>;
 
+    // zoneCount matches when the number of Entities in the Zone
+    // is exactly equal to the number specified.
+    zoneCount?: Map<ZoneCode, number>;
+
     // interceptHas matches when the provided set of intercepts
     // exists in the provided order.
     interceptsHas?: Array<IAsInterceptor>;
@@ -81,8 +85,11 @@ export function FilterMatches(s: G.IGameState,
         f.zonePathHas);
     if (filterMatchZonePathHas) return filterMatchZonePathHas;
 
-    let filterMatchZoneHasExact = FilterMatchZonesHas(s, f.zoneHas);
-    if (filterMatchZoneHasExact) return filterMatchZoneHasExact;
+    let zoneHasExact = FilterMatchZonesHas(s, f.zoneHas);
+    if (zoneHasExact) return zoneHasExact;
+
+    let zoneCount = FilterMatchZoneCount(s, f.zoneCount);
+    if (zoneCount) return zoneCount;
 
     // TODO: correct to generic, ZoneHas with acceptable handling.
     let interceptors = GetOrderedInterceptors(s)
@@ -253,6 +260,30 @@ export function FilterMatchSubArray(state: Array<any>,
     ...${JSON.stringify(matchStartSubset, null, 2)}
     >>diff:
     ${diff}`;
+}
+
+export function FilterMatchZoneCount(state: G.IGameState,
+    expected: Map<ZoneCode, number> | undefined) {
+
+    if (expected === undefined) return null;
+
+    let byZone = Array.from(expected).map(([zoneCode, count]) => {
+        let zone = GetZone(zoneCode, state);
+        if (zone === null) throw Error(`unknown zone ${zoneCode}`);
+
+        if (zone.Count !== count) {
+            return `${zoneCode} mismatched length
+                >>expected:
+                length = ${count}
+                >>got:
+                length = ${zone.Count}
+                zone: ${JSON.stringify(zone, null, 2)}`;
+        }
+
+        return null;
+    });
+
+    return byZone.filter(v => v != null).join('\n');
 }
 
 export function FilterMatchLength(state: Array<any>,
