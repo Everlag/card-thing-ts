@@ -9,6 +9,7 @@ import Redirect,
     {
         IRedirectMutator, RedirectMutatorDirection,
     } from './../Mutators/Redirect';
+import Interceptors from './../../Zone/Zones/Interceptors';
 
 let cases: Array<TestCase> = [];
 
@@ -54,7 +55,7 @@ let cases: Array<TestCase> = [];
             StackHeight: 1,
             currentTurn: T.PlayerOneEntityCode,
             // One for the desired interceptor and one for its Expiry
-            interceptCount: 2,
+            zoneCount: T.NewExpectedCount(Interceptors.Self, 2),
         },
     ]);
 
@@ -67,7 +68,7 @@ let cases: Array<TestCase> = [];
         {
             StackHeight: 3,
             currentTurn: T.PlayerOneEntityCode,
-            interceptCount: 0,
+            zoneCount: T.NewExpectedCount(Interceptors.Self, 0),
         },
     ]);
 
@@ -80,7 +81,8 @@ let cases: Array<TestCase> = [];
         {
             StackHeight: 3, // Normal, post StartTurn height
             currentTurn: T.PlayerTwoEntityCode,
-            interceptCount: 0, // Explicitly none
+            // Explicitly none
+            zoneCount: T.NewExpectedCount(Interceptors.Self, 0),
         },
     ]);
 })();

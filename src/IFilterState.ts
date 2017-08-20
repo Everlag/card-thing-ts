@@ -59,9 +59,6 @@ export interface IFilterState {
     // interceptHas matches when the provided set of intercepts
     // exists in the provided order.
     interceptsHas?: Array<IAsInterceptor>;
-    // interceptCount matches when the number of intercepts in the
-    // state is exactly equal to this specified count.
-    interceptCount?: number;
 }
 
 // FilterMatches returns null on a match or an error string declaring what
@@ -97,10 +94,6 @@ export function FilterMatches(s: G.IGameState,
     let interceptHasMatch = FilterMatchSubArray(interceptors,
         f.interceptsHas, 'interceptHas');
     if (interceptHasMatch) return interceptHasMatch;
-
-    let interceptCountMatch = FilterMatchLength(interceptors,
-        f.interceptCount, 'interceptCount');
-    if (interceptCountMatch) return interceptCountMatch;
 
     return null;
 }

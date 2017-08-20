@@ -294,7 +294,7 @@ let forceInterceptorsZoneExistence = (g: G.GameState) => {
     if (GetOrderedInterceptors(g).length > 0) {
         throw Error('expected empty zone is not empty');
     }
-}
+};
 
 (() => {
     let g = new G.GameState(T.DefaultPlayers);

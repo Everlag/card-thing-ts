@@ -8,6 +8,7 @@ import {
 import ThrowGuard from './../Effects/ThrowGuard';
 import PlayerPriority from './../Effects/PlayerPriority';
 import Cancel from './../Mutators/Cancel';
+import Interceptors from './../../Zone/Zones/Interceptors';
 
 let cases: Array<TestCase> = [];
 
@@ -47,7 +48,7 @@ let cases: Array<TestCase> = [];
         {
             StackHeight: 1,
             // One for the desired interceptor and one for its Expiry
-            interceptCount: 2,
+            zoneCount: T.NewExpectedCount(Interceptors.Self, 2),
         },
     ]);
 
@@ -59,7 +60,7 @@ let cases: Array<TestCase> = [];
         'Establish interceptor - removed on registered Expiry',
         {
             StackHeight: 0,
-            interceptCount: 0,
+            zoneCount: T.NewExpectedCount(Interceptors.Self, 0),
         },
     ]);
 })();

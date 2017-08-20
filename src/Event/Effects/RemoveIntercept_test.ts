@@ -45,7 +45,7 @@ let fakeMutator = 'some-mutator';
         'RemoveInterceptor removes interceptor - only interceptor',
         {
             StackHeight: 0,
-            interceptCount: 0,
+            zoneCount: T.NewExpectedCount(Interceptors.Self, 0),
         },
     ]);
 })();
@@ -91,7 +91,7 @@ let fakeMutator = 'some-mutator';
         {
             StackHeight: 0,
             interceptsHas: [fluff],
-            interceptCount: 1,
+            zoneCount: T.NewExpectedCount(Interceptors.Self, 1),
         },
     ]);
 })();
@@ -128,7 +128,7 @@ let fakeMutator = 'some-mutator';
         'RemoveInterceptor ignores missing when some MustMatch - some missing',
         {
             StackHeight: 0,
-            interceptCount: 0,
+            zoneCount: T.NewExpectedCount(Interceptors.Self, 0),
         },
     ]);
 })();
@@ -167,7 +167,7 @@ let fakeMutator = 'some-mutator';
         {
             StackHeight: 0,
             interceptsHas: [fluff],
-            interceptCount: 1,
+            zoneCount: T.NewExpectedCount(Interceptors.Self, 1),
         },
     ]);
 })();
