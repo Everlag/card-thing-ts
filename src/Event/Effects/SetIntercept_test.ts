@@ -11,6 +11,7 @@ import { NewEntityCode } from '../../Entity/EntityCode';
 import {
     TargetType, IEffectPackFilter,
 } from './../Header';
+import Interceptors from '../../Zone/Zones/Interceptors';
 import SetIntercept, { ISetInterceptorEffectPack } from './SetIntercept';
 import RemoveIntercept from './RemoveIntercept';
 import Affix,
@@ -57,7 +58,8 @@ let fakeEffect = 'some-effect';
         'SetInterceptor registers interceptor',
         {
             StackHeight: 0,
-            interceptsHas: expectedInterceptors,
+            zoneHas: T.NewExpectedContents(Interceptors.Self,
+                expectedInterceptors),
         },
     ]);
 })();
@@ -136,7 +138,8 @@ let fakeEffect = 'some-effect';
         'SetInterceptor registers interceptor with desired expiry',
         {
             StackHeight: 0,
-            interceptsHas: expectedInterceptors,
+            zoneHas: T.NewExpectedContents(Interceptors.Self,
+                expectedInterceptors),
         },
     ]);
 })();

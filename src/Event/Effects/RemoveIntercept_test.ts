@@ -90,7 +90,7 @@ let fakeMutator = 'some-mutator';
         'RemoveInterceptor removes interceptor - others interceptors present',
         {
             StackHeight: 0,
-            interceptsHas: [fluff],
+            zoneHas: T.NewExpectedContents(Interceptors.Self, [fluff]),
             zoneCount: T.NewExpectedCount(Interceptors.Self, 1),
         },
     ]);
@@ -166,7 +166,7 @@ let fakeMutator = 'some-mutator';
         'RemoveInterceptor ignores missing when not undefined MustMatch',
         {
             StackHeight: 0,
-            interceptsHas: [fluff],
+            zoneHas: T.NewExpectedContents(Interceptors.Self, [fluff]),
             zoneCount: T.NewExpectedCount(Interceptors.Self, 1),
         },
     ]);

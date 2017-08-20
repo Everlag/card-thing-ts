@@ -1,12 +1,8 @@
 import * as G from './Game/Header';
 import { IEvent } from './Event/Header';
 import { EntityCode, IEntity } from './Entity/Header';
-import { IAsInterceptor } from './Entity/Entities/AsInterceptor';
 import { ZoneCode, IZone } from './Zone/Header';
 import { GetZone } from './Zone/Internal';
-
-import Interceptors,
-    { GetOrderedInterceptors } from './Zone/Zones/Interceptors';
 
 import { diff as deepdiff } from 'deep-diff';
 
@@ -55,10 +51,6 @@ export interface IFilterState {
     // zoneCount matches when the number of Entities in the Zone
     // is exactly equal to the number specified.
     zoneCount?: Map<ZoneCode, number>;
-
-    // interceptHas matches when the provided set of intercepts
-    // exists in the provided order.
-    interceptsHas?: Array<IAsInterceptor>;
 }
 
 // FilterMatches returns null on a match or an error string declaring what
@@ -87,13 +79,6 @@ export function FilterMatches(s: G.IGameState,
 
     let zoneCount = FilterMatchZoneCount(s, f.zoneCount);
     if (zoneCount) return zoneCount;
-
-    // TODO: correct to generic, ZoneHas with acceptable handling.
-    let interceptors = GetOrderedInterceptors(s)
-        .map(i => Interceptors.Get(i, s));
-    let interceptHasMatch = FilterMatchSubArray(interceptors,
-        f.interceptsHas, 'interceptHas');
-    if (interceptHasMatch) return interceptHasMatch;
 
     return null;
 }
