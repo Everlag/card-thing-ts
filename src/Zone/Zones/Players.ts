@@ -10,9 +10,9 @@ import { IEntity, EntityCode } from '../../Entity/Header';
 export interface IPlayersZone extends IZone {
     IsPlayers: true;
 
-    // TODO: review transitioning Count to exist in the IZone definition
-    //       as it seems useful across most situations.
-    Count: number;
+    // IndexToEntity is distinct from Ordered in that
+    // a Player can have an arbitrary index separate from
+    // its addition-order into the zone.
     IndexToIdentity: {
         [Index: number]: EntityCode,
     };
@@ -27,7 +27,6 @@ export function New(): IPlayersZone {
     return {
         ...base,
 
-        Count: 0,
         IsPlayers: true,
         IndexToIdentity: {},
     };
@@ -47,7 +46,6 @@ export function Add(entity: IEntity, state: IGameState) {
     // Perform the additons
     AddEntity(asPlayer, zone);
     asPlayersZone.IndexToIdentity[asPlayer.Index] = asPlayer.Identity;
-    asPlayersZone.Count++;
 }
 
 export function Get(identity: EntityCode, state: IGameState) {

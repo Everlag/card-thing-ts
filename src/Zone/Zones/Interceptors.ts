@@ -9,9 +9,6 @@ import { IEntity, EntityCode } from '../../Entity/Header';
 
 export interface IInterceptorsZone extends IZone {
     IsInterceptors: true;
-
-    // Store their EntityCode for trivial iteration.
-    Ordered: Array<EntityCode>;
 }
 export function AsInterceptorsZone(z: IZone): IInterceptorsZone {
     if (!z.IsInterceptors) throw ZoneAssertFail('IInterceptorsZone', 'IsInterceptors');
@@ -24,17 +21,14 @@ export function New(): IInterceptorsZone {
         ...base,
 
         IsInterceptors: true,
-        Ordered: [],
     };
 }
 
 export function Add(entity: IEntity, state: IGameState) {
     let zone = LazyZoneInit(GetZone(Self, state), New, state);
-    let asInterceptorsZone = AsInterceptorsZone(zone);
     let asInterceptor = AsInterceptor(entity);
 
     AddEntity(asInterceptor, zone);
-    asInterceptorsZone.Ordered.push(entity.Identity);
 }
 
 export function Get(identity: EntityCode, state: IGameState) {

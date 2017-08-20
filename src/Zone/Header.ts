@@ -39,6 +39,13 @@ export interface IZone {
     Self: ZoneCode;
     Contents: IEntityCollection;
 
+    // Count provides fast access to the number of Entities held
+    // within the Zone.
+    Count: number;
+    // Ordered contains the EntityCodes for Entities existing in the Zone
+    // in order of Add, with first-in, lowest-index semantics.
+    Ordered: Array<EntityCode>;
+
     // Allow indexing into IZone so extensions of this interface
     // can perform assertions on it.
     [others: string]: any;

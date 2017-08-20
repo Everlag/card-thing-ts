@@ -39,6 +39,8 @@ export function GetEntity(identity: EntityCode,
  */
 export function AddEntity(entity: IEntity, zone: IZone) {
     zone.Contents[entity.Identity] = entity;
+    zone.Ordered.push(entity.Identity);
+    zone.Count++;
 }
 
 /**
@@ -52,6 +54,8 @@ export function AddEntity(entity: IEntity, zone: IZone) {
 export function NewZone(zone: ZoneCode): IZone {
     return  {
         Self: zone,
+        Count: 0,
+        Ordered: [],
         Contents: {},
     };
 }
