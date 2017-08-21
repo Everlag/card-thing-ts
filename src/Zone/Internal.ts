@@ -5,6 +5,7 @@ import {
     IGameState,
 } from '../Game/Header';
 import { IEntity, EntityCode } from '../Entity/Header';
+import { IncludeZone } from '../Entity/Entities/WithZone';
 
 /**
  * GetEntity fetches an Entity from the Zone by its identity EntityCode
@@ -49,8 +50,9 @@ export function GetOrderedEntityCodes(zone: IZone): Array<EntityCode> {
  * @param zone Zone to hold the Entity
  */
 export function AddEntity(entity: IEntity, zone: IZone) {
-    zone.Contents[entity.Identity] = entity;
-    zone.Ordered.push(entity.Identity);
+    let withZone = IncludeZone(entity, zone.Self);
+    zone.Contents[withZone.Identity] = withZone;
+    zone.Ordered.push(withZone.Identity);
     zone.Count++;
 }
 

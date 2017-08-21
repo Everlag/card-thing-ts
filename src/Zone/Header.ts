@@ -1,4 +1,5 @@
 import { IEntity, EntityCode } from '../Entity/Header';
+import { IWithZone } from '../Entity/Entities/WithZone';
 import { IGameState } from '../Game/Header';
 
 export type ZoneCode = string;
@@ -23,7 +24,7 @@ export interface IZoneCollection {
  * trivially serializable through JSON.stringify/parse.
  */
 export interface IEntityCollection {
-    [Entity: string]: IEntity;
+    [Entity: string]: IWithZone;
 }
 
 /**

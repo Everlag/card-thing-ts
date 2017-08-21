@@ -42,6 +42,8 @@ let fakeEffect = 'some-effect';
         Mutator: {
             Mutator: fakeMutator,
         },
+        HasZone: true,
+        Zone: Interceptors.Self,
     } as IAsInterceptor;
     let expectedInterceptors = [interceptor];
 
@@ -87,6 +89,8 @@ let fakeEffect = 'some-effect';
         Mutator: {
             Mutator: fakeMutator,
         },
+        HasZone: true,
+        Zone: Interceptors.Self,
     } as IAsInterceptor;
 
     let expiryFilter = {
@@ -121,6 +125,8 @@ let fakeEffect = 'some-effect';
             ],
             Placement: AffixMutatorPlacment.After,
         } as IAffixMutator,
+        HasZone: true,
+        Zone: Interceptors.Self,
     } as IAsInterceptor;
     let expectedInterceptors = [interceptor, expiry];
 

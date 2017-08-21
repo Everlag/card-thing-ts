@@ -7,8 +7,7 @@ import {
 import {
     IEntity, EntityCode,
 } from '../Entity/Header';
-import { IZoneCollection } from '../Zone/Header';
-import { IAsInterceptor } from '../Entity/Entities/AsInterceptor';
+import { IZoneCollection, IEntityCollection } from '../Zone/Header';
 
 export interface IGameStack {
     push(...events: Array<IEvent>): void;
@@ -22,6 +21,7 @@ export interface IGameState {
     seed: number;
     stack: IGameStack;
     zones: IZoneCollection;
+    entities: IEntityCollection;
     currentTurn: EntityCode;
 }
 
