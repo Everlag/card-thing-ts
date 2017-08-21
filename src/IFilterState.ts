@@ -1,8 +1,8 @@
 import * as G from './Game/Header';
 import { IEvent } from './Event/Header';
 import { EntityCode, IEntity } from './Entity/Header';
-import { ZoneCode, IZone } from './Zone/Header';
-import { GetZone } from './Zone/Internal';
+import { ZoneCode } from './Zone/Header';
+import { GetZone, GetEntity } from './Zone/Internal';
 
 import { diff as deepdiff } from 'deep-diff';
 
@@ -36,12 +36,12 @@ export interface IFilterState {
 
     StackHeight?: number;
 
-    // zonePathHas matches when all Zones in the map have
+    // entityPathHas matches when all Entities in the map have
     // all specified properties with specified values.
     //
     // This allows significantly easier matching on desired
     // characteristics than using zoneContains for an exact, ordered match
-    zonePathHas?: Map<ZoneCode, Map<PathString, String | number>>;
+    entityPathHas?: Map<EntityCode, Map<PathString, String | number>>;
 
     // zoneHas matches when all Zones in the map have all
     // IEntities existing within their ordered representation
@@ -70,9 +70,9 @@ export function FilterMatches(s: G.IGameState,
         f.StackHeight, 'stackHeight');
     if (stackHeightMatch) return stackHeightMatch;
 
-    let filterMatchZonePathHas = FilterMatchZones(s,
-        f.zonePathHas);
-    if (filterMatchZonePathHas) return filterMatchZonePathHas;
+    let filterMatchEntityPathHas = FilterMatchEntities(s,
+        f.entityPathHas);
+    if (filterMatchEntityPathHas) return filterMatchEntityPathHas;
 
     let zoneHasExact = FilterMatchZonesHas(s, f.zoneHas);
     if (zoneHasExact) return zoneHasExact;
@@ -97,17 +97,16 @@ export function FilterMatchString(state: String,
     ${state}`;
 }
 
-export function FilterMatchZones(state: G.IGameState,
+export function FilterMatchEntities(state: G.IGameState,
     expected: Map<EntityCode, Map<PathString, String | number>> | undefined): String | null {
 
     if (!expected) return null;
-    let results = new Array<String | null>();
-    expected.forEach((propertyMatcher, zoneCode) => {
-        // let player = state.find(p => p.Self.Identity === entity);
-        let zone = GetZone(zoneCode, state);
-        if (zone === null) return `unknown zone ${zoneCode}`;
 
-        results.push(FilterMatchPlayer(zone, propertyMatcher));
+    let results = new Array<String | null>();
+    Array.from(expected).map(([identity, propertyMatcher]) => {
+        let entity = state.entities[identity];
+
+        results.push(FilterMatchEntity(entity, propertyMatcher));
     });
 
     let filtered = results.filter(v => v !== null);
@@ -115,15 +114,14 @@ export function FilterMatchZones(state: G.IGameState,
     return filtered.join('\n');
 }
 
-export function FilterMatchPlayer(state: IZone,
+export function FilterMatchEntity(state: any,
     expected: Map<PathString, String | number>): String | null {
 
     if (expected === undefined) return null;
 
     let results = new Array<String | null>();
     expected.forEach((value, path) => {
-        // We start delving in at Contents
-        let result = FilterMatchPath(path, state.Contents, value);
+        let result = FilterMatchPath(path, state, value);
         results.push(result);
     });
 
@@ -175,7 +173,7 @@ export function FilterMatchZonesHas(state: G.IGameState,
 
         let asArray = zone.Ordered.map(entity => {
             if (zone === null) throw Error(`known non-null zone is null`);
-            return zone.Contents[entity];
+            return GetEntity(entity, zone, state);
         });
         results.push(FilterMatchSubArray(asArray, knownGood, 'zoneHas'));
     });

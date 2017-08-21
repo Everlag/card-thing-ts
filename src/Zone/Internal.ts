@@ -57,8 +57,6 @@ export function AddEntity(entity: IEntity,
     zone: IZone, state: IGameState) {
 
     let withZone = IncludeZone(entity, zone.Self);
-    // TODO: remove when tests migrated
-    zone.Contents[withZone.Identity] = withZone;
     zone.Ordered.push(withZone.Identity);
     zone.Count++;
 

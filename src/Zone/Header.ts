@@ -38,7 +38,6 @@ export interface IEntityCollection {
  */
 export interface IZone {
     Self: ZoneCode;
-    Contents: IEntityCollection;
 
     // Count provides fast access to the number of Entities held
     // within the Zone.

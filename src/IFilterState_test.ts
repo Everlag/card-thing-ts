@@ -185,19 +185,25 @@ let expectedStackContents: Array<IEvent> = [
 
     let expected = new Map();
     expected.set(
-        Players.Self,
-        new Map([[
-            `${T.PlayerOneEntityCode}.Identity`,
-            T.PlayerOneEntityCode,
-        ]]),
+        T.PlayerOneEntityCode,
+        new Map([
+            [
+                'Identity',
+                T.PlayerOneEntityCode,
+            ],
+            [
+                'Zone',
+                Players.Self,
+            ],
+        ]),
     );
 
     cases.push([
         g,
         {
-            zonePathHas: expected,
+            entityPathHas: expected,
         },
-        'matching zoneHas - ensure own identity',
+        'matching entityPathHas - ensure own identity',
         true,
     ]);
 })();
@@ -213,9 +219,9 @@ let expectedStackContents: Array<IEvent> = [
 
     let expected = new Map();
     expected.set(
-        Players.Self,
+        T.PlayerOneEntityCode,
         new Map([[
-            `${T.PlayerOneEntityCode}.Identity`,
+            'Identity',
             // Notice this references the second player,
             // this what causes the test failure.
             T.PlayerTwoEntityCode,
@@ -225,9 +231,9 @@ let expectedStackContents: Array<IEvent> = [
     cases.push([
         g,
         {
-            zonePathHas: expected,
+            entityPathHas: expected,
         },
-        'mismatching zoneHas - ensure wrong identity',
+        'mismatching entityPathHas - ensure wrong identity',
         false,
     ]);
 })();
@@ -237,7 +243,7 @@ let expectedStackContents: Array<IEvent> = [
 
     let expected = new Map();
     expected.set(
-        Players.Self,
+        T.PlayerOneEntityCode,
         new Map([[
             'DoesNotExist.apples',
             T.PlayerOneEntityCode,
@@ -247,9 +253,9 @@ let expectedStackContents: Array<IEvent> = [
     cases.push([
         g,
         {
-            zonePathHas: expected,
+            entityPathHas: expected,
         },
-        'mismatching zoneHas - invalid path',
+        'mismatching entityPathHas - invalid path',
         false,
     ]);
 })();
