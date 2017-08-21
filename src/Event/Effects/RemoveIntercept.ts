@@ -5,8 +5,7 @@ import {
 import {
     IGameState,
 } from '../../Game/Header';
-import Interceptors,
-    { RemoveInterceptor } from '../../Zone/Zones/Interceptors';
+import Interceptors from '../../Zone/Zones/Interceptors';
 
 export interface IRemoveInterceptorEffectPack extends IEffectPack {
     // MustMatch causes the Effect to throw if it cannot match a target.
@@ -65,7 +64,7 @@ export function Op(state: IGameState, pack: IEffectPack) {
     }
 
     // Remove targets
-    pack.Targets.forEach(t => RemoveInterceptor(t, state));
+    pack.Targets.forEach(t => Interceptors.Remove(t, state));
 
     return state;
 }

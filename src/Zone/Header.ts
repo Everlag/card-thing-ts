@@ -53,6 +53,8 @@ export interface IZone {
 
 export type AddEntityOperator = (entity: IEntity, state: IGameState) => void;
 export type GetEntityOperator = (identity: EntityCode, state: IGameState) => IEntity;
+export type RemoveEntityOperator = (identity: EntityCode,
+    state: IGameState) => IEntity | null;
 export type NewZoneOperator = () => IZone;
 
 /**
@@ -79,12 +81,13 @@ export interface IZoneDescription {
     TargetTypes: TargetTypes;
 
     /**
-     * Basic Add and Get operations should be wrapped
+     * Basic Add, Get, and Remove operations should be wrapped
      * to enforce the validity of data entering and
      * exiting the Zone.
      */
     Add: AddEntityOperator;
     Get: GetEntityOperator;
+    Remove: RemoveEntityOperator;
 
     /**
      * New provides the ability to create a new Zone satisfying

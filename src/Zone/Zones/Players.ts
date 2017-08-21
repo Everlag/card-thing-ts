@@ -55,6 +55,10 @@ export function Get(identity: EntityCode, state: IGameState) {
     return AsPlayer(entity);
 }
 
+export function Remove(identity: EntityCode, state: IGameState): IEntity {
+    throw Error(`${Self} zone disallows Entity removal`);
+}
+
 export const Self = 'players';
 export const TargetTypes = {
     Player: 'player',
@@ -63,7 +67,7 @@ export const Desc = {
     Self,
     TargetTypes,
 
-    Get, Add,
+    Get, Add, Remove,
     New,
 } as IZoneDescription;
 

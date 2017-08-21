@@ -44,6 +44,33 @@ export function AddEntity(entity: IEntity, zone: IZone) {
 }
 
 /**
+ * RemoveEntity removes the provided Entity from the Zone.
+ * The Entity is returned.
+ *
+ * If the Zone does not contain that Entity, this returns null.
+ *
+ * NOTE: this is for Zone-internal usage only. Prefer to use
+ *       the Add of the specific zone.
+ * @param identity Entity to remove from the Zone
+ * @param zone Zone holding the Entity
+ */
+export function RemoveEntity(identity: EntityCode, zone: IZone) {
+    let existing = zone.Contents[identity];
+    if (existing === undefined) return null;
+
+    // Remove from basic contents
+    delete zone.Contents[identity];
+
+    // Remove from ordered list
+    zone.Ordered = zone.Ordered.filter(v => {
+        return v !== identity;
+    });
+
+    // Decrement count
+    zone.Count--;
+}
+
+/**
  * NewZone returns an object which minimally satisfies IZone.
  *
  * NOTE: this is for Zone-internal usage only.
