@@ -10,8 +10,7 @@ import {
 import { IAsInterceptor } from './Entity/Entities/AsInterceptor';
 import Global from './Zone/Zones/Global';
 import Players from './Zone/Zones/Players';
-import Interceptors,
-    { GetOrderedInterceptors } from './Zone/Zones/Interceptors';
+import Interceptors from './Zone/Zones/Interceptors';
 
 // [state, expected, testName, expectedResult = true -> null]
 type TestCase = [G.GameState, F.IFilterState, String, boolean];
@@ -290,7 +289,7 @@ let forceInterceptorsZoneExistence = (g: G.GameState) => {
     fluffInterceptorContents.forEach(i => Interceptors.Add(i, g));
     fluffInterceptorContents.forEach(i => Interceptors.Remove(i.Identity, g));
 
-    if (GetOrderedInterceptors(g).length > 0) {
+    if (Interceptors.Ordered(g).length > 0) {
         throw Error('expected empty zone is not empty');
     }
 };

@@ -18,6 +18,10 @@ export function Remove(identity: EntityCode, state: IGameState): IEntity {
     throw Error('pseudo-Zone Global Remove accessed');
 }
 
+export function Ordered(state: IGameState): Array<EntityCode> {
+    throw Error('pseudo-Zone Global Ordered accessed');
+}
+
 /**
  * Global is a psudeo-Zone used to avoid needing to expose
  * a special case TargetType referencing global state.
@@ -30,7 +34,7 @@ export const Desc = {
     Self,
     TargetTypes,
 
-    Get, Add, Remove,
+    Get, Add, Remove, Ordered,
     New,
 } as IZoneDescription;
 

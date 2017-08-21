@@ -1,7 +1,7 @@
 import { IZone, IZoneDescription, ZoneAssertFail } from '../Header';
 import { IGameState } from '../../Game/Header';
 import {
-    AddEntity, GetEntity, GetZone, NewZone, LazyZoneInit,
+    AddEntity, GetEntity, GetOrderedEntityCodes, GetZone, NewZone, LazyZoneInit,
 } from '../Internal';
 import { AsPlayer, IAsPlayer } from '../../Entity/Entities/AsPlayer';
 
@@ -59,6 +59,11 @@ export function Remove(identity: EntityCode, state: IGameState): IEntity {
     throw Error(`${Self} zone disallows Entity removal`);
 }
 
+export function Ordered(state: IGameState) {
+    let zone = LazyZoneInit(GetZone(Self, state), New, state);
+    return GetOrderedEntityCodes(zone);
+}
+
 export const Self = 'players';
 export const TargetTypes = {
     Player: 'player',
@@ -67,7 +72,7 @@ export const Desc = {
     Self,
     TargetTypes,
 
-    Get, Add, Remove,
+    Get, Add, Remove, Ordered,
     New,
 } as IZoneDescription;
 

@@ -1,7 +1,8 @@
 import { IZone, IZoneDescription, ZoneAssertFail } from '../Header';
 import { IGameState } from '../../Game/Header';
 import {
-    AddEntity, GetEntity, RemoveEntity, GetZone, NewZone, LazyZoneInit,
+    AddEntity, GetEntity, RemoveEntity, GetOrderedEntityCodes,
+    GetZone, NewZone, LazyZoneInit,
 } from '../Internal';
 import { AsInterceptor } from '../../Entity/Entities/AsInterceptor';
 
@@ -43,6 +44,11 @@ export function Remove(identity: EntityCode, state: IGameState) {
     return RemoveEntity(identity, zone);
 }
 
+export function Ordered(state: IGameState) {
+    let zone = LazyZoneInit(GetZone(Self, state), New, state);
+    return GetOrderedEntityCodes(zone);
+}
+
 export const Self = 'interceptors';
 export const TargetTypes = {
     Interceptor: 'interceptor',
@@ -51,17 +57,8 @@ export const Desc = {
     Self,
     TargetTypes,
 
-    Get, Add, Remove,
+    Get, Add, Remove, Ordered,
     New,
 } as IZoneDescription;
 
 export default Desc;
-
-/**
- * GetOrderedInterceptors returns interceptors in insertion-order.
- */
-export function GetOrderedInterceptors(state: IGameState): Array<EntityCode> {
-    let zone = LazyZoneInit(GetZone(Self, state), New, state);
-    let asInterceptorsZone = AsInterceptorsZone(zone);
-    return asInterceptorsZone.Ordered;
-}

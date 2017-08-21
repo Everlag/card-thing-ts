@@ -28,6 +28,17 @@ export function GetEntity(identity: EntityCode,
 }
 
 /**
+ * GetOrderedEntityCodes fetches all EntityCodes from the Zone
+ *
+ * NOTE: this is for Zone-internal usage only. Prefer to use
+ *       Ordered of the specific zone.
+ * @param zone Zone to fetch from
+ */
+export function GetOrderedEntityCodes(zone: IZone): Array<EntityCode> {
+    return zone.Ordered;
+}
+
+/**
  * AddEntity includes the provided Entity in the Zone.
  *
  * If the Zone already contains that Entity, this is a NOP.
@@ -50,7 +61,7 @@ export function AddEntity(entity: IEntity, zone: IZone) {
  * If the Zone does not contain that Entity, this returns null.
  *
  * NOTE: this is for Zone-internal usage only. Prefer to use
- *       the Add of the specific zone.
+ *       the Remove of the specific zone.
  * @param identity Entity to remove from the Zone
  * @param zone Zone holding the Entity
  */
