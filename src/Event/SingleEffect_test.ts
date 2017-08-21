@@ -3,7 +3,7 @@ import {
 } from '../Game/Game';
 import * as T from '../test';
 import { IFilterState, FilterMatches } from '../IFilterState';
-import { ApplyEffect } from './Effect';
+import { ApplyEffect, NewEffectRegister } from './Effect';
 import {
     IEffectPack,
 } from './Header';
@@ -38,7 +38,9 @@ class SingleEffectTest extends T.Test {
     public Run() {
         let [state, effect, name, matchingFilter] = this.testCase;
 
-        state = ApplyEffect(effect, state, () => {
+        let effectRegister = NewEffectRegister();
+
+        state = ApplyEffect(effectRegister, effect, state, () => {
             throw Error('player choice was accessed');
         });
 

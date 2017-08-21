@@ -5,7 +5,7 @@ import {
     EntityCode,
 } from '../Entity/Header';
 import { IPlayerResponse } from '../Player/Header';
-import { IEffectPack } from '../Event/Header';
+import { EffectRegister, IEffectPack } from '../Event/Header';
 import { ApplyEffect } from '../Event/Effect';
 import { CheckFilter } from '../Event/Filter';
 import { ApplyMutator } from '../Event/Mutator';
@@ -13,7 +13,8 @@ import { ApplyMutator } from '../Event/Mutator';
 import Interceptors from '../Zone/Zones/Interceptors';
 
 export abstract class GameMachine {
-    constructor(public state: IGameState) { }
+    constructor(public state: IGameState,
+        public effectRegister: EffectRegister) { }
 
     /**
      * tick runs the game for one discrete step.
@@ -62,7 +63,7 @@ export abstract class GameMachine {
 
         mutated.forEach(m => {
             if (m === null) return;
-            this.state = ApplyEffect(m, this.state,
+            this.state = ApplyEffect(this.effectRegister, m, this.state,
                 (player: EntityCode) => this.getPlayerResponse(player));
         });
     }

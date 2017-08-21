@@ -11,6 +11,7 @@ import {
 import {
     IEvent,
 } from '../Event/Header';
+import { NewEffectRegister } from '../Event/Effect';
 
 /* tslint:disable */
 // Disabling as it wants a trailing comma and we can't allow that.
@@ -138,7 +139,8 @@ class MultiEffectTest extends T.Test {
 
         let queue = buildQueue(this.testCase);
 
-        let machine = new TestMachine(state, queue);
+        let effectRegister = NewEffectRegister();
+        let machine = new TestMachine(state, effectRegister, queue);
 
         for (let i = 0; i < tickCount; i++) {
             machine.tick();

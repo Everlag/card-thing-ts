@@ -61,20 +61,6 @@ RegisterEffect(coreRegister, SetIntercept);
 import RemoveIntercept from './Effects/RemoveIntercept';
 RegisterEffect(coreRegister, RemoveIntercept);
 
-// ApplyEffect applies the given Effect to the IGameState and returns it.
-export function ApplyEffect(effect: IEffectPack,
-    state: IGameState, remoteQuery: PlayerResponseQuery): IGameState {
-
-    // TODO: take EffectRegister as argument to execute from
-    // workaround: execute using core.
-    let op = coreRegister.get(effect.Effect);
-    if (!op) {
-        throw Error(`cannot apply unregistered effect "${effect.Effect}"`);
-    }
-
-    return op(state, effect, remoteQuery);
-}
-
 /**
  * NewEffectRegister constructs an EffectRegister with all
  * core operations already registered.
@@ -85,4 +71,17 @@ export function NewEffectRegister(): EffectRegister {
     coreRegister.forEach((op, effect) => register.set(effect, op));
 
     return register;
+}
+
+// ApplyEffect applies the given Effect to the IGameState and returns it.
+export function ApplyEffect(register: EffectRegister,
+    effect: IEffectPack,
+    state: IGameState, remoteQuery: PlayerResponseQuery): IGameState {
+
+    let op = register.get(effect.Effect);
+    if (!op) {
+        throw Error(`cannot apply unregistered effect "${effect.Effect}"`);
+    }
+
+    return op(state, effect, remoteQuery);
 }
