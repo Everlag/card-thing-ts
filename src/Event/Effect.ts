@@ -1,4 +1,5 @@
 import {
+    EffectRegister,
     IEffectDescription, EffectOperator, IEvent, IEffectPack,
 } from './Header';
 import {
@@ -12,14 +13,18 @@ import {
 } from '../Player/Header';
 import { GetPlayerByIndex, GetPlayerCount } from '../Zone/Zones/Players';
 
-let operatorRegister = new Map<string, EffectOperator>();
+let coreRegister: EffectRegister = new Map<string, EffectOperator>();
 
-export function RegisterEffect(desc: IEffectDescription) {
-    if (operatorRegister.has(desc.Self)) {
+/**
+ * RegisterEffect includes the described Effect on the register
+ */
+export function RegisterEffect(register: EffectRegister,
+    desc: IEffectDescription) {
+
+    if (register.has(desc.Self)) {
         throw Error(`duplicated identifier for ${desc.Self}`);
     }
-    operatorRegister.set(desc.Self, desc.Op);
-    console.log('operator register looks like', operatorRegister);
+    register.set(desc.Self, desc.Op);
 }
 
 // getPriorities returns an array of IEvent which will
@@ -36,34 +41,48 @@ export function getPriorities(state: IGameState): Array<IEvent> {
 }
 
 import ThrowGuard from './Effects/ThrowGuard';
-RegisterEffect(ThrowGuard);
+RegisterEffect(coreRegister, ThrowGuard);
 
 import StartTurn from './Effects/StartTurn';
-RegisterEffect(StartTurn);
+RegisterEffect(coreRegister, StartTurn);
 
 import EndTurn from './Effects/EndTurn';
-RegisterEffect(EndTurn);
+RegisterEffect(coreRegister, EndTurn);
 
 import PlayerPriority from './Effects/PlayerPriority';
-RegisterEffect(PlayerPriority);
+RegisterEffect(coreRegister, PlayerPriority);
 
 import Damage from './Effects/Damage';
-RegisterEffect(Damage);
+RegisterEffect(coreRegister, Damage);
 
 import SetIntercept from './Effects/SetIntercept';
-RegisterEffect(SetIntercept);
+RegisterEffect(coreRegister, SetIntercept);
 
 import RemoveIntercept from './Effects/RemoveIntercept';
-RegisterEffect(RemoveIntercept);
+RegisterEffect(coreRegister, RemoveIntercept);
 
 // ApplyEffect applies the given Effect to the IGameState and returns it.
 export function ApplyEffect(effect: IEffectPack,
     state: IGameState, remoteQuery: PlayerResponseQuery): IGameState {
 
-    let op = operatorRegister.get(effect.Effect);
+    // TODO: take EffectRegister as argument to execute from
+    // workaround: execute using core.
+    let op = coreRegister.get(effect.Effect);
     if (!op) {
         throw Error(`cannot apply unregistered effect "${effect.Effect}"`);
     }
 
     return op(state, effect, remoteQuery);
+}
+
+/**
+ * NewEffectRegister constructs an EffectRegister with all
+ * core operations already registered.
+ */
+export function NewEffectRegister(): EffectRegister {
+    let register: EffectRegister = new Map();
+
+    coreRegister.forEach((op, effect) => register.set(effect, op));
+
+    return register;
 }

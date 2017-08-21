@@ -6,6 +6,12 @@ import { TargetType } from '../Zone/Header';
 export type EffectOperator = (state: IGameState,
     pack: IEffectPack, remoteQuery: PlayerResponseQuery) => IGameState;
 
+/**
+ * EffectRegister allows Effects to be registered
+ * in how they are handled
+ */
+export type EffectRegister = Map<string, EffectOperator>;
+
 export interface IEffectDescription {
     Self: Effect;
     Op: EffectOperator;
