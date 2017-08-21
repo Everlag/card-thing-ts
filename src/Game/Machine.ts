@@ -6,7 +6,7 @@ import {
 } from '../Entity/Header';
 import { IPlayerResponse } from '../Player/Header';
 import {
-    EffectRegister, MutatorRegister, IEffectPack,
+    EffectRegister, IMutatorRegister, IEffectPack,
 } from '../Event/Header';
 import { ApplyEffect } from '../Event/Effect';
 import { CheckFilter } from '../Event/Filter';
@@ -17,7 +17,7 @@ import Interceptors from '../Zone/Zones/Interceptors';
 export abstract class GameMachine {
     constructor(public state: IGameState,
         public effectRegister: EffectRegister,
-        public mutatorRegister: MutatorRegister) { }
+        public mutatorRegister: IMutatorRegister) { }
 
     /**
      * tick runs the game for one discrete step.
