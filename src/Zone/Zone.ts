@@ -81,17 +81,18 @@ export function NewZoneRegister(): IZoneRegister {
  * This throws if it fails to find the specified Entity or
  * the Entity is present in more than one Zone.
  */
-export function FindEntity(identity: EntityCode, targetType: TargetType,
+export function FindEntity(register: IZoneRegister,
+    identity: EntityCode, targetType: TargetType,
     state: IGameState): IEntity {
 
-    let zones = coreRegister.TargetTypes.get(targetType);
+    let zones = register.TargetTypes.get(targetType);
     if (zones === undefined) {
         throw Error(`no zones registered for TargetType ${targetType}`);
     }
 
     // Traverse every possible zone it can exist in to lookup the identity
     let found = zones.map(z => {
-        let desc = coreRegister.Zones.get(z);
+        let desc = register.Zones.get(z);
         if (desc === undefined) {
             throw Error(`no description registered for zone ${z}`);
         }

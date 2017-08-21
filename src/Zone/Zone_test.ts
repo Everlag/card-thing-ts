@@ -54,7 +54,8 @@ class ZoneTest extends T.Test {
                 case 'find':
                     // Unsafely add it prior to Finding it
                     AddEntity(entity, z);
-                    FindEntity(entity.Identity, targetType, state);
+                    FindEntity(zoneRegister,
+                        entity.Identity, targetType, state);
                     break;
                 default:
                     throw Error('fell through exhaustive operation switch');
