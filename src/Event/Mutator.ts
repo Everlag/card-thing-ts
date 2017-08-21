@@ -1,17 +1,18 @@
 import {
+    MutatorRegister,
     IEffectPack, IEffectPackMutator,
 
     IMutatorDescription, Mutator,
 } from './Header';
 
-let operatorRegister = new Map<string, Mutator>();
+let coreRegister: MutatorRegister = new Map<string, Mutator>();
 
 export function RegisterMutator(desc: IMutatorDescription) {
-    if (operatorRegister.has(desc.Self)) {
+    if (coreRegister.has(desc.Self)) {
         throw Error(`duplicated identifier for ${desc.Self}`);
     }
-    operatorRegister.set(desc.Self, desc.Op);
-    console.log('operator register looks like', operatorRegister);
+    coreRegister.set(desc.Self, desc.Op);
+    console.log('operator register looks like', coreRegister);
 }
 
 import Cancel from './Mutators/Cancel';
@@ -24,6 +25,18 @@ import Affix from './Mutators/Affix';
 RegisterMutator(Affix);
 
 /**
+ * NewMutatorRegister constructs a MutatorRegister
+ * with all core operations already registered.
+ */
+export function NewMutatorRegister(): MutatorRegister {
+    let register: MutatorRegister = new Map();
+
+    coreRegister.forEach((op, effect) => register.set(effect, op));
+
+    return register;
+}
+
+/**
  * ApplyMutator applies the given IEffectPackMutator to an
  * IEffectPack.
  *
@@ -33,10 +46,11 @@ RegisterMutator(Affix);
  * @param pack an IEffectPack which mutator is compatible with
  * @param mutator IEffectPackMutator to be applied to the pack
  */
-export function ApplyMutator(pack: IEffectPack,
+export function ApplyMutator(register: MutatorRegister,
+        pack: IEffectPack,
         mutator: IEffectPackMutator): Array<IEffectPack | null> {
 
-    let op = operatorRegister.get(mutator.Mutator);
+    let op = register.get(mutator.Mutator);
     if (!op) {
         throw Error(`cannot apply unregisted mutator ${mutator.Mutator}`);
     }

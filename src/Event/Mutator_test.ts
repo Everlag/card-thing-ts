@@ -7,7 +7,7 @@ import {
     CheckFilter,
 } from './Filter';
 import {
-    ApplyMutator,
+    NewMutatorRegister, ApplyMutator,
 } from './Mutator';
 
 export type TestCase = [
@@ -35,7 +35,9 @@ class EffectPackMutatorTest extends T.Test {
     public Run() {
         let [pack, mutator, name, filters] = this.testCase;
 
-        let results = ApplyMutator(pack, mutator);
+        let register = NewMutatorRegister();
+
+        let results = ApplyMutator(register, pack, mutator);
         if (results.length !== filters.length) {
             let msg = `results length did not match expected filter length
             case - ${name}

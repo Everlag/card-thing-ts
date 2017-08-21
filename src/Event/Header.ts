@@ -91,6 +91,12 @@ export type EffectMutator = string;
 export type Mutator = (pack: IEffectPack,
     mutator: IEffectPackMutator) => Array<IEffectPack | null>;
 
+/**
+ * MutatorRegister allows mutators to be explicitly registered in
+ * how they should be handled
+ */
+export type MutatorRegister = Map<string, Mutator>;
+
 export interface IMutatorDescription {
     Self: EffectMutator;
     Op: Mutator;

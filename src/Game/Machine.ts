@@ -5,7 +5,9 @@ import {
     EntityCode,
 } from '../Entity/Header';
 import { IPlayerResponse } from '../Player/Header';
-import { EffectRegister, IEffectPack } from '../Event/Header';
+import {
+    EffectRegister, MutatorRegister, IEffectPack,
+} from '../Event/Header';
 import { ApplyEffect } from '../Event/Effect';
 import { CheckFilter } from '../Event/Filter';
 import { ApplyMutator } from '../Event/Mutator';
@@ -14,7 +16,8 @@ import Interceptors from '../Zone/Zones/Interceptors';
 
 export abstract class GameMachine {
     constructor(public state: IGameState,
-        public effectRegister: EffectRegister) { }
+        public effectRegister: EffectRegister,
+        public mutatorRegister: MutatorRegister) { }
 
     /**
      * tick runs the game for one discrete step.
@@ -52,7 +55,8 @@ export abstract class GameMachine {
                 // cascade of problems if we allow them when not expected.
                 if (p === null) return [];
                 if (!CheckFilter(p, intercept.Filter)) return [p];
-                return ApplyMutator(p, intercept.Mutator);
+                return ApplyMutator(this.mutatorRegister,
+                    p, intercept.Mutator);
             });
             let flat = intercepted.reduce((total, parts) => {
                 total.push(...parts);
