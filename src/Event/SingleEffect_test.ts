@@ -21,9 +21,6 @@ Cases.push(...EndTurn_test);
 import PlayerPriority_test from './Effects/PlayerPriority_test';
 Cases.push(...PlayerPriority_test);
 
-import Damage_test from './Effects/Damage_test';
-Cases.push(...Damage_test);
-
 import SetIntercept_test from './Effects/SetIntercept_test';
 Cases.push(...SetIntercept_test);
 

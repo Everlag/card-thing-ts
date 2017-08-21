@@ -54,9 +54,6 @@ RegisterEffect(coreRegister, EndTurn);
 import PlayerPriority from './Effects/PlayerPriority';
 RegisterEffect(coreRegister, PlayerPriority);
 
-import Damage from './Effects/Damage';
-RegisterEffect(coreRegister, Damage);
-
 import SetIntercept from './Effects/SetIntercept';
 RegisterEffect(coreRegister, SetIntercept);
 

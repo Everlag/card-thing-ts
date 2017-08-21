@@ -44,15 +44,10 @@ export const TertiaryPlayerEntityCode: EntityCode  = '73r7ry';
 export const ExternalEntityCode: EntityCode =  '3Xrn4l';
 export const OtherEntityCode: EntityCode =  '07h3rr';
 
-export const PlayerDefaultHealth = 30;
-
 function GetDefaultPlayerOne(): IPlayerInit {
     return {
         Self: {
             Identity: PlayerOneEntityCode,
-
-            HasHealth: true,
-            Health: PlayerDefaultHealth,
         },
         Index: 0,
         Behavior: PlayerBehavior.AlwaysPass,
@@ -63,9 +58,6 @@ function GetDefaultPlayerTwo(): IPlayerInit {
     return {
         Self: {
             Identity: PlayerTwoEntityCode,
-
-            HasHealth: true,
-            Health: PlayerDefaultHealth,
         },
         Index: 1,
         Behavior: PlayerBehavior.AlwaysPass,
@@ -76,9 +68,6 @@ function GetTertiaryPlayerThree(): IPlayerInit {
     return {
         Self: {
             Identity: TertiaryPlayerEntityCode,
-
-            HasHealth: true,
-            Health: PlayerDefaultHealth,
         },
         Index: 2,
         Behavior: PlayerBehavior.AlwaysPass,
