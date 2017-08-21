@@ -37,9 +37,15 @@ class SingleEffectTest extends T.Test {
 
         let effectRegister = NewEffectRegister();
 
-        state = ApplyEffect(effectRegister, effect, state, () => {
-            throw Error('player choice was accessed');
-        });
+        try {
+            state = ApplyEffect(effectRegister, effect, state, () => {
+                throw Error('player choice was accessed');
+            });
+        } catch (e) {
+            throw Error(`unexpected Error
+            case - ${name}
+            error - ${e.toString()}`);
+        }
 
         let match = FilterMatches(state, matchingFilter);
         if (match === null) return;
