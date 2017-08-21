@@ -105,7 +105,6 @@ export function NewZone(zone: ZoneCode): IZone {
         Self: zone,
         Count: 0,
         Ordered: [],
-        Contents: {},
     };
 }
 
