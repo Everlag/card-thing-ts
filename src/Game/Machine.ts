@@ -6,7 +6,7 @@ import {
 } from '../Entity/Header';
 import { IPlayerResponse } from '../Player/Header';
 import {
-    EffectRegister, IMutatorRegister, IEffectPack,
+    IEffectRegister, IMutatorRegister, IEffectPack,
 } from '../Event/Header';
 import { ApplyEffect } from '../Event/Effect';
 import { CheckFilter } from '../Event/Filter';
@@ -16,7 +16,7 @@ import Interceptors from '../Zone/Zones/Interceptors';
 
 export abstract class GameMachine {
     constructor(public state: IGameState,
-        public effectRegister: EffectRegister,
+        public effectRegister: IEffectRegister,
         public mutatorRegister: IMutatorRegister) { }
 
     /**

@@ -1,5 +1,5 @@
 import {
-    EffectRegister,
+    IEffectRegister,
     IEffectDescription, EffectOperator, IEvent, IEffectPack,
 } from './Header';
 import {
@@ -13,18 +13,20 @@ import {
 } from '../Player/Header';
 import { GetPlayerByIndex, GetPlayerCount } from '../Zone/Zones/Players';
 
-let coreRegister: EffectRegister = new Map<string, EffectOperator>();
+let coreRegister: IEffectRegister = {
+    Register: new Map<string, EffectOperator>(),
+};
 
 /**
  * RegisterEffect includes the described Effect on the register
  */
-export function RegisterEffect(register: EffectRegister,
+export function RegisterEffect(register: IEffectRegister,
     desc: IEffectDescription) {
 
-    if (register.has(desc.Self)) {
+    if (register.Register.has(desc.Self)) {
         throw Error(`duplicated identifier for ${desc.Self}`);
     }
-    register.set(desc.Self, desc.Op);
+    register.Register.set(desc.Self, desc.Op);
 }
 
 // getPriorities returns an array of IEvent which will
@@ -65,20 +67,23 @@ RegisterEffect(coreRegister, RemoveIntercept);
  * NewEffectRegister constructs an EffectRegister with all
  * core operations already registered.
  */
-export function NewEffectRegister(): EffectRegister {
-    let register: EffectRegister = new Map();
+export function NewEffectRegister(): IEffectRegister {
+    let register: IEffectRegister = {
+        Register: new Map(),
+    };
 
-    coreRegister.forEach((op, effect) => register.set(effect, op));
+    coreRegister.Register
+        .forEach((op, effect) => register.Register.set(effect, op));
 
     return register;
 }
 
 // ApplyEffect applies the given Effect to the IGameState and returns it.
-export function ApplyEffect(register: EffectRegister,
+export function ApplyEffect(register: IEffectRegister,
     effect: IEffectPack,
     state: IGameState, remoteQuery: PlayerResponseQuery): IGameState {
 
-    let op = register.get(effect.Effect);
+    let op = register.Register.get(effect.Effect);
     if (!op) {
         throw Error(`cannot apply unregistered effect "${effect.Effect}"`);
     }

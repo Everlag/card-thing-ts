@@ -3,7 +3,7 @@ import { IGameState, IGameStack } from './Game/Header';
 import { getPlayerIndex, GameStack } from './Game/Game';
 import { IPlayerResponse, PlayerAction } from './Player/Header';
 import {
-    EffectRegister, IMutatorRegister, IEvent,
+    IEffectRegister, IMutatorRegister, IEvent,
 } from './Event/Header';
 import {
     EntityCode,
@@ -22,7 +22,7 @@ export type ResponseQueue = Map<EntityCode, IGameStack>;
 // a new event.
 export class TestMachine extends GameMachine {
     constructor(public state: IGameState,
-        public effectRegister: EffectRegister,
+        public effectRegister: IEffectRegister,
         public mutatorRegister: IMutatorRegister,
         public responseQueue: ResponseQueue) {
 
