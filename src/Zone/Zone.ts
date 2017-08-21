@@ -1,30 +1,30 @@
 import {
     ZoneCode, IZoneDescription,
     TargetType,
+    IZoneRegister,
 } from './Header';
 import {
     IGameState,
 } from '../Game/Header';
 import { IEntity, EntityCode } from '../Entity/Header';
 
-/**
- * Exported to allow Zone tests to run.
- *
- * TODO: refactor to not require or to standardize
- */
-export const zoneRegister = new Map<ZoneCode, IZoneDescription>();
-let targetTypeRegister = new Map<TargetType, Array<ZoneCode>>();
+let coreRegister: IZoneRegister = {
+    Zones: new Map<ZoneCode, IZoneDescription>(),
+    TargetTypes: new Map<TargetType, Array<ZoneCode>>(),
+};
 
 /**
  * RegisterZone includes a zone in both our zoneRegister as well
  * as our targetTypeRegister when resolving a TargetType to a specific zone
  */
-export function RegisterZone(desc: IZoneDescription) {
+export function RegisterZone(register: IZoneRegister,
+    desc: IZoneDescription) {
+
     console.log('I have description desc', desc);
-    if (zoneRegister.has(desc.Self)) {
+    if (register.Zones.has(desc.Self)) {
         throw Error(`duplicated identifier for ${desc.Self}`);
     }
-    zoneRegister.set(desc.Self, desc);
+    register.Zones.set(desc.Self, desc);
 
     // for-in is very slow, however we expect so few zones and TargetTypes
     // that it is not worth worrying about given this only runs once
@@ -37,23 +37,42 @@ export function RegisterZone(desc: IZoneDescription) {
         if (!desc.TargetTypes.hasOwnProperty(ref)) return;
         let targetType = desc.TargetTypes[ref];
 
-        let existing = targetTypeRegister.get(targetType);
+        let existing = register.TargetTypes.get(targetType);
         if (existing === undefined) {
             existing = [];
         }
         existing.push(desc.Self);
-        targetTypeRegister.set(targetType, existing);
+        register.TargetTypes.set(targetType, existing);
     }
 }
 
 import Global from './Zones/Global';
-RegisterZone(Global);
+RegisterZone(coreRegister, Global);
 
 import Players from './Zones/Players';
-RegisterZone(Players);
+RegisterZone(coreRegister, Players);
 
 import Interceptors from './Zones/Interceptors';
-RegisterZone(Interceptors);
+RegisterZone(coreRegister, Interceptors);
+
+/**
+ * NewZoneRegister constructs a ZoneRegister with all
+ * core zones already registered.
+ */
+export function NewZoneRegister(): IZoneRegister {
+    let register: IZoneRegister = {
+        Zones: new Map<ZoneCode, IZoneDescription>(),
+        TargetTypes: new Map<TargetType, Array<ZoneCode>>(),
+    };
+
+    coreRegister.Zones
+        .forEach((zone, desc) => register.Zones.set(desc, zone));
+
+    coreRegister.TargetTypes
+        .forEach((targetType, zones) => register.TargetTypes.set(zones, targetType));
+
+    return register;
+}
 
 /**
  * FindEntity resolves a provided EntityCode and TargetType
@@ -65,14 +84,14 @@ RegisterZone(Interceptors);
 export function FindEntity(identity: EntityCode, targetType: TargetType,
     state: IGameState): IEntity {
 
-    let zones = targetTypeRegister.get(targetType);
+    let zones = coreRegister.TargetTypes.get(targetType);
     if (zones === undefined) {
         throw Error(`no zones registered for TargetType ${targetType}`);
     }
 
     // Traverse every possible zone it can exist in to lookup the identity
     let found = zones.map(z => {
-        let desc = zoneRegister.get(z);
+        let desc = coreRegister.Zones.get(z);
         if (desc === undefined) {
             throw Error(`no description registered for zone ${z}`);
         }

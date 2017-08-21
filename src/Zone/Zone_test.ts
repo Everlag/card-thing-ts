@@ -3,7 +3,7 @@ import {
 } from '../Game/Game';
 import * as T from '../test';
 import {
-    FindEntity, zoneRegister,
+    FindEntity, NewZoneRegister,
 } from './Zone';
 import {
     GetZone,
@@ -39,7 +39,9 @@ class ZoneTest extends T.Test {
 
         let state = new GameState(T.GetDefaultPlayers());
 
-        let desc = zoneRegister.get(zone);
+        let zoneRegister = NewZoneRegister();
+
+        let desc = zoneRegister.Zones.get(zone);
         if (desc === undefined) throw Error(`unknown zone ${zone}`);
         let z = LazyZoneInit(GetZone(zone, state), desc.New, state);
 

@@ -98,6 +98,15 @@ export interface IZoneDescription {
     New: NewZoneOperator;
 }
 
+/**
+ * IZoneRegister allows Zones to register how they are handled
+ * as well as assists in resolving TargetTypes to their zones.
+ */
+export interface IZoneRegister {
+    Zones: Map<ZoneCode, IZoneDescription>;
+    TargetTypes: Map<TargetType, Array<ZoneCode>>;
+}
+
 export class ZoneAssertError extends Error {
     constructor(desired: String, flag: String) {
         super(`cannot cast IZone to ${desired} with falsey ${flag}`);
