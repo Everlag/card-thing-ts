@@ -53,7 +53,7 @@ class ZoneTest extends T.Test {
                     break;
                 case 'find':
                     // Unsafely add it prior to Finding it
-                    AddEntity(entity, z);
+                    AddEntity(entity, z, state);
                     FindEntity(zoneRegister,
                         entity.Identity, targetType, state);
                     break;

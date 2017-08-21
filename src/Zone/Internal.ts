@@ -5,12 +5,14 @@ import {
     IGameState,
 } from '../Game/Header';
 import { IEntity, EntityCode } from '../Entity/Header';
+import Free from './Zones/Free';
 import { IncludeZone } from '../Entity/Entities/WithZone';
 
 /**
  * GetEntity fetches an Entity from the Zone by its identity EntityCode
  *
- * null result is returned when the Entity does not exist within that Zone.
+ * null result is returned when the Entity does not exist within that Zone
+ * or simply does not exist.
  *
  * NOTE: this is for Zone-internal usage only. Prefer to use
  *       FindEntity which will perform a search for the identity based
@@ -19,12 +21,14 @@ import { IncludeZone } from '../Entity/Entities/WithZone';
  * @param zone Zone to fetch from
  */
 export function GetEntity(identity: EntityCode,
-    zone: IZone): IEntity | null {
+    zone: IZone, state: IGameState): IEntity | null {
 
-    let entity = zone.Contents[identity];
-    if (entity === undefined) {
+    let entity = state.entities[identity];
+    if (!entity ||
+        entity.Zone !== zone.Self) {
         return null;
     }
+
     return entity;
 }
 
@@ -49,11 +53,16 @@ export function GetOrderedEntityCodes(zone: IZone): Array<EntityCode> {
  * @param entity Entity to add to the Zone
  * @param zone Zone to hold the Entity
  */
-export function AddEntity(entity: IEntity, zone: IZone) {
+export function AddEntity(entity: IEntity,
+    zone: IZone, state: IGameState) {
+
     let withZone = IncludeZone(entity, zone.Self);
+    // TODO: remove when tests migrated
     zone.Contents[withZone.Identity] = withZone;
     zone.Ordered.push(withZone.Identity);
     zone.Count++;
+
+    state.entities[withZone.Identity] = withZone;
 }
 
 /**
@@ -67,12 +76,11 @@ export function AddEntity(entity: IEntity, zone: IZone) {
  * @param identity Entity to remove from the Zone
  * @param zone Zone holding the Entity
  */
-export function RemoveEntity(identity: EntityCode, zone: IZone) {
-    let existing = zone.Contents[identity];
-    if (existing === undefined) return null;
-
-    // Remove from basic contents
-    delete zone.Contents[identity];
+export function RemoveEntity(identity: EntityCode,
+    zone: IZone, state: IGameState) {
+    let existing = state.entities[identity];
+    if (!existing ||
+        existing.Zone !== zone.Self) return null;
 
     // Remove from ordered list
     zone.Ordered = zone.Ordered.filter(v => {
@@ -81,6 +89,9 @@ export function RemoveEntity(identity: EntityCode, zone: IZone) {
 
     // Decrement count
     zone.Count--;
+
+    // Add to free to remove from the Zone
+    Free.Add(existing, state);
 }
 
 /**

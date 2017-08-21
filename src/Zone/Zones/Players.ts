@@ -44,13 +44,13 @@ export function Add(entity: IEntity, state: IGameState) {
     }
 
     // Perform the additons
-    AddEntity(asPlayer, zone);
+    AddEntity(asPlayer, zone, state);
     asPlayersZone.IndexToIdentity[asPlayer.Index] = asPlayer.Identity;
 }
 
 export function Get(identity: EntityCode, state: IGameState) {
     let zone = LazyZoneInit(GetZone(Self, state), New, state);
-    let entity = GetEntity(identity, zone);
+    let entity = GetEntity(identity, zone, state);
     if (entity === null) return null;
     return AsPlayer(entity);
 }
