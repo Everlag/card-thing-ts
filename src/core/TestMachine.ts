@@ -47,8 +47,16 @@ export class TestMachine extends GameMachine {
             throw Error(`empty response when qeuried for player ${player}`);
         }
 
+        // TODO: less hack more respectful of types
+        /* tslint:disable */
+        let action = PlayerAction.Use;
+        if ((<any>e)['Action']) {
+            action = (<any>e)['Action'];
+        }
+        /* tslint:enable */
+
         return {
-            Action: PlayerAction.Use,
+            Action: action,
             Effects: e.Effects,
         };
     }

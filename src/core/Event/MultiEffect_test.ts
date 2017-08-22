@@ -93,6 +93,9 @@ pushDesc(InterceptThrowGuardAndRemove);
 import InterceptForExtraTurn from './MultiEffect_test/InterceptForExtraTurn';
 pushDesc(InterceptForExtraTurn);
 
+import CancelAsPlayerResponse from './MultiEffect_test/CancelAsPlayerResponse';
+pushDesc(CancelAsPlayerResponse);
+
 // buildQueue constructs a ResponseQueue from a TestCase
 function buildQueue(c: TestCase): ResponseQueue {
     /* tslint:disable */

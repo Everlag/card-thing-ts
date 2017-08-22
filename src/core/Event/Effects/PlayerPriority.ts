@@ -34,8 +34,10 @@ export function Op(state: IGameState, pack: IEffectPack,
             // Since IPlayerResponse is just an IEvent with
             // a flag, we can simply push it onto the stack.
             //
-            // We also give all players the opportunity to react.
-            state.stack.push(...getPriorities(state), response);
+            // We also give all players the opportunity to react to
+            // the response.
+            console.log('pushing to stack with event', response);
+            state.stack.push(response, ...getPriorities(state));
             return state;
         default:
             throw Error(`unknown PlayerAction in response, got: ${response.Action}`);
