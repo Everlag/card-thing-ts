@@ -1,4 +1,4 @@
-import { RunAll } from './game_test';
+import { RunAll } from './core/game_test';
 
 console.log('hello world!!');
 
