@@ -1,0 +1,37 @@
+import { TestCase } from './Entities_test';
+import { IGameState } from '../../core/Game/Header';
+
+import data from '../data';
+import { PropertyEntityFromData, AsProperty } from './AsProperty';
+
+let cases: Array<TestCase> = [];
+
+(() => {
+
+    let op = (state: IGameState) => {
+        let processed = data.properties
+            .map(p => PropertyEntityFromData(p, state));
+
+        processed.forEach(p => {
+            // Reassert
+            AsProperty(p);
+
+            // Test a few key properties to ensure they were translated
+            if (!p.Identity.length ||
+                p.Identity.length < 0) {
+                throw Error(`property not assigned EntityCode`);
+            }
+            if (!p.Name.length ||
+                p.Name.length < 0) {
+                throw Error(`property name not translated`);
+            }
+        });
+    };
+
+    cases.push([
+        op,
+        'AsProperty PropertyEntityFromData - static data',
+    ]);
+})();
+
+export default cases;

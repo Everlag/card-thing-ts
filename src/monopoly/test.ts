@@ -1,10 +1,10 @@
 import * as T from '../core/test';
-// import * as zone_test from './Zone/Zone_test';
+import Entities_test from './Entities/Entities_test';
 
 let tests = new Array<T.Test>();
 
 tests.push(...[
-
+    ...Entities_test,
 ]);
 
 export function RunAll() {
