@@ -16,7 +16,20 @@ import {
 // IAsProperty must be a valid Position
 import { WithPosition } from './WithPosition';
 
-export type PropertyGroup = string;
+export enum PropertyGroup {
+    Special = 'Special',
+    Utilities = 'Utilities',
+    Railroad = 'Railroad',
+
+    Purple = 'Purple',
+    Lightgreen = 'Lightgreen',
+    Violet = 'Violet',
+    Orange = 'Orange',
+    Red = 'Red',
+    Yellow = 'Yellow',
+    Darkgreen = 'Darkgreen',
+    Darkblue = 'Darkblue',
+}
 
 export interface IAsProperty extends IEntity {
     IsProperty: true;
@@ -72,6 +85,13 @@ export function PropertyEntityFromData(data: IPropertyData,
     let entityCode: string = '';
     getRNGContext(state, (rng) => entityCode = NewEntityCode(rng));
 
+    let group: PropertyGroup;
+    if (data.group in PropertyGroup) {
+        group = (<PropertyGroup>data.group);
+    }else {
+        throw Error(`unknown property group ${data.group}`);
+    }
+
     return {
         Identity: entityCode,
 
@@ -82,7 +102,7 @@ export function PropertyEntityFromData(data: IPropertyData,
         BaseRent: data.rent,
         BaseHouseCost: data.housecost,
 
-        Group: data.group,
+        Group: group,
 
         // Satisfy WithPosition
         HasPosition: true,
