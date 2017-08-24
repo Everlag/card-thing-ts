@@ -54,7 +54,7 @@ let raw = `{
                 550
             ],
             "housecost": 50,
-            "group": "lightgreen",
+            "group": "Lightgreen",
             "ohousecost": 50,
             "oprice": 100
         },
@@ -72,7 +72,7 @@ let raw = `{
                 550
             ],
             "housecost": 50,
-            "group": "lightgreen",
+            "group": "Lightgreen",
             "ohousecost": 50,
             "oprice": 100
         },
@@ -90,7 +90,7 @@ let raw = `{
                 600
             ],
             "housecost": 50,
-            "group": "lightgreen",
+            "group": "Lightgreen",
             "ohousecost": 50,
             "oprice": 120
         },
@@ -324,7 +324,7 @@ let raw = `{
                 1275
             ],
             "housecost": 200,
-            "group": "darkgreen",
+            "group": "Darkgreen",
             "ohousecost": 200,
             "oprice": 300
         },
@@ -342,7 +342,7 @@ let raw = `{
                 1275
             ],
             "housecost": 200,
-            "group": "darkgreen",
+            "group": "Darkgreen",
             "ohousecost": 200,
             "oprice": 300
         },
@@ -360,7 +360,7 @@ let raw = `{
                 1400
             ],
             "housecost": 200,
-            "group": "darkgreen",
+            "group": "Darkgreen",
             "ohousecost": 200,
             "oprice": 320
         },
@@ -378,7 +378,7 @@ let raw = `{
                 1500
             ],
             "housecost": 200,
-            "group": "darkblue",
+            "group": "Darkblue",
             "ohousecost": 200,
             "oprice": 350
         },
@@ -396,7 +396,7 @@ let raw = `{
                 2000
             ],
             "housecost": 200,
-            "group": "darkblue",
+            "group": "Darkblue",
             "ohousecost": 200,
             "oprice": 400
         },
