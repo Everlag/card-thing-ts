@@ -453,42 +453,6 @@ let raw = `{
             "id": "go",
             "position": 0,
             "group": "Special"
-        },
-        {
-            "name": "Income Tax",
-            "id": "incometax",
-            "group": "Special"
-        },
-        {
-            "name": "Jail / Just Visiting",
-            "id": "jail",
-            "position": 10,
-            "group": "Special"
-        },
-        {
-            "name": "Chance",
-            "id": "chance",
-            "group": "Special"
-        },
-        {
-            "name": "Free Parking",
-            "id": "freeparking",
-            "group": "Special"
-        },
-        {
-            "name": "Community Chest",
-            "id": "communitychest",
-            "group": "Special"
-        },
-        {
-            "name": "Go To Jail",
-            "id": "gotojail",
-            "group": "Special"
-        },
-        {
-            "name": "Luxury Tax",
-            "id": "luxerytax",
-            "group": "Special"
         }
     ],
     "tiles": [
@@ -787,6 +751,13 @@ export interface IDataSource {
     attribution: string;
 }
 
-let parsed = JSON.parse(raw) as IDataSource;
+/**
+ * MutData returns a copy of the data suitable for mutation
+ */
+export function MutData(): IDataSource {
+    return JSON.parse(raw) as IDataSource;
+}
+
+let parsed = MutData();
 
 export default parsed;
