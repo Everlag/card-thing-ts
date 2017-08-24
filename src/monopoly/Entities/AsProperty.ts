@@ -13,13 +13,15 @@ import {
     NewEntityCode,
 } from '../../core/Entity/EntityCode';
 
+// IAsProperty must be a valid Position
+import { WithPosition } from './WithPosition';
+
 export type PropertyGroup = string;
 
 export interface IAsProperty extends IEntity {
     IsProperty: true;
 
     Name: string;
-    Position: number;
 
     BasePrice: number;
     BaseRent: number;
@@ -37,9 +39,7 @@ export function AsProperty(e: IEntity): IAsProperty {
 
     // Ensure position is valid.
     let asProperty = e as IAsProperty;
-    if (isNaN(asProperty.Position) || asProperty.Position < 0) {
-        throw EntityAssertFail('IAsProperty', 'Position');
-    }
+    WithPosition(asProperty);
     return asProperty;
 }
 
@@ -77,12 +77,15 @@ export function PropertyEntityFromData(data: IPropertyData,
 
         IsProperty: true,
         Name: data.name,
-        Position: data.position,
 
         BasePrice: data.price,
         BaseRent: data.rent,
         BaseHouseCost: data.housecost,
 
         Group: data.group,
+
+        // Satisfy WithPosition
+        HasPosition: true,
+        Position: data.position,
     } as IAsProperty;
 }

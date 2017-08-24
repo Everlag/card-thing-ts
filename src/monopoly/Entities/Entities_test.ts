@@ -28,6 +28,9 @@ Cases.push(...AsProperty_test);
 import WithMoney_test from './WithMoney_test';
 Cases.push(...WithMoney_test);
 
+import WithPosition_test from './WithPosition_test';
+Cases.push(...WithPosition_test);
+
 class EntityTest extends T.Test {
     constructor(private testCase: TestCase) {
         super();
