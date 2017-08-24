@@ -1,15 +1,14 @@
 import { TestCase } from './Entities_test';
 import { IGameState } from '../../core/Game/Header';
 
-import data from '../data';
+import { MutData } from '../data';
 import { PropertyEntityFromData, AsProperty } from './AsProperty';
 
 let cases: Array<TestCase> = [];
 
 (() => {
-
     let op = (state: IGameState) => {
-        let processed = data.properties
+        let processed = MutData().properties
             .map(p => PropertyEntityFromData(p, state));
 
         processed.forEach(p => {
@@ -31,6 +30,33 @@ let cases: Array<TestCase> = [];
     cases.push([
         op,
         'AsProperty PropertyEntityFromData - static data',
+    ]);
+})();
+
+(() => {
+    let op = (state: IGameState) => {
+        let processed = MutData().properties
+            .map(p => PropertyEntityFromData(p, state))
+            .map(p => {
+                (<any>p.Position) = undefined;
+                return p;
+            });
+
+        processed.forEach(p => {
+            try {
+                // Reassert
+                AsProperty(p);
+            } catch (e) {
+                return;
+            }
+
+            throw Error('invalid Position was allowed');
+        });
+    };
+
+    cases.push([
+        op,
+        'AsProperty PropertyEntityFromData - validates Position',
     ]);
 })();
 

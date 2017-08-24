@@ -34,7 +34,13 @@ export interface IAsProperty extends IEntity {
 }
 export function AsProperty(e: IEntity): IAsProperty {
     if (!e.IsProperty) throw EntityAssertFail('IAsProperty', 'AsProperty');
-    return e as IAsProperty;
+
+    // Ensure position is valid.
+    let asProperty = e as IAsProperty;
+    if (isNaN(asProperty.Position) || asProperty.Position < 0) {
+        throw EntityAssertFail('IAsProperty', 'Position');
+    }
+    return asProperty;
 }
 
 /**
