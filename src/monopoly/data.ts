@@ -1,4 +1,8 @@
-{
+// I'd prefer if we could trivially use webpack to just
+// import the json file but thats a lot of yak shaving to get
+// vscode to be okay with.
+/* tslint:disable */
+let raw = `{
     "properties": [
         {
             "name": "Mediterranean Avenue",
@@ -773,4 +777,16 @@
         }
     ],
     "attribution": "danielstern @ https://github.com/danielstern/science MIT ref bower.json"
+}`;
+/* tslint:enable */
+
+import { IPropertyData } from './Entities/AsProperty';
+export interface IDataSource {
+    properties: Array<IPropertyData>;
+
+    attribution: string;
 }
+
+let parsed = JSON.parse(raw) as IDataSource;
+
+export default parsed;
