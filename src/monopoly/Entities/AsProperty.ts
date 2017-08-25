@@ -15,6 +15,7 @@ import {
 
 // IAsProperty must be a valid Position
 import { WithPosition } from './WithPosition';
+import { AsTile } from './AsTile';
 
 export enum PropertyGroup {
     Special = 'Special',
@@ -53,6 +54,8 @@ export function AsProperty(e: IEntity): IAsProperty {
     // Ensure position is valid.
     let asProperty = e as IAsProperty;
     WithPosition(asProperty);
+    // Ensure tile characters are valid
+    AsTile(asProperty);
     return asProperty;
 }
 

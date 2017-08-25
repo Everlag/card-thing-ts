@@ -2,7 +2,7 @@ import { TestCase } from './Zones_test';
 import { IGameState } from '../../core/Game/Header';
 
 import { MutData } from '../data';
-import { PropertyEntityFromData } from '../Entities/AsProperty';
+import { TileEntityFromData } from '../Entities/DataTransform';
 import Properties,
     {
         GetPropertyByPosition,
@@ -13,7 +13,7 @@ let cases: Array<TestCase> = [];
 (() => {
     let op = (state: IGameState) => {
         let processed = MutData().properties
-            .map(p => PropertyEntityFromData(p, state));
+            .map(p => TileEntityFromData(p, state));
 
         processed.forEach(p => {
             Properties.Add(p, state);
@@ -29,7 +29,7 @@ let cases: Array<TestCase> = [];
 (() => {
     let op = (state: IGameState) => {
         let processed = MutData().properties
-            .map(p => PropertyEntityFromData(p, state))
+            .map(p => TileEntityFromData(p, state))
             .map(p => {
                 (<any>p.Position) = undefined;
                 return p;
@@ -55,7 +55,7 @@ let cases: Array<TestCase> = [];
 (() => {
     let op = (state: IGameState) => {
         let processed = MutData().properties
-        .map(p => PropertyEntityFromData(p, state));
+        .map(p => TileEntityFromData(p, state));
 
         processed.forEach(p => {
             Properties.Add(p, state);
@@ -84,7 +84,7 @@ let cases: Array<TestCase> = [];
 (() => {
     let op = (state: IGameState) => {
         let processed = MutData().properties
-        .map(p => PropertyEntityFromData(p, state));
+        .map(p => TileEntityFromData(p, state));
 
         processed.forEach(p => {
             Properties.Add(p, state);

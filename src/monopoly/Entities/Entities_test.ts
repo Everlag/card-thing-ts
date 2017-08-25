@@ -31,6 +31,9 @@ Cases.push(...WithMoney_test);
 import WithPosition_test from './WithPosition_test';
 Cases.push(...WithPosition_test);
 
+import DataTransform_test from './DataTransform_test';
+Cases.push(...DataTransform_test);
+
 class EntityTest extends T.Test {
     constructor(private testCase: TestCase) {
         super();

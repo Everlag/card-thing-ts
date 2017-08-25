@@ -2,14 +2,15 @@ import { TestCase } from './Entities_test';
 import { IGameState } from '../../core/Game/Header';
 
 import { MutData } from '../data';
-import { PropertyEntityFromData, AsProperty } from './AsProperty';
+import { TileEntityFromData } from './DataTransform';
+import { AsProperty } from './AsProperty';
 
 let cases: Array<TestCase> = [];
 
 (() => {
     let op = (state: IGameState) => {
         let processed = MutData().properties
-            .map(p => PropertyEntityFromData(p, state));
+            .map(p => TileEntityFromData(p, state));
 
         processed.forEach(p => {
             // Reassert
@@ -36,7 +37,7 @@ let cases: Array<TestCase> = [];
 (() => {
     let op = (state: IGameState) => {
         let processed = MutData().properties
-            .map(p => PropertyEntityFromData(p, state))
+            .map(p => TileEntityFromData(p, state))
             .map(p => {
                 (<any>p.Position) = undefined;
                 return p;
