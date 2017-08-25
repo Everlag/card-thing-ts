@@ -9,7 +9,9 @@ import {
 } from '../../core/Entity/EntityCode';
 
 import { PropertyGroup, IAsTile, AsTile } from './AsTile';
-import { AsProperty } from './AsProperty';
+import { AsBuildable } from './AsBuildable';
+import { WithPrice } from './WithPrice';
+import { WithRent } from './WithRent';
 
 /**
  * IPropertyData describes the shape of incoming data
@@ -58,14 +60,51 @@ export function TileEntityFromData(data: IPropertyData,
         Position: data.position,
     } as IAsTile;
 
-    // Price being present indicates it is a property
-    if (isNaN(data.price)) return AsTile(tile);
+    // Annotations to conditionally satisfy various interfaces
+    // if specific properties are present on the data.
+    tile = AnnotatePrice(data, tile);
+    tile = AnnotateRent(data, tile);
+    tile = AnnotateBuildable(data, tile);
 
-    // Annotate with property requirements.
-    tile.BasePrice = data.price;
-    tile.BaseRent = data.rent;
-    tile.BaseHouseCost = data.housecost;
-    tile.IsProperty = true;
-    AsProperty(tile); // Assert
     return AsTile(tile);
+}
+
+/**
+ * AnnotateRent satisfies the WithRent Entity if
+ * `rent` is present on the data.
+ */
+function AnnotateRent(data: IPropertyData, tile: IAsTile): IAsTile {
+    if (isNaN(data.rent)) return tile;
+
+    tile.BaseRent = data.rent;
+    tile.HasRent = true;
+    WithRent(tile);
+    return tile;
+}
+
+/**
+ * AnnotatePrice satisfies the WithPrice Entity if
+ * `price` is present on the data.
+ */
+function AnnotatePrice(data: IPropertyData, tile: IAsTile): IAsTile {
+    if (isNaN(data.price)) return tile;
+
+    tile.HasPrice = true;
+    tile.BasePrice = data.price;
+    WithPrice(tile);
+    return tile;
+}
+
+/**
+ * AnnotateBuildable satisfies the AsBuildable Entity if
+ * `housecost` is present on the data.
+ */
+function AnnotateBuildable(data: IPropertyData, tile: IAsTile): IAsTile {
+    if (isNaN(data.housecost)) return tile;
+
+    tile.BaseHouseCost = data.housecost;
+    tile.HouseCount = 0;
+    tile.IsBuildable = true;
+    AsBuildable(tile); // Assert
+    return tile;
 }

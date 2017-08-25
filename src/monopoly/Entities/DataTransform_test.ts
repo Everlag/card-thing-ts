@@ -3,7 +3,9 @@ import { IGameState } from '../../core/Game/Header';
 
 import { MutData } from '../data';
 import { PropertyGroup } from './AsTile';
-import { AsProperty } from './AsProperty';
+import { WithRent } from './WithRent';
+import { WithPrice } from './WithPrice';
+import { AsBuildable } from './AsBuildable';
 import { TileEntityFromData } from './DataTransform';
 
 let cases: Array<TestCase> = [];
@@ -40,19 +42,19 @@ let cases: Array<TestCase> = [];
 
         processed.forEach(p => {
             try {
-                AsProperty(p);
+                WithRent(p);
             }catch (e) {
                 return;
             }
 
-            throw Error(`special tile was accepted as property
+            throw Error(`special tile was accepted WithRent
                 ${JSON.stringify(p)}`);
         });
     };
 
     cases.push([
         op,
-        'TileEntityFromData - special are not property',
+        'TileEntityFromData - special do not satisify WithRent',
     ]);
 })();
 
@@ -64,9 +66,9 @@ let cases: Array<TestCase> = [];
 
         processed.forEach(p => {
             try {
-                AsProperty(p);
+                WithPrice(p);
             }catch (e) {
-                throw Error(`non-special tile was not accepted as property:
+                throw Error(`non-special tile was not accepted WithPrice:
                     ${JSON.stringify(p)}
                     error: ${e.toString()}`);
             }
@@ -75,7 +77,34 @@ let cases: Array<TestCase> = [];
 
     cases.push([
         op,
-        'TileEntityFromData - non-special are property',
+        'TileEntityFromData - non-special satisfy Withprice',
+    ]);
+})();
+
+(() => {
+    let op = (state: IGameState) => {
+        let processed = MutData().properties
+            .map(p => TileEntityFromData(p, state))
+            .filter(p => {
+                return p.Group !== PropertyGroup.Special &&
+                       p.Group !== PropertyGroup.Utilities &&
+                       p.Group !==  PropertyGroup.Railroad;
+            });
+
+        processed.forEach(p => {
+            try {
+                AsBuildable(p);
+            }catch (e) {
+                throw Error(`filtered tile was not accepted AsBuildable:
+                    ${JSON.stringify(p)}
+                    error: ${e.toString()}`);
+            }
+        });
+    };
+
+    cases.push([
+        op,
+        'TileEntityFromData - non-(special, utility, railroad) satisfy AsBuildable',
     ]);
 })();
 

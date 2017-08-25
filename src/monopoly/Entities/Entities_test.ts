@@ -22,9 +22,6 @@ export type TestCase = [EntityTestOperator, String];
 
 export const Cases = new Array<TestCase>();
 
-import AsProperty_test from './AsProperty_test';
-Cases.push(...AsProperty_test);
-
 import WithMoney_test from './WithMoney_test';
 Cases.push(...WithMoney_test);
 
