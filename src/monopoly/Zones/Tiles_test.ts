@@ -3,7 +3,7 @@ import { IGameState } from '../../core/Game/Header';
 
 import { MutData } from '../data';
 import { TileEntityFromData } from '../Entities/DataTransform';
-import Properties,
+import Tiles,
     {
         GetTileByPosition,
     } from './Tiles';
@@ -16,7 +16,7 @@ let cases: Array<TestCase> = [];
             .map(p => TileEntityFromData(p, state));
 
         processed.forEach(p => {
-            Properties.Add(p, state);
+            Tiles.Add(p, state);
         });
     };
 
@@ -37,7 +37,7 @@ let cases: Array<TestCase> = [];
 
         processed.forEach(p => {
             try {
-                Properties.Add(p, state);
+                Tiles.Add(p, state);
             } catch (e) {
                 return;
             }
@@ -58,7 +58,7 @@ let cases: Array<TestCase> = [];
         .map(p => TileEntityFromData(p, state));
 
         processed.forEach(p => {
-            Properties.Add(p, state);
+            Tiles.Add(p, state);
         });
 
         let pos = 9;
@@ -87,7 +87,7 @@ let cases: Array<TestCase> = [];
         .map(p => TileEntityFromData(p, state));
 
         processed.forEach(p => {
-            Properties.Add(p, state);
+            Tiles.Add(p, state);
         });
 
         let badPosition = 900;
