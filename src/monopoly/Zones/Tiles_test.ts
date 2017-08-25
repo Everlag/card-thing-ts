@@ -5,8 +5,8 @@ import { MutData } from '../data';
 import { TileEntityFromData } from '../Entities/DataTransform';
 import Properties,
     {
-        GetPropertyByPosition,
-    } from './Properties';
+        GetTileByPosition,
+    } from './Tiles';
 
 let cases: Array<TestCase> = [];
 
@@ -69,7 +69,7 @@ let cases: Array<TestCase> = [];
 
         // Yes, this is comparing objects as they should be identical
         // addresses.
-        let foundProperty = GetPropertyByPosition(pos, state);
+        let foundProperty = GetTileByPosition(pos, state);
         if (foundProperty !== chosenProperty) {
             throw Error('did not find the exact expected property');
         }
@@ -91,7 +91,7 @@ let cases: Array<TestCase> = [];
         });
 
         let badPosition = 900;
-        let foundProperty = GetPropertyByPosition(badPosition, state);
+        let foundProperty = GetTileByPosition(badPosition, state);
         if (foundProperty !== null) {
             throw Error('did not receive null for unknown position');
         }

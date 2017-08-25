@@ -2,17 +2,6 @@ import {
     IEntity, EntityAssertFail,
 } from '../../core/Entity/Header';
 
-// TODO: factor out data to entity translation
-import {
-    IGameState,
-} from '../../core/Game/Header';
-import {
-    getRNGContext,
-} from '../../core/Game/Game';
-import {
-    NewEntityCode,
-} from '../../core/Entity/EntityCode';
-
 // IAsTile must be a valid Position
 import { WithPosition } from './WithPosition';
 

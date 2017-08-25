@@ -3,6 +3,7 @@ import { IGameState } from '../../core/Game/Header';
 
 import { MutData } from '../data';
 import { TileEntityFromData } from './DataTransform';
+import { PropertyGroup } from './AsTile';
 import { AsProperty } from './AsProperty';
 
 let cases: Array<TestCase> = [];
@@ -10,7 +11,8 @@ let cases: Array<TestCase> = [];
 (() => {
     let op = (state: IGameState) => {
         let processed = MutData().properties
-            .map(p => TileEntityFromData(p, state));
+            .map(p => TileEntityFromData(p, state))
+            .filter(p => p.Group !== PropertyGroup.Special);
 
         processed.forEach(p => {
             // Reassert

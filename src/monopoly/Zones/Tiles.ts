@@ -6,56 +6,56 @@ import {
     AddEntity, GetEntity, GetOrderedEntityCodes, GetZone, NewZone, LazyZoneInit,
 } from '../../core/Zone/Internal';
 
-import { IAsProperty, AsProperty } from '../Entities/AsProperty';
+import { IAsTile, AsTile } from '../Entities/AsTile';
 
 import { IEntity, EntityCode } from '../../core/Entity/Header';
 
-export interface IPropertiesZone extends IZone {
-    IsProperties: true;
+export interface ITilesZone extends IZone {
+    IsTiles: true;
 
     // PositionToIdentity is distinct from Ordered in that
-    // a Property can have any position separate from
+    // a Tile can have any position separate from
     // its addition-order into the zone.
     PositionToIdentity: {
         [Position: number]: EntityCode,
     };
 }
-export function AsPropertiesZone(z: IZone): IPropertiesZone {
-    if (!z.IsProperties) throw ZoneAssertFail('IPropertyZone', 'IsProperties');
-    return z as IPropertiesZone;
+export function AsTilesZone(z: IZone): ITilesZone {
+    if (!z.IsTiles) throw ZoneAssertFail('IPropertyZone', 'IsTiles');
+    return z as ITilesZone;
 }
 
-export function New(): IPropertiesZone {
+export function New(): ITilesZone {
     let base = NewZone(Self);
     return {
         ...base,
 
-        IsProperties: true,
+        IsTiles: true,
         PositionToIdentity: {},
     };
 }
 
 export function Add(entity: IEntity, state: IGameState) {
     let zone = LazyZoneInit(GetZone(Self, state), New, state);
-    let asPropertiesZone = AsPropertiesZone(zone);
-    let asProperty = AsProperty(entity);
+    let asTilesZone = AsTilesZone(zone);
+    let asTile = AsTile(entity);
 
     // Sanity check our index
-    let existingIndexEntry = asPropertiesZone.PositionToIdentity[asProperty.Index];
+    let existingIndexEntry = asTilesZone.PositionToIdentity[asTile.Index];
     if (existingIndexEntry !== undefined) {
-        throw Error(`pre-existing property at index ${asProperty.Index} prevents additon`);
+        throw Error(`pre-existing tile at index ${asTile.Index} prevents additon`);
     }
 
     // Perform the additons
-    AddEntity(asProperty, zone, state);
-    asPropertiesZone.PositionToIdentity[asProperty.Position] = asProperty.Identity;
+    AddEntity(asTile, zone, state);
+    asTilesZone.PositionToIdentity[asTile.Position] = asTile.Identity;
 }
 
 export function Get(identity: EntityCode, state: IGameState) {
     let zone = LazyZoneInit(GetZone(Self, state), New, state);
     let entity = GetEntity(identity, zone, state);
     if (entity === null) return null;
-    return AsProperty(entity);
+    return AsTile(entity);
 }
 
 export function Remove(identity: EntityCode, state: IGameState): IEntity {
@@ -67,9 +67,9 @@ export function Ordered(state: IGameState) {
     return GetOrderedEntityCodes(zone);
 }
 
-export const Self = 'properties';
+export const Self = 'tiles';
 export const TargetTypes = {
-    Property: 'property',
+    Tile: 'tile',
 };
 export const Desc = {
     Self,
@@ -82,23 +82,23 @@ export const Desc = {
 export default Desc;
 
 /**
- * GetPropertyByPosition returns the property associated
+ * GetTileByPosition returns the property associated
  * with the given position. If no property exists at the given position,
  * this returns null.
  */
-export function GetPropertyByPosition(position: number,
-    state: IGameState): IAsProperty | null {
+export function GetTileByPosition(position: number,
+    state: IGameState): IAsTile | null {
 
     let zone = LazyZoneInit(GetZone(Self, state), New, state);
-    let asPropertiesZone = AsPropertiesZone(zone);
+    let asTilesZone = AsTilesZone(zone);
 
-    let identity = asPropertiesZone.PositionToIdentity[position];
+    let identity = asTilesZone.PositionToIdentity[position];
     if (identity === undefined) {
         return null;
     }
     let found = Get(identity, state);
     if (found === null) {
-        throw Error(`failed to Get property ${identity} after resolving position ${position}`);
+        throw Error(`failed to Get tile ${identity} after resolving position ${position}`);
     }
     return found;
 }

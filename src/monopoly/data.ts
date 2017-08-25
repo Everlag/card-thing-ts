@@ -750,7 +750,7 @@ let raw = `{
 }`;
 /* tslint:enable */
 
-import { IPropertyData } from './Entities/AsProperty';
+import { IPropertyData } from './Entities/DataTransform';
 export interface IDataSource {
     properties: Array<IPropertyData>;
 

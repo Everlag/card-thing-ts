@@ -19,8 +19,8 @@ export type TestCase = [ZoneTestOperator, String];
 
 export const Cases = new Array<TestCase>();
 
-import Properties_test from './Properties_test';
-Cases.push(...Properties_test);
+import Tiles_test from './Tiles_test';
+Cases.push(...Tiles_test);
 
 class ZoneTest extends T.Test {
     constructor(private testCase: TestCase) {
