@@ -7,7 +7,6 @@ let raw = `{
         {
             "name": "Mediterranean Avenue",
             "id": "mediterraneanave",
-            "position": 2,
             "price": 60,
             "rent": 2,
             "multpliedrent": [
@@ -25,7 +24,6 @@ let raw = `{
         {
             "name": "Baltic Avenue",
             "id": "balticave",
-            "position": 4,
             "price": 60,
             "rent": 4,
             "multpliedrent": [
@@ -43,7 +41,6 @@ let raw = `{
         {
             "name": "Oriental Avenue",
             "id": "orientalave",
-            "position": 7,
             "price": 100,
             "rent": 6,
             "multpliedrent": [
@@ -61,7 +58,6 @@ let raw = `{
         {
             "name": "Vermont Avenue",
             "id": "vermontave",
-            "position": 9,
             "price": 100,
             "rent": 6,
             "multpliedrent": [
@@ -79,7 +75,6 @@ let raw = `{
         {
             "name": "Connecticut Avenue",
             "id": "connecticutave",
-            "position": 10,
             "price": 120,
             "rent": 8,
             "multpliedrent": [
@@ -97,7 +92,6 @@ let raw = `{
         {
             "name": "St. Charles Place",
             "id": "stcharlesplace",
-            "position": 12,
             "price": 140,
             "rent": 10,
             "multpliedrent": [
@@ -115,7 +109,6 @@ let raw = `{
         {
             "name": "States Avenue",
             "id": "statesave",
-            "position": 14,
             "price": 140,
             "rent": 10,
             "multpliedrent": [
@@ -133,7 +126,6 @@ let raw = `{
         {
             "name": "Virginia Avenue",
             "id": "virginiaave",
-            "position": 15,
             "price": 160,
             "rent": 12,
             "multpliedrent": [
@@ -151,7 +143,6 @@ let raw = `{
         {
             "name": "St. James Place",
             "id": "stjamesplace",
-            "position": 17,
             "price": 180,
             "rent": 14,
             "multpliedrent": [
@@ -169,7 +160,6 @@ let raw = `{
         {
             "name": "Tennessee Avenue",
             "id": "tennesseeave",
-            "position": 19,
             "price": 180,
             "rent": 14,
             "multpliedrent": [
@@ -187,7 +177,6 @@ let raw = `{
         {
             "name": "New York Avenue",
             "id": "newyorkave",
-            "position": 20,
             "price": 200,
             "rent": 16,
             "multpliedrent": [
@@ -205,7 +194,6 @@ let raw = `{
         {
             "name": "Kentucky Avenue",
             "id": "kentuckyave",
-            "position": 22,
             "price": 220,
             "rent": 18,
             "multpliedrent": [
@@ -223,7 +211,6 @@ let raw = `{
         {
             "name": "Indiana Avenue",
             "id": "indianaave",
-            "position": 24,
             "price": 220,
             "rent": 18,
             "multpliedrent": [
@@ -241,7 +228,6 @@ let raw = `{
         {
             "name": "Illinois Avenue",
             "id": "illinoisave",
-            "position": 25,
             "price": 240,
             "rent": 20,
             "multpliedrent": [
@@ -259,7 +245,6 @@ let raw = `{
         {
             "name": "Atlantic Avenue",
             "id": "atlanticave",
-            "position": 27,
             "price": 260,
             "rent": 22,
             "multpliedrent": [
@@ -277,7 +262,6 @@ let raw = `{
         {
             "name": "Ventnor Avenue",
             "id": "ventnorave",
-            "position": 28,
             "price": 260,
             "rent": 22,
             "multpliedrent": [
@@ -295,7 +279,6 @@ let raw = `{
         {
             "name": "Marvin Gardens",
             "id": "marvingardens",
-            "position": 30,
             "price": 280,
             "rent": 22,
             "multpliedrent": [
@@ -313,7 +296,6 @@ let raw = `{
         {
             "name": "Pacific Avenue",
             "id": "pacificave",
-            "position": 32,
             "price": 300,
             "rent": 26,
             "multpliedrent": [
@@ -331,7 +313,6 @@ let raw = `{
         {
             "name": "North Carolina Avenue",
             "id": "northcarolinaave",
-            "position": 33,
             "price": 300,
             "rent": 26,
             "multpliedrent": [
@@ -349,7 +330,6 @@ let raw = `{
         {
             "name": "Pennsylvania Avenue",
             "id": "pennsylvaniaave",
-            "position": 35,
             "price": 320,
             "rent": 28,
             "multpliedrent": [
@@ -367,7 +347,6 @@ let raw = `{
         {
             "name": "Park Place",
             "id": "parkplace",
-            "position": 38,
             "price": 350,
             "rent": 35,
             "multpliedrent": [
@@ -385,7 +364,6 @@ let raw = `{
         {
             "name": "Boardwalk",
             "id": "boardwalk",
-            "position": 40,
             "price": 400,
             "rent": 50,
             "multpliedrent": [
@@ -403,7 +381,6 @@ let raw = `{
         {
             "name": "Electric Company",
             "id": "electriccompany",
-            "position": 13,
             "price": 150,
             "group": "Utilities",
             "oprice": 150
@@ -411,7 +388,6 @@ let raw = `{
         {
             "name": "Water Works",
             "id": "waterworks",
-            "position": 29,
             "price": 150,
             "group": "Utilities",
             "oprice": 150
@@ -419,7 +395,6 @@ let raw = `{
         {
             "name": "Reading Railroad",
             "id": "readingrailroad",
-            "position": 6,
             "price": 200,
             "group": "Railroad",
             "oprice": 200
@@ -427,7 +402,6 @@ let raw = `{
         {
             "name": "Pennsylvania Railroad",
             "id": "pennsylvaniarailroad",
-            "position": 16,
             "price": 200,
             "group": "Railroad",
             "oprice": 200
@@ -435,7 +409,6 @@ let raw = `{
         {
             "name": "B. & O. Railroad",
             "id": "borailroad",
-            "position": 26,
             "price": 200,
             "group": "Railroad",
             "oprice": 200
@@ -443,7 +416,6 @@ let raw = `{
         {
             "name": "Short Line Railroad",
             "id": "shortlinerailroad",
-            "position": 36,
             "price": 200,
             "group": "Railroad",
             "oprice": 200
@@ -451,7 +423,41 @@ let raw = `{
         {
             "name": "Go",
             "id": "go",
-            "position": 0,
+            "group": "Special"
+        },
+        {
+            "name": "Income Tax",
+            "id": "incometax",
+            "group": "Special"
+        },
+        {
+            "name": "Jail / Just Visiting",
+            "id": "jail",
+            "group": "Special"
+        },
+        {
+            "name": "Chance",
+            "id": "chance",
+            "group": "Special"
+        },
+        {
+            "name": "Free Parking",
+            "id": "freeparking",
+            "group": "Special"
+        },
+        {
+            "name": "Community Chest",
+            "id": "communitychest",
+            "group": "Special"
+        },
+        {
+            "name": "Go To Jail",
+            "id": "gotojail",
+            "group": "Special"
+        },
+        {
+            "name": "Luxury Tax",
+            "id": "luxerytax",
             "group": "Special"
         }
     ],
@@ -748,14 +754,54 @@ import { IPropertyData } from './Entities/AsProperty';
 export interface IDataSource {
     properties: Array<IPropertyData>;
 
+    tiles: Array<{id: string}>;
+
     attribution: string;
+}
+
+/**
+ * MassageProperties mutates the provided data to handle
+ * properties which appear multiple times in tiles by duplicating
+ * them.
+ *
+ * All references held to properties in the provided data will
+ * be invalid following this.
+ */
+function MassageProperties(data: IDataSource) {
+
+    // Generate a mapping to reference properties with.
+    //
+    // This allows associating mutliple tile entries with a
+    // single, canonical property reference.
+    let idToProperty = new Map<string, IPropertyData>();
+    data.properties.forEach(p => idToProperty.set(p.id, p));
+
+    let properties: Array<IPropertyData> = [];
+    data.tiles.forEach((t, pos) => {
+        let property = idToProperty.get(t.id);
+        if (property === undefined) {
+            throw Error(`unknown property refrenced by tile, id: ${t.id}`);
+        }
+
+        // Always generate a copy to modify and push
+        let fixed = Object.assign({} as IPropertyData, property);
+        fixed.position = pos;
+
+        properties.push(fixed);
+    });
+
+    data.properties = properties;
 }
 
 /**
  * MutData returns a copy of the data suitable for mutation
  */
 export function MutData(): IDataSource {
-    return JSON.parse(raw) as IDataSource;
+    let unserial = JSON.parse(raw) as IDataSource;
+
+    MassageProperties(unserial);
+
+    return unserial;
 }
 
 let parsed = MutData();
