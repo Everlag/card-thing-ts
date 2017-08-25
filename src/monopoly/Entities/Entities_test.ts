@@ -31,6 +31,9 @@ Cases.push(...WithMoney_test);
 import WithPosition_test from './WithPosition_test';
 Cases.push(...WithPosition_test);
 
+import WithPrice_test from './WithPrice_test';
+Cases.push(...WithPrice_test);
+
 import DataTransform_test from './DataTransform_test';
 Cases.push(...DataTransform_test);
 

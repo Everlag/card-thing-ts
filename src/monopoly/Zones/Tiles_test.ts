@@ -18,6 +18,8 @@ let cases: Array<TestCase> = [];
         processed.forEach(p => {
             Tiles.Add(p, state);
         });
+
+        console.log('!! state', state);
     };
 
     cases.push([
