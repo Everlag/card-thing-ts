@@ -47,6 +47,7 @@ let fakeMutator = 'some-mutator';
             StackHeight: 0,
             zoneCount: T.NewExpectedCount(Interceptors.Self, 0),
         },
+        undefined, // This is a core Effect, its already defined.
     ]);
 })();
 
@@ -93,6 +94,7 @@ let fakeMutator = 'some-mutator';
             zoneHas: T.NewExpectedContents(Interceptors.Self, [fluff]),
             zoneCount: T.NewExpectedCount(Interceptors.Self, 1),
         },
+        undefined, // This is a core Effect, its already defined.
     ]);
 })();
 
@@ -130,6 +132,7 @@ let fakeMutator = 'some-mutator';
             StackHeight: 0,
             zoneCount: T.NewExpectedCount(Interceptors.Self, 0),
         },
+        undefined, // This is a core Effect, its already defined.
     ]);
 })();
 
@@ -169,6 +172,7 @@ let fakeMutator = 'some-mutator';
             zoneHas: T.NewExpectedContents(Interceptors.Self, [fluff]),
             zoneCount: T.NewExpectedCount(Interceptors.Self, 1),
         },
+        undefined, // This is a core Effect, its already defined.
     ]);
 })();
 

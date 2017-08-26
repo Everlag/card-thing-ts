@@ -3,12 +3,17 @@ import {
 } from '../Game/Game';
 import * as T from '../test';
 import { IFilterState, FilterMatches } from '../IFilterState';
-import { ApplyEffect, NewEffectRegister } from './Effect';
 import {
-    IEffectPack,
+    ApplyEffect, NewEffectRegister, RegisterEffect,
+} from './Effect';
+import {
+    IEffectPack, IEffectDescription,
 } from './Header';
 
-export type TestCase = [GameState, IEffectPack, String, IFilterState];
+export type TestCase = [
+    GameState, IEffectPack,
+    String, IFilterState,
+    IEffectDescription | undefined];
 
 export const Cases = new Array<TestCase>();
 
@@ -27,15 +32,19 @@ Cases.push(...SetIntercept_test);
 import RemoveIntercept_test from './Effects/RemoveIntercept_test';
 Cases.push(...RemoveIntercept_test);
 
-class SingleEffectTest extends T.Test {
+export class SingleEffectTest extends T.Test {
     constructor(private testCase: TestCase) {
         super();
     }
 
     public Run() {
-        let [state, effect, name, matchingFilter] = this.testCase;
+        let [state, effect, name, matchingFilter,
+            toRegister] = this.testCase;
 
         let effectRegister = NewEffectRegister();
+        if (toRegister !== undefined) {
+            RegisterEffect(effectRegister, toRegister);
+        }
 
         try {
             state = ApplyEffect(effectRegister, effect, state, () => {
