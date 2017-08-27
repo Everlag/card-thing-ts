@@ -2,6 +2,7 @@ import * as T from '../core/test';
 import Entities_test from './Entities/Entities_test';
 import Zones_test from './Zones/Zones_test';
 import SingleEffect_test from './Effects/SingleEffect_test';
+import MultiEffect_test from './Effects/MultiEffect_test';
 
 let tests = new Array<T.Test>();
 
@@ -9,6 +10,7 @@ tests.push(...[
     ...Entities_test,
     ...Zones_test,
     ...SingleEffect_test,
+    ...MultiEffect_test,
 ]);
 
 export function RunAll() {
