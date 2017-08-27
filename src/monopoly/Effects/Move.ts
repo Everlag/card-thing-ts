@@ -1,10 +1,14 @@
 import {
     IEffectPack, IEffectDescription,
     EffectPackAssertFail,
+    IEvent,
 } from '../../core/Event/Header';
 import {
     IGameState,
 } from '../../core/Game/Header';
+import {
+    EntityCode, GlobalStateEntityCode,
+} from '../../core/Entity/Header';
 import {
     getPlayerIndex,
 } from '../../core/Game/Game';
@@ -12,6 +16,7 @@ import Players, {
     GetPlayerByIndex,
 } from '../../core/Zone/Zones/Players';
 import { WithPosition } from '../Entities/WithPosition';
+import Global from '../../core/Zone/Zones/Global';
 import Tiles from '../Zones/Tiles';
 
 export interface IMoveEffectPack extends IEffectPack {
@@ -71,3 +76,20 @@ export const Desc = {
 } as IEffectDescription;
 
 export default Desc;
+
+export function NewMoveEvent(player: EntityCode,
+    rolls: Array<number>): IEvent {
+
+    return {
+        Effects: [
+            {
+                Source: GlobalStateEntityCode,
+                Targets: [player],
+                TargetType: Global.TargetTypes.Global,
+                Effect: Self,
+
+                Rolls: rolls,
+            } as IMoveEffectPack,
+        ],
+    };
+}
