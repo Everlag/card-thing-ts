@@ -7,10 +7,14 @@ import {
 import {
     NewEntityCode,
 } from '../../core/Entity/EntityCode';
+import {
+    GlobalStateEntityCode,
+} from '../../core/Entity/Header';
 
 import { PropertyGroup, IAsTile, AsTile } from './AsTile';
 import { AsBuildable } from './AsBuildable';
 import { WithPrice } from './WithPrice';
+import { WithOwner } from './WithOwner';
 import { WithRent } from './WithRent';
 
 /**
@@ -64,6 +68,7 @@ export function TileEntityFromData(data: IPropertyData,
     // if specific properties are present on the data.
     tile = AnnotatePrice(data, tile);
     tile = AnnotateRent(data, tile);
+    tile = AnnotateOwner(data, tile);
     tile = AnnotateBuildable(data, tile);
 
     return AsTile(tile);
@@ -92,6 +97,19 @@ function AnnotatePrice(data: IPropertyData, tile: IAsTile): IAsTile {
     tile.HasPrice = true;
     tile.BasePrice = data.price;
     WithPrice(tile);
+    return tile;
+}
+
+/**
+ * AnnotateOwner satisfies the WithOwner Entity if
+ * `price` is present on the data.
+ */
+function AnnotateOwner(data: IPropertyData, tile: IAsTile): IAsTile {
+    if (isNaN(data.price)) return tile;
+
+    tile.HasOwner = true;
+    tile.Owner = GlobalStateEntityCode;
+    WithOwner(tile);
     return tile;
 }
 

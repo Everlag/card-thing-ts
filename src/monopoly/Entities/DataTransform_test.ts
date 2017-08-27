@@ -5,6 +5,7 @@ import { MutData } from '../data';
 import { PropertyGroup } from './AsTile';
 import { WithRent } from './WithRent';
 import { WithPrice } from './WithPrice';
+import { WithOwner } from './WithOwner';
 import { AsBuildable } from './AsBuildable';
 import { TileEntityFromData } from './DataTransform';
 
@@ -78,6 +79,29 @@ let cases: Array<TestCase> = [];
     cases.push([
         op,
         'TileEntityFromData - non-special satisfy Withprice',
+    ]);
+})();
+
+(() => {
+    let op = (state: IGameState) => {
+        let processed = MutData().properties
+            .map(p => TileEntityFromData(p, state))
+            .filter(p => p.Group !== PropertyGroup.Special);
+
+        processed.forEach(p => {
+            try {
+                WithOwner(p);
+            }catch (e) {
+                throw Error(`non-special tile was not accepted WithOwner:
+                    ${JSON.stringify(p)}
+                    error: ${e.toString()}`);
+            }
+        });
+    };
+
+    cases.push([
+        op,
+        'TileEntityFromData - non-special satisfy WithOwner',
     ]);
 })();
 
