@@ -9,6 +9,9 @@ export const Cases = new Array<TestCase>();
 import Move_test from './Move_test';
 Cases.push(...Move_test);
 
+import StartTurn_test from './StartTurn_test';
+Cases.push(...StartTurn_test);
+
 // Sanity check our cases before we package them up
 (() => {
     let caseNames = Cases.map(c => c[2]);
