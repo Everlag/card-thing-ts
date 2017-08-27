@@ -75,26 +75,26 @@ let cases = new Array<TestCase>();
  *
  * NOTE: the provided cases will have their names permanently modified.
  */
-let pushDesc = (desc: ISuiteDescription) => {
+export function pushDesc(desc: ISuiteDescription, existing: Array<TestCase>) {
     desc.Cases.forEach(c => {
         let name = c[4];
         name = `${desc.Self} | ${name}`;
         c[4] = name;
     });
-    cases.push(...desc.Cases);
-};
+    existing.push(...desc.Cases);
+}
 
 import PassPriorityToNextTurn from './MultiEffect_test/PassPriorityToNextTurn';
-pushDesc(PassPriorityToNextTurn);
+pushDesc(PassPriorityToNextTurn, cases);
 
 import InterceptThrowGuardAndRemove from './MultiEffect_test/InterceptThrowGuardAndRemove';
-pushDesc(InterceptThrowGuardAndRemove);
+pushDesc(InterceptThrowGuardAndRemove, cases);
 
 import InterceptForExtraTurn from './MultiEffect_test/InterceptForExtraTurn';
-pushDesc(InterceptForExtraTurn);
+pushDesc(InterceptForExtraTurn, cases);
 
 import CancelAsPlayerResponse from './MultiEffect_test/CancelAsPlayerResponse';
-pushDesc(CancelAsPlayerResponse);
+pushDesc(CancelAsPlayerResponse, cases);
 
 // buildQueue constructs a ResponseQueue from a TestCase
 function buildQueue(c: TestCase): ResponseQueue {
@@ -124,7 +124,7 @@ function buildQueue(c: TestCase): ResponseQueue {
     return queue;
 }
 
-class MultiEffectTest extends T.Test {
+export class MultiEffectTest extends T.Test {
     constructor(private testCase: TestCase) {
         super();
     }
