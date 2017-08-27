@@ -4,12 +4,13 @@ import {
 } from '../../core/Game/Game';
 import * as T from '../../core/test';
 import { GlobalStateEntityCode} from '../../core/Entity/Header';
-import Global from '../../core/Zone/Zones/Global';
 import {
     NewEndTurnEvent, NewPlayerPriorityEvent,
 } from '../../core/Event/Event';
 
 import { GetPreparedGameState } from '../helpers_test';
+
+import Players from '../../core/Zone/Zones/Players';
 
 import { NewMoveEvent } from './Move';
 import StartTurn from './StartTurn';
@@ -35,7 +36,7 @@ let cases: Array<TestCase> = [];
         {
             Source: GlobalStateEntityCode,
             Targets: [T.PlayerOneEntityCode],
-            TargetType: Global.TargetTypes.Global,
+            TargetType: Players.TargetTypes.Player,
             Effect: StartTurn.Self,
         },
         'StartTurn empty state',

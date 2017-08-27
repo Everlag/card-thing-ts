@@ -15,7 +15,7 @@ import {
     getRNGContext,
 } from '../../core/Game/Game';
 
-import Global from '../../core/Zone/Zones/Global';
+import Players from '../../core/Zone/Zones/Players';
 
 import { NewMoveEvent } from './Move';
 
@@ -66,7 +66,7 @@ export function NewStartTurnEvent(player: EntityCode): IEvent {
             {
                 Source: GlobalStateEntityCode,
                 Targets: [player],
-                TargetType: Global.TargetTypes.Global,
+                TargetType: Players.TargetTypes.Player,
                 Effect: Self,
             },
         ],

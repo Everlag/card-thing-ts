@@ -16,7 +16,6 @@ import Players, {
     GetPlayerByIndex,
 } from '../../core/Zone/Zones/Players';
 import { WithPosition } from '../Entities/WithPosition';
-import Global from '../../core/Zone/Zones/Global';
 import Tiles from '../Zones/Tiles';
 
 export interface IMoveEffectPack extends IEffectPack {
@@ -41,11 +40,11 @@ export function AsMove(e: IEffectPack): IMoveEffectPack {
  */
 export function Op(state: IGameState, pack: IEffectPack) {
     if (pack.Targets.length !== 1) {
-        throw Error(`RollMove expects single target, got ${pack.Targets}`);
+        throw Error(`Move expects single target, got ${pack.Targets}`);
     }
 
     if (pack.TargetType !== Players.TargetTypes.Player) {
-        throw Error(`unknown TargetType for RollMove: ${pack.TargetType}`);
+        throw Error(`unknown TargetType for Move: ${pack.TargetType}`);
     }
 
     let playerIndex = getPlayerIndex(state, pack.Targets[0]);
@@ -85,7 +84,7 @@ export function NewMoveEvent(player: EntityCode,
             {
                 Source: GlobalStateEntityCode,
                 Targets: [player],
-                TargetType: Global.TargetTypes.Global,
+                TargetType: Players.TargetTypes.Player,
                 Effect: Self,
 
                 Rolls: rolls,
