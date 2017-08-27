@@ -34,6 +34,9 @@ Cases.push(...WithPrice_test);
 import WithRent_test from './WithRent_test';
 Cases.push(...WithRent_test);
 
+import WithOwner_test from './WithOwner_test';
+Cases.push(...WithOwner_test);
+
 import AsBuildable_test from './AsBuildable_test';
 Cases.push(...AsBuildable_test);
 
