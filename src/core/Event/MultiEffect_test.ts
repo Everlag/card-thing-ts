@@ -9,9 +9,9 @@ import {
     TestMachine, ResponseQueue, GetResponseQueue, AddResponsesToQueue,
 } from '../TestMachine';
 import {
-    IEvent,
+    IEvent, IEffectDescription,
 } from '../Event/Header';
-import { NewEffectRegister } from '../Event/Effect';
+import { NewEffectRegister, RegisterEffect } from '../Event/Effect';
 import { NewMutatorRegister } from '../Event/Mutator';
 
 /* tslint:disable */
@@ -22,7 +22,8 @@ export type TestCase = [
     Array<IEvent> | null, // Player 2, null to always pass.
     Number, // tickCount, number of ticks to run the machine for
     String, // Test name
-    IFilterState // State filter which must match for success
+    IFilterState, // State filter which must match for success
+    Array<IEffectDescription> | undefined // non-core effects to register
 ];
 /* tslint:enable */
 
@@ -138,12 +139,19 @@ export class MultiEffectTest extends T.Test {
             _2,
             tickCount,
             name, matchingFilter,
+            effectsToRegister,
         ] = this.testCase;
         /* tslint:enable */
 
         let queue = buildQueue(this.testCase);
 
         let effectRegister = NewEffectRegister();
+        if (effectsToRegister !== undefined) {
+            effectsToRegister.forEach(e => {
+                RegisterEffect(effectRegister, e);
+            });
+        }
+
         let mutatorRegister = NewMutatorRegister();
         let machine = new TestMachine(state,
             effectRegister, mutatorRegister, queue);

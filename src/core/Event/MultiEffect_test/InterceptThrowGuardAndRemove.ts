@@ -50,6 +50,7 @@ let cases: Array<TestCase> = [];
             // One for the desired interceptor and one for its Expiry
             zoneCount: T.NewExpectedCount(Interceptors.Self, 2),
         },
+        undefined, // This is a core Effect, its already defined.
     ]);
 
     cases.push([
@@ -62,6 +63,7 @@ let cases: Array<TestCase> = [];
             StackHeight: 0,
             zoneCount: T.NewExpectedCount(Interceptors.Self, 0),
         },
+        undefined, // This is a core Effect, its already defined.
     ]);
 })();
 

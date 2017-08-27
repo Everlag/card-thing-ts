@@ -57,6 +57,7 @@ let cases: Array<TestCase> = [];
             // One for the desired interceptor and one for its Expiry
             zoneCount: T.NewExpectedCount(Interceptors.Self, 2),
         },
+        undefined, // This is a core Effect, its already defined.
     ]);
 
     cases.push([
@@ -70,6 +71,7 @@ let cases: Array<TestCase> = [];
             currentTurn: T.PlayerOneEntityCode,
             zoneCount: T.NewExpectedCount(Interceptors.Self, 0),
         },
+        undefined, // This is a core Effect, its already defined.
     ]);
 
     cases.push([
@@ -84,6 +86,7 @@ let cases: Array<TestCase> = [];
             // Explicitly none
             zoneCount: T.NewExpectedCount(Interceptors.Self, 0),
         },
+        undefined, // This is a core Effect, its already defined.
     ]);
 })();
 
