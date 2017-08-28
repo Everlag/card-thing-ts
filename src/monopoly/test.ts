@@ -43,7 +43,7 @@ export function RunAll() {
     console.warn(`${failed.length} failed, ${successCount} succeded`);
 
     failed.forEach(r => {
-        console.error(`-- ${r[1]} - ${r[2]}`);
+        console.error(`-- ${r[1]} - `, r[2]);
     });
 
 }
