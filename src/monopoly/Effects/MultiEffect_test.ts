@@ -23,6 +23,9 @@ let cases = new Array<TestCase>();
 import StartTurnAndMove from './MultiEffectTests/StartTurnAndMove';
 pushDesc(StartTurnAndMove, cases);
 
+import StartTurnRollDoubles from './MultiEffectTests/StartTurnRollDoubles';
+pushDesc(StartTurnRollDoubles, cases);
+
 import PurchaseAndPay from './MultiEffectTests/PurchaseAndPay';
 pushDesc(PurchaseAndPay, cases);
 
