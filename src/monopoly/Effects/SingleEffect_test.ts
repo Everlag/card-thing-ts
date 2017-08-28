@@ -12,6 +12,9 @@ Cases.push(...Move_test);
 import StartTurn_test from './StartTurn_test';
 Cases.push(...StartTurn_test);
 
+import Purchase_test from './Purchase_test';
+Cases.push(...Purchase_test);
+
 // Sanity check our cases before we package them up
 (() => {
     let caseNames = Cases.map(c => c[2]);
