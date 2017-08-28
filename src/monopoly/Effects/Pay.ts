@@ -34,17 +34,20 @@ export function Op(state: IGameState, pack: IEffectPack) {
 
     let payPack = AsPay(pack);
 
-    let player = Players.Get(pack.Source, state);
-    let withMoney = WithMoney(player);
+    // Only debit if non-global source
+    if (pack.Source !== GlobalStateEntityCode) {
+        let player = Players.Get(pack.Source, state);
+        let withMoney = WithMoney(player);
 
-    if (payPack.Amount > withMoney.Money) {
-        throw Error(`${player.Identity} has insufficient money to satisfy Pay
-            required/has = ${payPack.Amount}/${withMoney.Money}`);
+        if (payPack.Amount > withMoney.Money) {
+            throw Error(`${player.Identity} has insufficient money to satisfy Pay
+                required/has = ${payPack.Amount}/${withMoney.Money}`);
+        }
+
+        withMoney.Money -= payPack.Amount;
     }
 
-    withMoney.Money -= payPack.Amount;
-
-    // Early exit as we've done our job if we're paying the bank.
+    // Only credit if non-global target.
     let toPay = pack.Targets[0];
     if (toPay === GlobalStateEntityCode) return state;
 
@@ -61,13 +64,13 @@ export const Desc = {
 
 export default Desc;
 
-export function NewPayEntityEvent(player: EntityCode,
+export function NewPayEntityEvent(sender: EntityCode,
     receiver: EntityCode, amount: number): IEvent {
 
     return {
         Effects: [
             {
-                Source: player,
+                Source: sender,
                 Targets: [receiver],
                 TargetType: Players.TargetTypes.Player,
                 Effect: Self,

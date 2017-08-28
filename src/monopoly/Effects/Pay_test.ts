@@ -20,7 +20,7 @@ let cases: Array<TestCase> = [];
     let baseMoney = 10;
     let event = NewPayEntityEvent(T.PlayerOneEntityCode, GlobalStateEntityCode,
         baseMoney - 1);
-    if (event.Effects.length < 1) throw Error(`NewPurchaseTileEvent gave 0 effects`);
+    if (event.Effects.length < 1) throw Error(`NewPayEntityEvent gave 0 effects`);
 
     let player = Players.Get(T.PlayerOneEntityCode, state);
     WithMoney(player).Money = baseMoney;
@@ -59,7 +59,7 @@ let cases: Array<TestCase> = [];
     let event = NewPayEntityEvent(T.PlayerOneEntityCode,
         T.PlayerTwoEntityCode,
         delta);
-    if (event.Effects.length < 1) throw Error(`NewPurchaseTileEvent gave 0 effects`);
+    if (event.Effects.length < 1) throw Error(`NewPayEntityEvent gave 0 effects`);
 
     let player1 = Players.Get(T.PlayerOneEntityCode, state);
     WithMoney(player1).Money = baseMoney;
@@ -100,6 +100,45 @@ let cases: Array<TestCase> = [];
         state,
         event.Effects[0],
         'Pay - other player target',
+        {
+            entityPathHas: expected,
+        },
+        Pay,
+    ]);
+})();
+
+(() => {
+    let state = GetPreparedGameState();
+
+    let baseMoney = 10;
+    let delta = 2;
+    let event = NewPayEntityEvent(GlobalStateEntityCode,
+        T.PlayerOneEntityCode,
+        delta);
+    if (event.Effects.length < 1) throw Error(`NewPayEntityEvent gave 0 effects`);
+
+    let player = Players.Get(T.PlayerOneEntityCode, state);
+    WithMoney(player).Money = baseMoney;
+
+    let expected = new Map();
+    expected.set(
+        T.PlayerOneEntityCode,
+        new Map<any, any>([
+            [
+                'Zone',
+                Players.Self,
+            ],
+            [
+                'Money',
+                baseMoney + delta,
+            ],
+        ]),
+    );
+
+    cases.push([
+        state,
+        event.Effects[0],
+        'Pay - global paying Player',
         {
             entityPathHas: expected,
         },
