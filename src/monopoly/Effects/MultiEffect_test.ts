@@ -23,6 +23,9 @@ let cases = new Array<TestCase>();
 import StartTurnAndMove from './MultiEffectTests/StartTurnAndMove';
 pushDesc(StartTurnAndMove, cases);
 
+import PurchaseAndPay from './MultiEffectTests/PurchaseAndPay';
+pushDesc(PurchaseAndPay, cases);
+
 // Sanity check our cases before we package them up
 (() => {
     let caseNames = cases.map(c => c[4]);
