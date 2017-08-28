@@ -17,6 +17,8 @@ import { WithMoney } from '../Entities/WithMoney';
 import { WithPrice } from '../Entities/WithPrice';
 import { WithOwner } from '../Entities/WithOwner';
 
+import { NewPayEntityEvent } from './Pay';
+
 /**
  * Purchase sets the owner of the targeted tile to the Source
  * of this event. The amount of money held by the player is reduced
@@ -34,7 +36,6 @@ export function Op(state: IGameState, pack: IEffectPack) {
     }
 
     let player = Players.Get(pack.Source, state);
-    let withMoney = WithMoney(player);
 
     let tile = Tiles.Get(pack.Targets[0], state);
     if (AsTile(tile).Group === PropertyGroup.Special) {
@@ -42,12 +43,20 @@ export function Op(state: IGameState, pack: IEffectPack) {
     }
     let withPrice = WithPrice(tile);
 
+    // Enforce that they can pay
+    let withMoney = WithMoney(player);
     if (withPrice.BasePrice > withMoney.Money) {
         throw Error(`${player.Identity} has insufficient money to purchase tile
-            price/money = ${withPrice.BasePrice}/${withMoney.Money}`);
+        price/money = ${withPrice.BasePrice}/${withMoney.Money}`);
     }
 
-    withMoney.Money = withMoney.Money - withPrice.BasePrice;
+    // Set them up to be debited in the next tick
+    let payEvent = NewPayEntityEvent(
+        player.Identity,
+        GlobalStateEntityCode,
+        withPrice.BasePrice,
+    );
+    state.stack.push(payEvent);
 
     WithOwner(tile).Owner = player.Identity;
 

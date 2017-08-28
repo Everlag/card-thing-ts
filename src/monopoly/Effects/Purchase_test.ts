@@ -1,16 +1,18 @@
 import { TestCase } from './SingleEffect_test';
 import * as T from '../../core/test';
 
+import { GlobalStateEntityCode } from '../../core/Entity/Header';
+
 import { GetPreparedGameState } from '../helpers_test';
-
-import Players from '../../core/Zone/Zones/Players';
 import Tiles from '../Zones/Tiles';
+import Players from '../../core/Zone/Zones/Players';
 
-import { AsTile, PropertyGroup } from '../Entities/AsTile';
-import { WithMoney } from '../Entities/WithMoney';
 import { WithPrice } from '../Entities/WithPrice';
+import { WithMoney } from '../Entities/WithMoney';
+import { AsTile, PropertyGroup } from '../Entities/AsTile';
 
 import Purchase, { NewPurchaseTileEvent } from './Purchase';
+import { NewPayEntityEvent } from './Pay';
 
 let cases: Array<TestCase> = [];
 
@@ -23,14 +25,14 @@ let cases: Array<TestCase> = [];
     if (purchasable.length === 0) throw Error('no non-special tiles available');
     let tile = purchasable[0];
 
-    let event = NewPurchaseTileEvent(T.PlayerOneEntityCode, tile);
-    if (event.Effects.length < 1) throw Error(`NewPurchaseTileEvent gave 0 effects`);
-
     let player = Players.Get(T.PlayerOneEntityCode, state);
     WithMoney(player).Money = 1 + WithPrice(Tiles.Get(tile, state)).BasePrice;
 
-    let expected = new Map();
-    expected.set(
+    let event = NewPurchaseTileEvent(T.PlayerOneEntityCode, tile);
+    if (event.Effects.length < 1) throw Error(`NewPurchaseTileEvent gave 0 effects`);
+
+    let expectedStatePath = new Map();
+    expectedStatePath.set(
         tile,
         new Map<any, any>([
             [
@@ -44,26 +46,21 @@ let cases: Array<TestCase> = [];
         ]),
     );
 
-    expected.set(
-        T.PlayerOneEntityCode,
-        new Map<any, any>([
-            [
-                'Zone',
-                Players.Self,
-            ],
-            [
-                'Money',
-                1,
-            ],
-        ]),
-    );
+    let expectedStack = [
+        NewPayEntityEvent(
+            T.PlayerOneEntityCode,
+            GlobalStateEntityCode,
+            WithPrice(Tiles.Get(tile, state)).BasePrice,
+        ),
+    ];
 
     cases.push([
         state,
         event.Effects[0],
-        'Purchase tile - exactly one dollar leftover',
+        'Purchase tile - ownership transfer and Pay on stack',
         {
-            entityPathHas: expected,
+            entityPathHas: expectedStatePath,
+            stackHas: expectedStack,
         },
         Purchase,
     ]);
