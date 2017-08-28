@@ -35,7 +35,6 @@ export function Op(state: IGameState, pack: IEffectPack) {
     }
 
     let currentPlayer = pack.Targets[0];
-    let endTurn = NewEndTurnEvent(currentPlayer);
     let priority = NewPlayerPriorityEvent(currentPlayer);
 
     let rolls = [0, 0];
@@ -44,7 +43,19 @@ export function Op(state: IGameState, pack: IEffectPack) {
     });
     let move = NewMoveEvent(currentPlayer, rolls);
 
-    let added = [endTurn, priority, move];
+    // Suffix is either going to be an additional turn
+    // from rolling 'doubles' or an endTurn.
+    //
+    // TODO: handle sending straight to jail.
+    let suffix = [];
+    if (RollsAllSame(rolls)) {
+        suffix.push(NewStartTurnEvent(currentPlayer));
+    }else {
+        let endTurn = NewEndTurnEvent(currentPlayer);
+        suffix.push(endTurn);
+    }
+
+    let added = [...suffix, priority, move];
     state.stack.push(...added);
 
     state.currentTurn = currentPlayer;
@@ -71,4 +82,15 @@ export function NewStartTurnEvent(player: EntityCode): IEvent {
             },
         ],
     };
+}
+
+/**
+ * RollsAllSame returns whether all entries in the provided array of
+ * rolls is the same. O(n)
+ */
+export function RollsAllSame(rolls: Array<number>): boolean {
+    return rolls.every((roll, i) => {
+        if (i === 0) return true;
+        return rolls[i - 1] === roll;
+    });
 }
