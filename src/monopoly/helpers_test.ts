@@ -50,3 +50,25 @@ export function GetPreparedGameState(): IGameState {
 
     return state;
 }
+
+/**
+ * ForceDoubles enforces that the next set of rolls nextInt(1,6)
+ * performed against the provided GameState will result in doubles.
+ *
+ * Constrains
+ * - nextInt(1,6) is the function being used
+ * - doubles implies a roll size of two dice.
+ * @param state GameState to be modified
+ */
+export function ForceDoubles(state: IGameState): IGameState {
+    // NOTE: this doublesSeed is tied to the rng.
+    //       If the underlying RNG implementation is changed, this will
+    //       need to be regenerated.
+    //
+    // This was manually computed by brute forcing a doubles roll.
+    const doublesSeed = 136014;
+
+    state.seed = doublesSeed;
+
+    return state;
+}
