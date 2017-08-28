@@ -49,9 +49,9 @@ export function Op(state: IGameState, pack: IEffectPack) {
 
     // Only credit if non-global target.
     let toPay = pack.Targets[0];
-    if (toPay === GlobalStateEntityCode) return state;
-
-    WithMoney(Players.Get(toPay, state)).Money += payPack.Amount;
+    if (toPay !== GlobalStateEntityCode) {
+        WithMoney(Players.Get(toPay, state)).Money += payPack.Amount;
+    }
 
     return state;
 };
