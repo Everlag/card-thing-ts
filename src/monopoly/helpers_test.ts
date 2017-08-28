@@ -1,6 +1,7 @@
 import { IPlayerInit, IGameState } from '../core/Game/Header';
 import { GameState } from '../core/Game/Game';
 import { WithPosition } from './Entities/WithPosition';
+import { WithMoney } from './Entities/WithMoney';
 import { TileEntityFromData } from './Entities/DataTransform';
 import Tiles from './Zones/Tiles';
 import { MutData } from './data';
@@ -19,6 +20,13 @@ function GetMonopolyPlayers(): Array<IPlayerInit> {
             init.Self.HasPosition = true;
             init.Self.Position = 0;
             WithPosition(init.Self); // Asssert
+            return init;
+        },
+        // Satisfy WithMoney
+        (init: IPlayerInit) => {
+            init.Self.HasMoney = true;
+            init.Self.Money = 0;
+            WithMoney(init.Self); // Asssert
             return init;
         },
     );
