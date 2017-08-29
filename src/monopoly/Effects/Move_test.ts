@@ -5,7 +5,9 @@ import { GlobalStateEntityCode} from '../../core/Entity/Header';
 import Players from '../../core/Zone/Zones/Players';
 
 import Tiles from '../Zones/Tiles';
-import Move, { IMoveEffectPack } from './Move';
+import { WithPosition } from '../Entities/WithPosition';
+import Move, { IMoveEffectPack, PassingGoPayout } from './Move';
+import { NewPayEntityEvent } from './Pay';
 
 let cases: Array<TestCase> = [];
 
@@ -112,8 +114,20 @@ let cases: Array<TestCase> = [];
         ]),
     );
 
+    let expectedStack = [
+        NewPayEntityEvent(
+            GlobalStateEntityCode,
+            T.PlayerOneEntityCode,
+            PassingGoPayout,
+        ),
+    ];
+
+    let state = GetPreparedGameState();
+    let withPositon = WithPosition(Players.Get(T.PlayerOneEntityCode, state));
+    withPositon.Position = maxIndex - 1; // Force it to wrap
+
     cases.push([
-        GetPreparedGameState(),
+        state,
         {
             Source: GlobalStateEntityCode,
             Targets: [T.PlayerOneEntityCode],
@@ -121,13 +135,14 @@ let cases: Array<TestCase> = [];
             Effect: Move.Self,
 
             // It should wrap to exactly 1
-            Rolls: [maxIndex, 1],
+            Rolls: [1, 1],
         } as IMoveEffectPack,
         `${Move.Self} wraps around tile boundary`,
         {
             currentTurn: T.PlayerOneEntityCode,
             entityPathHas: expected,
-            StackHeight: 0,
+            stackHas: expectedStack,
+            StackHeight: 1,
         },
         Move,
     ]);

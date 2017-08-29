@@ -18,6 +18,14 @@ import Players, {
 import { WithPosition } from '../Entities/WithPosition';
 import Tiles from '../Zones/Tiles';
 
+import { NewPayEntityEvent } from './Pay';
+
+/**
+ * PassingGoPayout is the amount of money paid when a player
+ * 'passes go', which is considered to be wrapping around the board.
+ */
+export const PassingGoPayout = 200;
+
 export interface IMoveEffectPack extends IEffectPack {
     Rolls: Array<number>;
 }
@@ -60,10 +68,19 @@ export function Op(state: IGameState, pack: IEffectPack) {
 
     // calculated position mod max tile index.
     let newPos = (withPos.Position + delta) % (tileCount - 1);
+    let oldPos = withPos.Position;
     withPos.Position = newPos;
 
-    // TODO: handle the concept of 'Passing Go'
-    // TODO: handle concept of rolling 'doubles' either here or in Roll.
+    // If we wrapped, then we passed go.
+    if (oldPos > newPos) {
+        // Set the payer up to be credited in the next tick
+        let payEvent = NewPayEntityEvent(
+            GlobalStateEntityCode,
+            player.Identity,
+            PassingGoPayout,
+        );
+        state.stack.push(payEvent);
+    }
 
     return state;
 }
