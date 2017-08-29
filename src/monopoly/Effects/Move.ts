@@ -42,6 +42,26 @@ export function AsMove(e: IEffectPack): IMoveEffectPack {
     return asMove;
 }
 
+function MaybePassedGo(
+    state: IGameState,
+    player: EntityCode,
+    oldPos: number, newPos: number,
+): IGameState {
+
+    // If we wrapped, then we passed go.
+    if (oldPos <= newPos) return state;
+
+    // Set the payer up to be credited in the next tick
+    let payEvent = NewPayEntityEvent(
+        GlobalStateEntityCode,
+        player,
+        PassingGoPayout,
+    );
+    state.stack.push(payEvent);
+
+    return state;
+}
+
 /**
  * Move translates a Player to an offset of their current Position
  * based off of the sum of the provided Rolls.
@@ -71,16 +91,7 @@ export function Op(state: IGameState, pack: IEffectPack) {
     let oldPos = withPos.Position;
     withPos.Position = newPos;
 
-    // If we wrapped, then we passed go.
-    if (oldPos > newPos) {
-        // Set the payer up to be credited in the next tick
-        let payEvent = NewPayEntityEvent(
-            GlobalStateEntityCode,
-            player.Identity,
-            PassingGoPayout,
-        );
-        state.stack.push(payEvent);
-    }
+    MaybePassedGo(state, player.Identity, oldPos, newPos);
 
     return state;
 }
