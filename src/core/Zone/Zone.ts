@@ -20,7 +20,6 @@ let coreRegister: IZoneRegister = {
 export function RegisterZone(register: IZoneRegister,
     desc: IZoneDescription) {
 
-    console.log('I have description desc', desc);
     if (register.Zones.has(desc.Self)) {
         throw Error(`duplicated identifier for ${desc.Self}`);
     }

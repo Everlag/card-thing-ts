@@ -19,7 +19,6 @@ let cases: Array<TestCase> = [];
             Tiles.Add(p, state);
         });
 
-        console.log('!! state', state);
     };
 
     cases.push([

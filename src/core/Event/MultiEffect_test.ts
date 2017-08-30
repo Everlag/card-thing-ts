@@ -160,8 +160,6 @@ export class MultiEffectTest extends T.Test {
             machine.tick();
         }
 
-        console.log('my state is', state);
-
         let match = FilterMatches(state, matchingFilter);
         if (match === null) return;
 

@@ -14,7 +14,6 @@ export function RegisterMutator(desc: IMutatorDescription) {
         throw Error(`duplicated identifier for ${desc.Self}`);
     }
     coreRegister.Register.set(desc.Self, desc.Op);
-    console.log('operator register looks like', coreRegister);
 }
 
 import Cancel from './Mutators/Cancel';
