@@ -16,3 +16,11 @@ export function WithOwner(e: IEntity): IWithOwner {
     }
     return withOwner;
 }
+
+/**
+ * HasOwner determines if an Entity declares that it has
+ * an owner.
+ */
+export function HasOwner(e: IEntity): boolean {
+    return e.HasOwner;
+}

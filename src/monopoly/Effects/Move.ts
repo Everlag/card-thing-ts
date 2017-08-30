@@ -16,7 +16,9 @@ import Players, {
     GetPlayerByIndex,
 } from '../../core/Zone/Zones/Players';
 import { WithPosition } from '../Entities/WithPosition';
-import Tiles from '../Zones/Tiles';
+import { HasRent, WithRent } from '../Entities/WithRent';
+import { HasOwner, WithOwner } from '../Entities/WithOwner';
+import Tiles, { GetTileByPosition } from '../Zones/Tiles';
 
 import { NewPayEntityEvent } from './Pay';
 
@@ -62,6 +64,46 @@ function MaybePassedGo(
     return state;
 }
 
+function MaybeShouldPayRent(
+    state: IGameState, player: EntityCode,
+): IGameState {
+
+    let withPos = WithPosition(Players.Get(player, state));
+    let tile = GetTileByPosition(withPos.Position, state);
+    if (tile === null) {
+        throw Error(`player had invalid position: ${JSON.stringify(withPos)}`);
+    }
+
+    // If the tile can't have rent paid, then we simply cannot
+    if (!HasRent(tile)) return state;
+    // TODO: handle non-base rent
+    let rent = WithRent(tile).BaseRent;
+
+    // Determine who the owner is. If the tile has no owner,
+    // then we cannot pay rent
+    if (!HasOwner(tile)) return state;
+    let owner = WithOwner(tile).Owner;
+
+    // We don't pay the bank as they are the default owners
+    // of property. We also don't pay ourselves if we're the owner.
+    if (owner === GlobalStateEntityCode ||
+        owner === player) return state;
+
+    // Set the a transfer to move money in the next tick
+    //
+    // TODO: consider if we should be validating that the debited
+    //       Entity can pay. Perhaps Pay should be the sole-user
+    //       of that?
+    let payEvent = NewPayEntityEvent(
+        player,
+        owner,
+        rent,
+    );
+    state.stack.push(payEvent);
+
+    return state;
+}
+
 /**
  * Move translates a Player to an offset of their current Position
  * based off of the sum of the provided Rolls.
@@ -92,6 +134,7 @@ export function Op(state: IGameState, pack: IEffectPack) {
     withPos.Position = newPos;
 
     MaybePassedGo(state, player.Identity, oldPos, newPos);
+    MaybeShouldPayRent(state, player.Identity);
 
     return state;
 }

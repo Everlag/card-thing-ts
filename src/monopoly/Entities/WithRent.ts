@@ -18,3 +18,11 @@ export function WithRent(e: IEntity): IWithRent {
     }
     return withRent;
 }
+
+/**
+ * HasRent determines if an Entity declares that it has rent
+ * which can be paid.
+ */
+export function HasRent(e: IEntity): boolean {
+    return e.HasRent;
+}

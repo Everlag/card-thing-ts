@@ -6,6 +6,8 @@ import Players from '../../core/Zone/Zones/Players';
 
 import Tiles from '../Zones/Tiles';
 import { WithPosition } from '../Entities/WithPosition';
+import { HasRent, WithRent } from '../Entities/WithRent';
+import { HasOwner, WithOwner } from '../Entities/WithOwner';
 import Move, { IMoveEffectPack, PassingGoPayout } from './Move';
 import { NewPayEntityEvent } from './Pay';
 
@@ -141,6 +143,53 @@ let cases: Array<TestCase> = [];
         {
             currentTurn: T.PlayerOneEntityCode,
             entityPathHas: expected,
+            stackHas: expectedStack,
+            StackHeight: 1,
+        },
+        Move,
+    ]);
+})();
+
+(() => {
+    let state = GetPreparedGameState();
+
+    // Find tile and position we can use
+    let firstUsableTile = Tiles.Ordered(state).find(t => {
+        let tile = Tiles.Get(t, state);
+        return HasOwner(tile) && HasRent(tile);
+    });
+    if (firstUsableTile === undefined) {
+        throw Error('could not find satisfactory tile for Move pays rent');
+    }
+    let tile = Tiles.Get(firstUsableTile, state);
+    let tilePos = WithPosition(tile).Position;
+
+    let rentToPay = WithRent(tile).BaseRent;
+
+    // Enforce ownership
+    WithOwner(tile).Owner = T.PlayerTwoEntityCode;
+
+    let expectedStack = [
+        NewPayEntityEvent(
+            T.PlayerOneEntityCode,
+            T.PlayerTwoEntityCode,
+            rentToPay,
+        ),
+    ];
+
+    cases.push([
+        state,
+        {
+            Source: GlobalStateEntityCode,
+            Targets: [T.PlayerOneEntityCode],
+            TargetType: Players.TargetTypes.Player,
+            Effect: Move.Self,
+
+            Rolls: [tilePos - 1, 1],
+        } as IMoveEffectPack,
+        `${Move.Self} pays rent when necessary`,
+        {
+            currentTurn: T.PlayerOneEntityCode,
             stackHas: expectedStack,
             StackHeight: 1,
         },
