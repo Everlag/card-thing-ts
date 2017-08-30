@@ -29,6 +29,9 @@ pushDesc(StartTurnRollDoubles, cases);
 import PurchaseAndPay from './MultiEffectTests/PurchaseAndPay';
 pushDesc(PurchaseAndPay, cases);
 
+import MovePayRent from './MultiEffectTests/MovePayRent';
+pushDesc(MovePayRent, cases);
+
 // Sanity check our cases before we package them up
 (() => {
     let caseNames = cases.map(c => c[4]);
