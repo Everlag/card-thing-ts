@@ -218,11 +218,12 @@ class EffectPackFilterTest extends T.Test {
 
         let msg;
         if (shouldMatch) {
-            msg = `failed to match when expected
-            case - ${name}`;
+            msg = `failed to match when expected`;
         }else {
             msg = `unexpected match`;
         }
+        msg = `${msg}
+            case - ${name}`;
         msg = msg.concat('\n', `IEffectPack - ${JSON.stringify(pack)}
             Filter - ${JSON.stringify(filter)}`);
 

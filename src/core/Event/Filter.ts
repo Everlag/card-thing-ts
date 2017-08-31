@@ -27,25 +27,60 @@ export function CheckFilter(pack: IEffectPack | null,
     }
     if (filter.Null) return false;
 
-    if (filter.Source && matches) {
-        matches = pack.Source === filter.Source;
-    }
+    let matchers: Array<FilterMatcher> = [
+        MatchSource, MatchTargets, MatchTargetType, MatchEffect,
+    ];
 
-    if (filter.Targets && matches) {
-        // Any overlap of defined targets covered by the filter
-        // is sufficient to match.
-        matches = filter.Targets.some(t => {
-            return pack.Targets.some(other => t === other);
-        });
-    }
-
-    if (filter.TargetType && matches) {
-        matches = pack.TargetType === filter.TargetType;
-    }
-
-    if (filter.Effect && matches) {
-        matches = pack.Effect === filter.Effect;
-    }
+    matches = matchers.every(cb => cb(pack, filter));
 
     return matches;
+}
+
+/**
+ * A FilterMatcher must behave as follows:
+ * - When not requested by the provided filter, return true.
+ * - When requested by the filter, evaluates its condition.
+ *
+ * A FilterMatcher should determine when it has been requested
+ * by its property being non-undefined. A FilterMatcher should
+ * only ever operate against a single property of the Filter.
+ */
+export type FilterMatcher = (
+    pack: IEffectPack, filter: IEffectPackFilter,
+) => boolean;
+
+function MatchSource(
+    pack: IEffectPack, filter: IEffectPackFilter,
+): boolean {
+    if (filter.Source === undefined) return true;
+
+    return pack.Source === filter.Source;
+}
+
+function MatchTargets(
+    pack: IEffectPack, filter: IEffectPackFilter,
+): boolean {
+    if (filter.Targets === undefined) return true;
+
+    // Any overlap of defined targets covered by the filter
+    // is sufficient to match.
+    return filter.Targets.some(t => {
+        return pack.Targets.some(other => t === other);
+    });
+}
+
+function MatchTargetType(
+    pack: IEffectPack, filter: IEffectPackFilter,
+): boolean {
+    if (filter.TargetType === undefined) return true;
+
+    return pack.TargetType === filter.TargetType;
+}
+
+function MatchEffect(
+    pack: IEffectPack, filter: IEffectPackFilter,
+): boolean {
+    if (filter.Effect === undefined) return true;
+
+    return pack.Effect === filter.Effect;
 }
