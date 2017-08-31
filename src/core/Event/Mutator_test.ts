@@ -4,7 +4,7 @@ import {
     IEffectPackMutator,
 } from './Header';
 import {
-    CheckFilter,
+    CheckFilter, NewFilterMatcherRegister,
 } from './Filter';
 import {
     NewMutatorRegister, ApplyMutator,
@@ -35,9 +35,9 @@ class EffectPackMutatorTest extends T.Test {
     public Run() {
         let [pack, mutator, name, filters] = this.testCase;
 
-        let register = NewMutatorRegister();
+        let mutatorRegister = NewMutatorRegister();
 
-        let results = ApplyMutator(register, pack, mutator);
+        let results = ApplyMutator(mutatorRegister, pack, mutator);
         if (results.length !== filters.length) {
             let msg = `results length did not match expected filter length
             case - ${name}
@@ -45,8 +45,10 @@ class EffectPackMutatorTest extends T.Test {
             `;
             throw Error(msg);
         }
+
+        let filterRegister = NewFilterMatcherRegister();
         let checked = filters.map((f, i) => {
-            if (CheckFilter(results[i], f)) return null;
+            if (CheckFilter(filterRegister, results[i], f)) return null;
             return results[i];
         });
         if (checked.every(v => v === null)) return;

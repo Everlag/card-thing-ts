@@ -1,6 +1,6 @@
 import * as T from '../test';
 import {
-    CheckFilter,
+    CheckFilter, NewFilterMatcherRegister,
 } from './Filter';
 import {
     IEffectPack, IEffectPackFilter,
@@ -214,7 +214,8 @@ class EffectPackFilterTest extends T.Test {
     public Run() {
         let [pack, filter, name, shouldMatch] = this.testCase;
 
-        if (CheckFilter(pack, filter) === shouldMatch) return;
+        let register = NewFilterMatcherRegister();
+        if (CheckFilter(register, pack, filter) === shouldMatch) return;
 
         let msg;
         if (shouldMatch) {

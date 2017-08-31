@@ -74,7 +74,32 @@ export interface IEffectPackFilter {
      * is actually null. This is a special case.
      */
     Null?: boolean;
+
+    // Allow arbitrarily shaped literals to allow
+    // interface inheritance.
+    [others: string]: any;
 }
+
+/**
+ * A FilterMatcher must behave as follows:
+ * - When not requested by the provided filter, return true.
+ * - When requested by the filter, evaluates its condition.
+ *
+ * A FilterMatcher should determine when it has been requested
+ * by its property being non-undefined. A FilterMatcher should
+ * only ever operate against a single property of the Filter.
+ */
+export type FilterMatcher = (
+    pack: IEffectPack, filter: IEffectPackFilter,
+) => boolean;
+
+/**
+ * IEffectFilterRegister allows Filter matchers to be registered
+ * and queried.
+ */
+export type IEffectFilterRegister = {
+    Register: Array<FilterMatcher>;
+};
 
 export type EffectMutator = string;
 

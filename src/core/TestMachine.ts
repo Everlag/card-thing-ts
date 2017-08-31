@@ -3,7 +3,8 @@ import { IGameState, IGameStack } from './Game/Header';
 import { getPlayerIndex, GameStack } from './Game/Game';
 import { IPlayerResponse, PlayerAction } from './Player/Header';
 import {
-    IEffectRegister, IMutatorRegister, IEvent,
+    IEffectRegister, IMutatorRegister, IEffectFilterRegister,
+    IEvent,
 } from './Event/Header';
 import {
     EntityCode,
@@ -23,10 +24,11 @@ export type ResponseQueue = Map<EntityCode, IGameStack>;
 export class TestMachine extends GameMachine {
     constructor(public state: IGameState,
         public effectRegister: IEffectRegister,
+        public filterRegister: IEffectFilterRegister,
         public mutatorRegister: IMutatorRegister,
         public responseQueue: ResponseQueue) {
 
-        super(state, effectRegister, mutatorRegister);
+        super(state, effectRegister, filterRegister, mutatorRegister);
 
         responseQueue.forEach((_, player) => {
             if (getPlayerIndex(state, player) === -1) {

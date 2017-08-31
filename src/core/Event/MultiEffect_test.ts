@@ -13,6 +13,7 @@ import {
 } from '../Event/Header';
 import { NewEffectRegister } from '../Event/Effect';
 import { NewMutatorRegister } from '../Event/Mutator';
+import { NewFilterMatcherRegister } from '../Event/Filter';
 
 /* tslint:disable */
 // Disabling as it wants a trailing comma and we can't allow that.
@@ -145,8 +146,9 @@ class MultiEffectTest extends T.Test {
 
         let effectRegister = NewEffectRegister();
         let mutatorRegister = NewMutatorRegister();
+        let filterRegister = NewFilterMatcherRegister();
         let machine = new TestMachine(state,
-            effectRegister, mutatorRegister, queue);
+            effectRegister, filterRegister, mutatorRegister, queue);
 
         for (let i = 0; i < tickCount; i++) {
             machine.tick();
