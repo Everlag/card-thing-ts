@@ -1,6 +1,6 @@
 import * as T from '../test';
 import {
-    CheckFilter,
+    CheckFilter, NewFilterMatcherRegister,
 } from './Filter';
 import {
     IEffectPack, IEffectPackFilter,
@@ -214,15 +214,17 @@ class EffectPackFilterTest extends T.Test {
     public Run() {
         let [pack, filter, name, shouldMatch] = this.testCase;
 
-        if (CheckFilter(pack, filter) === shouldMatch) return;
+        let register = NewFilterMatcherRegister();
+        if (CheckFilter(register, pack, filter) === shouldMatch) return;
 
         let msg;
         if (shouldMatch) {
-            msg = `failed to match when expected
-            case - ${name}`;
+            msg = `failed to match when expected`;
         }else {
             msg = `unexpected match`;
         }
+        msg = `${msg}
+            case - ${name}`;
         msg = msg.concat('\n', `IEffectPack - ${JSON.stringify(pack)}
             Filter - ${JSON.stringify(filter)}`);
 

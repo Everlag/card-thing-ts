@@ -6,7 +6,8 @@ import {
 } from '../Entity/Header';
 import { IPlayerResponse } from '../Player/Header';
 import {
-    IEffectRegister, IMutatorRegister, IEffectPack,
+    IEffectRegister, IMutatorRegister, IEffectFilterRegister,
+    IEffectPack,
 } from '../Event/Header';
 import { ApplyEffect } from '../Event/Effect';
 import { CheckFilter } from '../Event/Filter';
@@ -17,6 +18,7 @@ import Interceptors from '../Zone/Zones/Interceptors';
 export abstract class GameMachine {
     constructor(public state: IGameState,
         public effectRegister: IEffectRegister,
+        public filterRegister: IEffectFilterRegister,
         public mutatorRegister: IMutatorRegister) { }
 
     /**
@@ -54,7 +56,9 @@ export abstract class GameMachine {
                 // non-expected null packs as those can cause a
                 // cascade of problems if we allow them when not expected.
                 if (p === null) return [];
-                if (!CheckFilter(p, intercept.Filter)) return [p];
+                let matches = CheckFilter(this.filterRegister, p,
+                    intercept.Filter);
+                if (!matches) return [p];
                 return ApplyMutator(this.mutatorRegister,
                     p, intercept.Mutator);
             });
