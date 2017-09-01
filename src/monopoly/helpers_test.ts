@@ -66,9 +66,9 @@ function PassesGoInterceptor(identity: EntityCode): IAsInterceptor {
 
                     Amount: 200,
 
-                    Replacements: ['Targets']
+                    Replacements: ['Targets'],
                 } as IPayEffectPack,
-            ]
+            ],
         } as IAffixMutator,
 
     } as IAsInterceptor;
@@ -80,6 +80,11 @@ import Interceptors from '../core/Zone/Zones/Interceptors';
  * GetPreparedGameState returns a GameState where valid
  * monopoloy players have been registered and all tiles from
  * the data are present.
+ *
+ * @param includeRules defines whether rule-enforcing interceptors are
+ *                     are included on the returned state.
+ *                     This is optional to allow small tests to avoid having
+ *                     to import many unrelated Effects/Filters to register.
  */
 export function GetPreparedGameState(includeRules: boolean): IGameState {
     let playerInit = GetMonopolyPlayers();

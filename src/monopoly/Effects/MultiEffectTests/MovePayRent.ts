@@ -25,7 +25,7 @@ const registeredEffects = [Move, Pay];
     let activePlayerIdentity = T.PlayerTwoEntityCode;
     let nonActivePlayerIdentity = T.PlayerOneEntityCode;
 
-    let g = GetPreparedGameState();
+    let g = GetPreparedGameState(false);
     g.currentTurn = activePlayerIdentity;
 
     // Find tile and position we can use

@@ -34,7 +34,7 @@ let cases: Array<TestCase> = [];
     );
 
     cases.push([
-        GetPreparedGameState(),
+        GetPreparedGameState(false),
         {
             Source: GlobalStateEntityCode,
             Targets: [T.PlayerOneEntityCode],
@@ -74,7 +74,7 @@ let cases: Array<TestCase> = [];
     );
 
     cases.push([
-        GetPreparedGameState(),
+        GetPreparedGameState(false),
         {
             Source: GlobalStateEntityCode,
             Targets: [T.PlayerOneEntityCode],
@@ -94,7 +94,7 @@ let cases: Array<TestCase> = [];
 })();
 
 (() => {
-    let knownState = GetPreparedGameState();
+    let knownState = GetPreparedGameState(false);
     let maxIndex = Tiles.Ordered(knownState).length - 1;
 
     let expected = new Map();
@@ -124,7 +124,7 @@ let cases: Array<TestCase> = [];
         ),
     ];
 
-    let state = GetPreparedGameState();
+    let state = GetPreparedGameState(false);
     let withPositon = WithPosition(Players.Get(T.PlayerOneEntityCode, state));
     withPositon.Position = maxIndex - 1; // Force it to wrap
 
@@ -151,7 +151,7 @@ let cases: Array<TestCase> = [];
 })();
 
 (() => {
-    let state = GetPreparedGameState();
+    let state = GetPreparedGameState(false);
 
     // Find tile and position we can use
     let firstUsableTile = Tiles.Ordered(state).find(t => {

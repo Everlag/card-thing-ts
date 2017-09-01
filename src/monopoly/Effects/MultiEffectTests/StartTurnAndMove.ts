@@ -22,7 +22,7 @@ const registeredEffects = [StartTurn, Move];
     // This determines who will have the turn that owns the move.
     let activePlayerIdentity = T.PlayerTwoEntityCode;
 
-    let g = GetPreparedGameState();
+    let g = GetPreparedGameState(false);
     g.stack.push(...[
         NewStartTurnEvent(activePlayerIdentity),
     ]);
@@ -52,7 +52,7 @@ const registeredEffects = [StartTurn, Move];
     // TODO: consider a way to make this less flaky
     //       as more complex interactions in the future could
     //       cause issues, such as rolling doubles.
-    let stateClone = GetPreparedGameState();
+    let stateClone = GetPreparedGameState(false);
     let rolls = [0, 0];
     getRNGContext(stateClone, (rng) => {
         rolls = rolls.map(() => rng.nextInt(1, 6));

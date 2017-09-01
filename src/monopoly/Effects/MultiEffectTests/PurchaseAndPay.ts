@@ -24,7 +24,7 @@ const registeredEffects = [Purchase, Pay];
     // This determines who will have the turn that owns the move.
     let activePlayerIdentity = T.PlayerTwoEntityCode;
 
-    let g = GetPreparedGameState();
+    let g = GetPreparedGameState(false);
 
     // Find a tile to purchase
     let purchasable = Tiles.Ordered(g).filter(t => {
