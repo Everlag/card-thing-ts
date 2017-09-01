@@ -44,6 +44,14 @@ export function AsMove(e: IEffectPack): IMoveEffectPack {
     return asMove;
 }
 
+/**
+ * IsMove determines if the provided EffectPack can be considered
+ * a Move.
+ */
+export function IsMove(e: IEffectPack): boolean {
+    return e.Effect === Self;
+}
+
 function MaybePassedGo(
     state: IGameState,
     player: EntityCode,
@@ -105,6 +113,23 @@ function MaybeShouldPayRent(
 }
 
 /**
+ * WrapPlayerPostion takes the player at its current position
+ * and computes its new position based off of the provided delta
+ */
+export function WrapPlayerPostion(player: EntityCode,
+    delta: number, state: IGameState): number {
+
+    // Fetch tileCount, we assume index starts at 0 and they are
+    // sequential without gaps.
+    let tileCount = Tiles.Ordered(state).length;
+
+    let withPos = WithPosition(Players.Get(player, state));
+
+    // calculated position mod max tile index.
+    return (withPos.Position + delta) % (tileCount - 1);
+}
+
+/**
  * Move translates a Player to an offset of their current Position
  * based off of the sum of the provided Rolls.
  */
@@ -124,12 +149,7 @@ export function Op(state: IGameState, pack: IEffectPack) {
     let asMove = AsMove(pack);
     let delta = asMove.Rolls.reduce((a, b) => a + b);
 
-    // Fetch tileCount, we assume index starts at 0 and they are
-    // sequential without gaps.
-    let tileCount = Tiles.Ordered(state).length;
-
-    // calculated position mod max tile index.
-    let newPos = (withPos.Position + delta) % (tileCount - 1);
+    let newPos = WrapPlayerPostion(player.Identity, delta, state);
     let oldPos = withPos.Position;
     withPos.Position = newPos;
 
