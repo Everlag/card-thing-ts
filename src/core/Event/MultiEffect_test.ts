@@ -158,8 +158,14 @@ export class MultiEffectTest extends T.Test {
         let machine = new TestMachine(state,
             effectRegister, filterRegister, mutatorRegister, queue);
 
-        for (let i = 0; i < tickCount; i++) {
-            machine.tick();
+        try {
+            for (let i = 0; i < tickCount; i++) {
+                machine.tick();
+            }
+        } catch (e) {
+            throw Error(`unexpected Error
+            case - ${name}
+            error - ${e.toString()}`);
         }
 
         let match = FilterMatches(state, matchingFilter);
