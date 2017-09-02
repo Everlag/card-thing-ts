@@ -9,21 +9,22 @@ let coreRegister: IMutatorRegister = {
     Register: new Map<string, Mutator>(),
 };
 
-export function RegisterMutator(desc: IMutatorDescription) {
-    if (coreRegister.Register.has(desc.Self)) {
-        throw Error(`duplicated identifier for ${desc.Self}`);
-    }
-    coreRegister.Register.set(desc.Self, desc.Op);
+export function RegisterMutator(register: IMutatorRegister,
+    desc: IMutatorDescription) {
+
+    // We do not check for duplicated register entries to allow
+    // overriding an existing entry.
+    register.Register.set(desc.Self, desc.Op);
 }
 
 import Cancel from './Mutators/Cancel';
-RegisterMutator(Cancel);
+RegisterMutator(coreRegister, Cancel);
 
 import Redirect from './Mutators/Redirect';
-RegisterMutator(Redirect);
+RegisterMutator(coreRegister, Redirect);
 
 import Affix from './Mutators/Affix';
-RegisterMutator(Affix);
+RegisterMutator(coreRegister,  Affix);
 
 /**
  * NewMutatorRegister constructs a MutatorRegister
