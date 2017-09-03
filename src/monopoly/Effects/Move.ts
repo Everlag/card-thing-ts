@@ -52,26 +52,6 @@ export function IsMove(e: IEffectPack): boolean {
     return e.Effect === Self;
 }
 
-function MaybePassedGo(
-    state: IGameState,
-    player: EntityCode,
-    oldPos: number, newPos: number,
-): IGameState {
-
-    // If we wrapped, then we passed go.
-    if (oldPos <= newPos) return state;
-
-    // Set the payer up to be credited in the next tick
-    let payEvent = NewPayEntityEvent(
-        GlobalStateEntityCode,
-        player,
-        PassingGoPayout,
-    );
-    state.stack.push(payEvent);
-
-    return state;
-}
-
 function MaybeShouldPayRent(
     state: IGameState, player: EntityCode,
 ): IGameState {
@@ -150,10 +130,8 @@ export function Op(state: IGameState, pack: IEffectPack) {
     let delta = asMove.Rolls.reduce((a, b) => a + b);
 
     let newPos = WrapPlayerPostion(player.Identity, delta, state);
-    let oldPos = withPos.Position;
     withPos.Position = newPos;
 
-    MaybePassedGo(state, player.Identity, oldPos, newPos);
     MaybeShouldPayRent(state, player.Identity);
 
     return state;

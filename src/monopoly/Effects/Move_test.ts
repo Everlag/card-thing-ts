@@ -8,7 +8,7 @@ import Tiles from '../Zones/Tiles';
 import { WithPosition } from '../Entities/WithPosition';
 import { HasRent, WithRent } from '../Entities/WithRent';
 import { HasOwner, WithOwner } from '../Entities/WithOwner';
-import Move, { IMoveEffectPack, PassingGoPayout } from './Move';
+import Move, { IMoveEffectPack } from './Move';
 import { NewPayEntityEvent } from './Pay';
 
 let cases: Array<TestCase> = [];
@@ -116,14 +116,6 @@ let cases: Array<TestCase> = [];
         ]),
     );
 
-    let expectedStack = [
-        NewPayEntityEvent(
-            GlobalStateEntityCode,
-            T.PlayerOneEntityCode,
-            PassingGoPayout,
-        ),
-    ];
-
     let state = GetPreparedGameState();
     let withPositon = WithPosition(Players.Get(T.PlayerOneEntityCode, state));
     withPositon.Position = maxIndex - 1; // Force it to wrap
@@ -143,8 +135,7 @@ let cases: Array<TestCase> = [];
         {
             currentTurn: T.PlayerOneEntityCode,
             entityPathHas: expected,
-            stackHas: expectedStack,
-            StackHeight: 1,
+            StackHeight: 0,
         },
         Move,
     ]);
