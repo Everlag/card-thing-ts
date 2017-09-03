@@ -32,61 +32,12 @@ function GetMonopolyPlayers(): Array<IPlayerInit> {
     );
 }
 
-import { EntityCode, GlobalStateEntityCode } from '../core/Entity/Header';
-import { IAsInterceptor } from '../core/Entity/Entities/AsInterceptor';
-import Players from '../core/Zone/Zones/Players';
-import Affix, {
-    IAffixMutator, AffixMutatorPlacment,
-} from '../core/Event/Mutators/Affix';
-import Move from './Effects/Move';
-import Pay, { IPayEffectPack } from './Effects/Pay';
-function PassesGoInterceptor(identity: EntityCode): IAsInterceptor {
-    return {
-        Identity: identity,
-
-        IsInterceptor: true,
-        foo: true,
-
-        Filter: {
-            Effect: Move.Self,
-            PassesGo: true,
-        },
-
-        Mutator: {
-            Mutator: Affix.Self,
-            Placement: AffixMutatorPlacment.After,
-
-            Others: [
-                {
-                    Effect: Pay.Self,
-
-                    Source: GlobalStateEntityCode,
-                    Targets: ['$replaced$'],
-                    TargetType: Players.TargetTypes.Player,
-
-                    Amount: 200,
-
-                    Replacements: ['Targets'],
-                } as IPayEffectPack,
-            ],
-        } as IAffixMutator,
-
-    } as IAsInterceptor;
-}
-
-import Interceptors from '../core/Zone/Zones/Interceptors';
-
 /**
  * GetPreparedGameState returns a GameState where valid
  * monopoloy players have been registered and all tiles from
  * the data are present.
- *
- * @param includeRules defines whether rule-enforcing interceptors are
- *                     are included on the returned state.
- *                     This is optional to allow small tests to avoid having
- *                     to import many unrelated Effects/Filters to register.
  */
-export function GetPreparedGameState(includeRules: boolean): IGameState {
+export function GetPreparedGameState(): IGameState {
     let playerInit = GetMonopolyPlayers();
     let state = new GameState(playerInit);
 
@@ -96,14 +47,6 @@ export function GetPreparedGameState(includeRules: boolean): IGameState {
 
         Tiles.Add(e, state);
     });
-
-    // Early exit if they don't want rules declared.
-    // This prevents them from having to register a whole bunch of
-    // potentially unnecessary filters and effects.
-    if (!includeRules) return state;
-
-    let passGo = PassesGoInterceptor('foobar');
-    Interceptors.Add(passGo, state);
 
     return state;
 }

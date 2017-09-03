@@ -22,7 +22,7 @@ const registeredEffects = [StartTurn, Move];
 
     // Need a non-generic prepared state to work off of
     // to enforce the first rng action is to roll doubles.
-    let baseState = ForceDoubles(GetPreparedGameState(false));
+    let baseState = ForceDoubles(GetPreparedGameState());
 
     // This determines who will have the turn that owns the move.
     let activePlayerIdentity = T.PlayerTwoEntityCode;

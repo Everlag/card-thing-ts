@@ -35,7 +35,7 @@ function getBaseConfig(): [IMoveEffectPack, IGameState] {
     }
     let effect = event.Effects[0];
 
-    let state = GetPreparedGameState(false);
+    let state = GetPreparedGameState();
 
     return [AsMove(effect), state];
 }
