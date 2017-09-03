@@ -1,6 +1,6 @@
 import {
     IRuleDependencies,
-} from './Rules';
+} from '../../core/Rule/Header';
 
 import {
     EntityCode, GlobalStateEntityCode
