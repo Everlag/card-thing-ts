@@ -5,6 +5,8 @@ import { IFilterState, FilterMatches } from '../IFilterState';
 import {
     EntityCode,
 } from '../Entity/Header';
+import { IRuleDescription } from '../Rule/Header';
+import { InstallRule } from '../Rule/Rule';
 import {
     TestMachine, ResponseQueue, GetResponseQueue, AddResponsesToQueue,
 } from '../TestMachine';
@@ -24,7 +26,8 @@ export type TestCase = [
     Number, // tickCount, number of ticks to run the machine for
     String, // Test name
     IFilterState, // State filter which must match for success
-    Array<IEffectDescription> | undefined // non-core effects to register
+    Array<IEffectDescription> | undefined, // non-core effects to register
+    Array<IRuleDescription> | undefined // Rules to install 
 ];
 /* tslint:enable */
 
@@ -141,6 +144,7 @@ export class MultiEffectTest extends T.Test {
             tickCount,
             name, matchingFilter,
             effectsToRegister,
+            rules,
         ] = this.testCase;
         /* tslint:enable */
 
@@ -157,6 +161,10 @@ export class MultiEffectTest extends T.Test {
         let filterRegister = NewFilterMatcherRegister();
         let machine = new TestMachine(state,
             effectRegister, filterRegister, mutatorRegister, queue);
+
+        if (rules !== undefined) {
+            rules.forEach(r => InstallRule(machine, r));
+        }
 
         try {
             for (let i = 0; i < tickCount; i++) {
