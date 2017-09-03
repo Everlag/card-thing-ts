@@ -69,6 +69,7 @@ let cases: Array<TestCase> = [];
             zoneCount: T.NewExpectedCount(Interceptors.Self, 0),
         },
         undefined, // This is a core Effect, its already defined.
+        undefined,
     ]);
 
     cases.push([
@@ -84,6 +85,7 @@ let cases: Array<TestCase> = [];
             zoneCount: T.NewExpectedCount(Interceptors.Self, 0),
         },
         undefined, // This is a core Effect, its already defined.
+        undefined,
     ]);
 
     cases.push([
@@ -99,6 +101,7 @@ let cases: Array<TestCase> = [];
             zoneCount: T.NewExpectedCount(Interceptors.Self, 2),
         },
         undefined, // This is a core Effect, its already defined.
+        undefined,
     ]);
 
     cases.push([
@@ -112,6 +115,7 @@ let cases: Array<TestCase> = [];
             currentTurn: T.PlayerOneEntityCode,
         },
         undefined, // This is a core Effect, its already defined.
+        undefined,
     ]);
 
     cases.push([
@@ -125,6 +129,7 @@ let cases: Array<TestCase> = [];
             currentTurn: T.PlayerTwoEntityCode,
         },
         undefined, // This is a core Effect, its already defined.
+        undefined,
     ]);
 
 })();

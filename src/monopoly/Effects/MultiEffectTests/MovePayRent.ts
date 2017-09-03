@@ -98,6 +98,7 @@ const registeredEffects = [Move, Pay];
             stackHas: postMoveExpected,
         },
         registeredEffects,
+        undefined,
     ]);
 
     let afterPay = new Map();
@@ -152,6 +153,7 @@ const registeredEffects = [Move, Pay];
             StackHeight: 0,
         },
         registeredEffects,
+        undefined,
     ]);
 
 })();

@@ -83,6 +83,7 @@ const registeredEffects = [StartTurn, Move];
             stackHas: postStartExpected,
         },
         registeredEffects,
+        undefined,
     ]);
 
     let afterFirstMove = new Map();
@@ -117,6 +118,7 @@ const registeredEffects = [StartTurn, Move];
             StackHeight: 2,
         },
         registeredEffects,
+        undefined,
     ]);
 
     cases.push([
@@ -131,6 +133,7 @@ const registeredEffects = [StartTurn, Move];
             StackHeight: 1,
         },
         registeredEffects,
+        undefined,
     ]);
 
     let postStartSecondExpected = [
@@ -152,6 +155,7 @@ const registeredEffects = [StartTurn, Move];
             StackHeight: 3,
         },
         registeredEffects,
+        undefined,
     ]);
 
     let afterSecondMove = new Map();
@@ -185,6 +189,7 @@ const registeredEffects = [StartTurn, Move];
             StackHeight: 2,
         },
         registeredEffects,
+        undefined,
     ]);
 
     cases.push([
@@ -199,6 +204,7 @@ const registeredEffects = [StartTurn, Move];
             StackHeight: 1, // StartTurn left on stack
         },
         registeredEffects,
+        undefined,
     ]);
 
 })();

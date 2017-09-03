@@ -99,6 +99,7 @@ const registeredEffects = [Purchase, Pay];
             stackHas: postPurchaseExpectedStack,
         },
         registeredEffects,
+        undefined,
     ]);
 
     let postPayEntityHas = new Map();
@@ -131,6 +132,7 @@ const registeredEffects = [Purchase, Pay];
             StackHeight: 0,
         },
         registeredEffects,
+        undefined,
     ]);
 
 })();

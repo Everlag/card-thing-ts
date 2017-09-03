@@ -78,6 +78,7 @@ const registeredEffects = [StartTurn, Move];
             stackHas: postStartExpected,
         },
         registeredEffects,
+        undefined,
     ]);
 
     let afterMove = new Map();
@@ -112,6 +113,7 @@ const registeredEffects = [StartTurn, Move];
             StackHeight: 2,
         },
         registeredEffects,
+        undefined,
     ]);
 
     cases.push([
@@ -126,6 +128,7 @@ const registeredEffects = [StartTurn, Move];
             StackHeight: 1,
         },
         registeredEffects,
+        undefined,
     ]);
 
 })();

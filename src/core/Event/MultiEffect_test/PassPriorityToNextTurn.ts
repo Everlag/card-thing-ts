@@ -33,6 +33,7 @@ let cases: Array<TestCase> = [];
             stackHas: priorExpected,
         },
         undefined, // This is a core Effect, its already defined.
+        undefined,
     ]);
 
     let afterExpected = [
@@ -53,6 +54,7 @@ let cases: Array<TestCase> = [];
             stackHas: afterExpected,
         },
         undefined, // This is a core Effect, its already defined.
+        undefined,
     ]);
 
     cases.push([
@@ -66,6 +68,7 @@ let cases: Array<TestCase> = [];
             StackHeight: 3,
         },
         undefined, // This is a core Effect, its already defined.
+        undefined,
     ]);
 })();
 
