@@ -1,9 +1,9 @@
 import {
-    IRuleDependencies,
+    IRuleDependencies, IRuleDescription,
 } from '../../core/Rule/Header';
 
 import {
-    EntityCode, GlobalStateEntityCode
+    EntityCode, GlobalStateEntityCode,
 } from '../../core/Entity/Header';
 import { IAsInterceptor } from '../../core/Entity/Entities/AsInterceptor';
 import Players from '../../core/Zone/Zones/Players';
@@ -39,7 +39,7 @@ export function Create(identity: EntityCode): IAsInterceptor {
                     Targets: ['$replaced$'],
                     TargetType: Players.TargetTypes.Player,
 
-                    Amount: 200,
+                    Amount: PassingGoPayout,
 
                     Replacements: ['Targets'],
                 } as IPayEffectPack,
@@ -57,10 +57,12 @@ export const Depends = {
     Filters: [
         PassGo,
     ],
-};
+} as IRuleDependencies;
 
 export const Self = 'PassingGo';
 
 export default {
+    Self, Depends, Create,
+} as IRuleDescription;
 
-} as IRuleDependencies;
+export const PassingGoPayout = 200;
