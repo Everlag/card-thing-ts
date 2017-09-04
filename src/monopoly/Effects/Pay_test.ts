@@ -15,7 +15,7 @@ import Pay, { NewPayEntityEvent } from './Pay';
 let cases: Array<TestCase> = [];
 
 (() => {
-    let state = GetPreparedGameState(false);
+    let state = GetPreparedGameState();
 
     let baseMoney = 10;
     let event = NewPayEntityEvent(T.PlayerOneEntityCode, GlobalStateEntityCode,
@@ -52,7 +52,7 @@ let cases: Array<TestCase> = [];
 })();
 
 (() => {
-    let state = GetPreparedGameState(false);
+    let state = GetPreparedGameState();
 
     let baseMoney = 10;
     let delta = baseMoney - 1;
@@ -108,7 +108,7 @@ let cases: Array<TestCase> = [];
 })();
 
 (() => {
-    let state = GetPreparedGameState(false);
+    let state = GetPreparedGameState();
 
     let baseMoney = 10;
     let delta = 2;

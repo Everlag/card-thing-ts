@@ -19,7 +19,7 @@ import StartTurn,
 let cases: Array<TestCase> = [];
 
 (() => {
-    let state = GetPreparedGameState(false);
+    let state = GetPreparedGameState();
     // We need to fetch the rolls result.
     let rolls = [0, 0];
     getRNGContext(state, (rng) => {
@@ -33,7 +33,7 @@ let cases: Array<TestCase> = [];
     ];
 
     cases.push([
-        GetPreparedGameState(false),
+        GetPreparedGameState(),
         {
             Source: GlobalStateEntityCode,
             Targets: [T.PlayerOneEntityCode],
@@ -50,7 +50,7 @@ let cases: Array<TestCase> = [];
 })();
 
 (() => {
-    let state = ForceDoubles(GetPreparedGameState(false));
+    let state = ForceDoubles(GetPreparedGameState());
     // We need to force the rolls result to be doubles
     let rolls = [0, 1]; // Initial values will be overwritten
     getRNGContext(state, (rng) => {
@@ -65,7 +65,7 @@ let cases: Array<TestCase> = [];
     ];
 
     cases.push([
-        ForceDoubles(GetPreparedGameState(false)),
+        ForceDoubles(GetPreparedGameState()),
         {
             Source: GlobalStateEntityCode,
             Targets: [T.PlayerOneEntityCode],

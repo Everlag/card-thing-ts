@@ -17,7 +17,7 @@ import { NewPayEntityEvent } from './Pay';
 let cases: Array<TestCase> = [];
 
 (() => {
-    let state = GetPreparedGameState(false);
+    let state = GetPreparedGameState();
     let purchasable = Tiles.Ordered(state).filter(t => {
         let tile = AsTile(Tiles.Get(t, state));
         return tile.Group !== PropertyGroup.Special;
