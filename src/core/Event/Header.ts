@@ -90,7 +90,7 @@ export interface IEffectPackFilter {
  * only ever operate against a single property of the Filter.
  */
 export type FilterMatcher = (
-    pack: IEffectPack, filter: IEffectPackFilter,
+    pack: IEffectPack, filter: IEffectPackFilter, state: IGameState,
 ) => boolean;
 
 /**

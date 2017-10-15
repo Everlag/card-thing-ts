@@ -68,6 +68,7 @@ let cases: Array<TestCase> = [];
             // Event yet to fire
             zoneCount: T.NewExpectedCount(Interceptors.Self, 0),
         },
+        undefined, // This is a core Effect, its already defined.
     ]);
 
     cases.push([
@@ -82,6 +83,7 @@ let cases: Array<TestCase> = [];
             // None yet
             zoneCount: T.NewExpectedCount(Interceptors.Self, 0),
         },
+        undefined, // This is a core Effect, its already defined.
     ]);
 
     cases.push([
@@ -96,6 +98,7 @@ let cases: Array<TestCase> = [];
             // One for the canceller and one for the simultaneous expiry
             zoneCount: T.NewExpectedCount(Interceptors.Self, 2),
         },
+        undefined, // This is a core Effect, its already defined.
     ]);
 
     cases.push([
@@ -108,6 +111,7 @@ let cases: Array<TestCase> = [];
             StackHeight: 1,
             currentTurn: T.PlayerOneEntityCode,
         },
+        undefined, // This is a core Effect, its already defined.
     ]);
 
     cases.push([
@@ -120,6 +124,7 @@ let cases: Array<TestCase> = [];
             StackHeight: 3,
             currentTurn: T.PlayerTwoEntityCode,
         },
+        undefined, // This is a core Effect, its already defined.
     ]);
 
 })();

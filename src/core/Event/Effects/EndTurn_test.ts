@@ -30,6 +30,7 @@ let cases: Array<TestCase> = [];
             currentTurn: T.PlayerOneEntityCode,
             stackHas: expected,
         },
+        undefined, // This is a core Effect, its already defined.
     ]);
 })();
 

@@ -64,6 +64,7 @@ let fakeEffect = 'some-effect';
             zoneHas: T.NewExpectedContents(Interceptors.Self,
                 expectedInterceptors),
         },
+        undefined, // This is a core Effect, its already defined.
     ]);
 })();
 
@@ -148,6 +149,7 @@ let fakeEffect = 'some-effect';
             zoneHas: T.NewExpectedContents(Interceptors.Self,
                 expectedInterceptors),
         },
+        undefined, // This is a core Effect, its already defined.
     ]);
 })();
 

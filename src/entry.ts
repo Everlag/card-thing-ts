@@ -1,5 +1,6 @@
 import { RunAll } from './core/game_test';
-
-console.log('hello world!!');
+import { RunAll as monopoly } from './monopoly/test';
 
 RunAll();
+
+monopoly();

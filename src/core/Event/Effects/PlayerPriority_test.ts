@@ -26,6 +26,7 @@ let cases: Array<TestCase> = [];
             currentTurn: T.PlayerOneEntityCode,
             StackHeight: 0,
         },
+        undefined, // This is a core Effect, its already defined.
     ]);
 })();
 
@@ -51,6 +52,7 @@ let cases: Array<TestCase> = [];
             stackHas: expected,
             StackHeight: 1,
         },
+        undefined, // This is a core Effect, its already defined.
     ]);
 })();
 

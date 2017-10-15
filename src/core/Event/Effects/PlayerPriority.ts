@@ -36,7 +36,6 @@ export function Op(state: IGameState, pack: IEffectPack,
             //
             // We also give all players the opportunity to react to
             // the response.
-            console.log('pushing to stack with event', response);
             state.stack.push(response, ...getPriorities(state));
             return state;
         default:

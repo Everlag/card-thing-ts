@@ -56,8 +56,8 @@ export abstract class GameMachine {
                 // non-expected null packs as those can cause a
                 // cascade of problems if we allow them when not expected.
                 if (p === null) return [];
-                let matches = CheckFilter(this.filterRegister, p,
-                    intercept.Filter);
+                let matches = CheckFilter(this.filterRegister,
+                    p, intercept.Filter, this.state);
                 if (!matches) return [p];
                 return ApplyMutator(this.mutatorRegister,
                     p, intercept.Mutator);

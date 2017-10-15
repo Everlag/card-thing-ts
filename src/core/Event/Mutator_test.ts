@@ -4,6 +4,9 @@ import {
     IEffectPackMutator,
 } from './Header';
 import {
+    GameState,
+} from '../Game/Game';
+import {
     CheckFilter, NewFilterMatcherRegister,
 } from './Filter';
 import {
@@ -47,8 +50,9 @@ class EffectPackMutatorTest extends T.Test {
         }
 
         let filterRegister = NewFilterMatcherRegister();
+        let state = new GameState(T.DefaultPlayers);
         let checked = filters.map((f, i) => {
-            if (CheckFilter(filterRegister, results[i], f)) return null;
+            if (CheckFilter(filterRegister, results[i], f, state)) return null;
             return results[i];
         });
         if (checked.every(v => v === null)) return;

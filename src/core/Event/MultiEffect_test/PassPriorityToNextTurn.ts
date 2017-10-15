@@ -32,6 +32,7 @@ let cases: Array<TestCase> = [];
             currentTurn: T.PlayerOneEntityCode,
             stackHas: priorExpected,
         },
+        undefined, // This is a core Effect, its already defined.
     ]);
 
     let afterExpected = [
@@ -51,6 +52,7 @@ let cases: Array<TestCase> = [];
             StackHeight: 3,
             stackHas: afterExpected,
         },
+        undefined, // This is a core Effect, its already defined.
     ]);
 
     cases.push([
@@ -63,6 +65,7 @@ let cases: Array<TestCase> = [];
             currentTurn: T.PlayerOneEntityCode,
             StackHeight: 3,
         },
+        undefined, // This is a core Effect, its already defined.
     ]);
 })();
 

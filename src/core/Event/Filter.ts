@@ -1,4 +1,7 @@
 import {
+    IGameState,
+} from '../Game/Header';
+import {
     IEffectPack, IEffectPackFilter,
     FilterMatcher, IEffectFilterRegister,
 } from './Header';
@@ -15,6 +18,7 @@ export function CheckFilter(
     register: IEffectFilterRegister,
     pack: IEffectPack | null,
     filter: IEffectPackFilter,
+    state: IGameState,
 ): boolean {
 
     // Null pack is handled here.
@@ -29,7 +33,7 @@ export function CheckFilter(
     }
     if (filter.Null) return false;
 
-    return register.Register.every(cb => cb(pack, filter));
+    return register.Register.every(cb => cb(pack, filter, state));
 }
 
 let coreMatchers: IEffectFilterRegister = {

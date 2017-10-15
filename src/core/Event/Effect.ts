@@ -19,13 +19,13 @@ let coreRegister: IEffectRegister = {
 
 /**
  * RegisterEffect includes the described Effect on the register
+ *
+ * The same identifier may be registered multiple times to
+ * override the Effect provided here.
  */
 export function RegisterEffect(register: IEffectRegister,
     desc: IEffectDescription) {
 
-    if (register.Register.has(desc.Self)) {
-        throw Error(`duplicated identifier for ${desc.Self}`);
-    }
     register.Register.set(desc.Self, desc.Op);
 }
 

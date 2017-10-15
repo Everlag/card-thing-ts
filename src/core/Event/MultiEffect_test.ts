@@ -9,9 +9,9 @@ import {
     TestMachine, ResponseQueue, GetResponseQueue, AddResponsesToQueue,
 } from '../TestMachine';
 import {
-    IEvent,
+    IEvent, IEffectDescription,
 } from '../Event/Header';
-import { NewEffectRegister } from '../Event/Effect';
+import { NewEffectRegister, RegisterEffect } from '../Event/Effect';
 import { NewMutatorRegister } from '../Event/Mutator';
 import { NewFilterMatcherRegister } from '../Event/Filter';
 
@@ -23,7 +23,8 @@ export type TestCase = [
     Array<IEvent> | null, // Player 2, null to always pass.
     Number, // tickCount, number of ticks to run the machine for
     String, // Test name
-    IFilterState // State filter which must match for success
+    IFilterState, // State filter which must match for success
+    Array<IEffectDescription> | undefined // non-core effects to register
 ];
 /* tslint:enable */
 
@@ -76,26 +77,26 @@ let cases = new Array<TestCase>();
  *
  * NOTE: the provided cases will have their names permanently modified.
  */
-let pushDesc = (desc: ISuiteDescription) => {
+export function pushDesc(desc: ISuiteDescription, existing: Array<TestCase>) {
     desc.Cases.forEach(c => {
         let name = c[4];
         name = `${desc.Self} | ${name}`;
         c[4] = name;
     });
-    cases.push(...desc.Cases);
-};
+    existing.push(...desc.Cases);
+}
 
 import PassPriorityToNextTurn from './MultiEffect_test/PassPriorityToNextTurn';
-pushDesc(PassPriorityToNextTurn);
+pushDesc(PassPriorityToNextTurn, cases);
 
 import InterceptThrowGuardAndRemove from './MultiEffect_test/InterceptThrowGuardAndRemove';
-pushDesc(InterceptThrowGuardAndRemove);
+pushDesc(InterceptThrowGuardAndRemove, cases);
 
 import InterceptForExtraTurn from './MultiEffect_test/InterceptForExtraTurn';
-pushDesc(InterceptForExtraTurn);
+pushDesc(InterceptForExtraTurn, cases);
 
 import CancelAsPlayerResponse from './MultiEffect_test/CancelAsPlayerResponse';
-pushDesc(CancelAsPlayerResponse);
+pushDesc(CancelAsPlayerResponse, cases);
 
 // buildQueue constructs a ResponseQueue from a TestCase
 function buildQueue(c: TestCase): ResponseQueue {
@@ -125,7 +126,7 @@ function buildQueue(c: TestCase): ResponseQueue {
     return queue;
 }
 
-class MultiEffectTest extends T.Test {
+export class MultiEffectTest extends T.Test {
     constructor(private testCase: TestCase) {
         super();
     }
@@ -139,22 +140,33 @@ class MultiEffectTest extends T.Test {
             _2,
             tickCount,
             name, matchingFilter,
+            effectsToRegister,
         ] = this.testCase;
         /* tslint:enable */
 
         let queue = buildQueue(this.testCase);
 
         let effectRegister = NewEffectRegister();
+        if (effectsToRegister !== undefined) {
+            effectsToRegister.forEach(e => {
+                RegisterEffect(effectRegister, e);
+            });
+        }
+
         let mutatorRegister = NewMutatorRegister();
         let filterRegister = NewFilterMatcherRegister();
         let machine = new TestMachine(state,
             effectRegister, filterRegister, mutatorRegister, queue);
 
-        for (let i = 0; i < tickCount; i++) {
-            machine.tick();
+        try {
+            for (let i = 0; i < tickCount; i++) {
+                machine.tick();
+            }
+        } catch (e) {
+            throw Error(`unexpected Error
+            case - ${name}
+            error - ${e.toString()}`);
         }
-
-        console.log('my state is', state);
 
         let match = FilterMatches(state, matchingFilter);
         if (match === null) return;
